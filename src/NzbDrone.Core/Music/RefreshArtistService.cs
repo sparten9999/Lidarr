@@ -107,6 +107,11 @@ namespace NzbDrone.Core.Music
             var newAlbumsList = new List<Album>();
             var updateAlbumsList = new List<Album>();
 
+            if (artist.IsBlacklisted())
+            {
+                remoteAlbums = existingAlbums;
+            }
+
             // Cycle thru albums
             foreach (var album in remoteAlbums)
             {

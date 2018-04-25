@@ -63,6 +63,11 @@ namespace NzbDrone.Core.Music
             return string.Format("[{0}][{1}]", ForeignArtistId, Name.NullSafe());
         }
 
+        public bool IsBlacklisted()
+        {
+            return BlacklistedArtist.CheckBlacklisted(ForeignArtistId);
+        }
+
         public void ApplyChanges(Artist otherArtist)
         {
 
