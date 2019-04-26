@@ -65,7 +65,6 @@ export const actionHandlers = handleThunks({
   [QUEUE_LOOKUP_ARTIST]: function(getState, payload, dispatch) {
     const {
       name,
-      path,
       term,
       topOfQueue = false
     } = payload;
@@ -74,7 +73,6 @@ export const actionHandlers = handleThunks({
     const item = _.find(state.items, { id: name }) || {
       id: name,
       term,
-      path,
       isFetching: false,
       isPopulated: false,
       error: null

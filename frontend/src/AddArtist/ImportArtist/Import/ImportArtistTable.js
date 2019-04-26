@@ -12,7 +12,7 @@ class ImportArtistTable extends Component {
 
   componentDidMount() {
     const {
-      unmappedFolders,
+      unmappedArtists,
       defaultMonitor,
       defaultQualityProfileId,
       defaultLanguageProfileId,
@@ -30,10 +30,10 @@ class ImportArtistTable extends Component {
       albumFolder: defaultAlbumFolder
     };
 
-    unmappedFolders.forEach((unmappedFolder) => {
-      const id = unmappedFolder.name;
+    unmappedArtists.forEach((unmappedArtist) => {
+      const id = unmappedArtist.name;
 
-      onArtistLookup(id, unmappedFolder.path);
+      onArtistLookup(id);
 
       onSetImportArtistValue({
         id,
@@ -176,7 +176,7 @@ class ImportArtistTable extends Component {
 ImportArtistTable.propTypes = {
   rootFolderId: PropTypes.number.isRequired,
   items: PropTypes.arrayOf(PropTypes.object),
-  unmappedFolders: PropTypes.arrayOf(PropTypes.object),
+  unmappedArtists: PropTypes.arrayOf(PropTypes.object),
   defaultMonitor: PropTypes.string.isRequired,
   defaultQualityProfileId: PropTypes.number,
   defaultLanguageProfileId: PropTypes.number,

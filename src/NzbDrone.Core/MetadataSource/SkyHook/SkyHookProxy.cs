@@ -136,7 +136,7 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
             return new Tuple<string, Album, List<ArtistMetadata>>(httpResponse.Resource.ArtistId, album, artists);
         }
 
-        public List<Artist> SearchForNewArtist(string title)
+        public List<Artist> SearchForNewArtist(string title, List<string> albums = null)
         {
             try
             {
@@ -176,16 +176,16 @@ namespace NzbDrone.Core.MetadataSource.SkyHook
                 SetCustomProvider();
 
                 var httpRequest = _customerRequestBuilder.Create()
-                                    .SetSegment("route", "search")
-                                    .AddQueryParam("type", "artist")
-                                    .AddQueryParam("query", title.ToLower().Trim())
-                                    //.AddQueryParam("images","false") // Should pass these on import search to avoid looking to fanart and wiki 
-                                    //.AddQueryParam("overview","false")
-                                    .Build();
+                    .SetSegment("route", "search")
+                    .AddQueryParam("type", "artist")
+                    .AddQueryParam("query", title.ToLower().Trim());
 
+                if (albums != null)
+                {
+                    albums.ForEach(x => httpRequest.AddQueryParam("album", x.ToLower().Trim()));
+                }
 
-
-                var httpResponse = _httpClient.Get<List<ArtistResource>>(httpRequest);
+                var httpResponse = _httpClient.Get<List<ArtistResource>>(httpRequest.Build());
 
                 return httpResponse.Resource.SelectList(MapSearchResult);
             }

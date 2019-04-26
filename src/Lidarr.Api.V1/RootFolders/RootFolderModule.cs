@@ -10,8 +10,10 @@ namespace Lidarr.Api.V1.RootFolders
     public class RootFolderModule : LidarrRestModuleWithSignalR<RootFolderResource, RootFolder>
     {
         private readonly IRootFolderService _rootFolderService;
+        private readonly IUnmappedArtistsService _unmappedArtistsService;
 
         public RootFolderModule(IRootFolderService rootFolderService,
+                                IUnmappedArtistsService unmappedArtistsService,
                                 IBroadcastSignalRMessage signalRBroadcaster,
                                 RootFolderValidator rootFolderValidator,
                                 PathExistsValidator pathExistsValidator,
@@ -23,6 +25,7 @@ namespace Lidarr.Api.V1.RootFolders
             : base(signalRBroadcaster)
         {
             _rootFolderService = rootFolderService;
+            _unmappedArtistsService = unmappedArtistsService;
 
             GetResourceAll = GetRootFolders;
             GetResourceById = GetRootFolder;
@@ -54,7 +57,9 @@ namespace Lidarr.Api.V1.RootFolders
 
         private List<RootFolderResource> GetRootFolders()
         {
-            return _rootFolderService.AllWithUnmappedFolders().ToResource();
+            var folders = _rootFolderService.AllWithSpaceStats().ToResource();
+            folders.ForEach(x => x.UnmappedArtists = _unmappedArtistsService.Get(x.Path));
+            return folders;
         }
 
         private void DeleteFolder(int id)

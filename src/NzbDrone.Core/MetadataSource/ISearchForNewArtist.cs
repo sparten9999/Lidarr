@@ -5,6 +5,6 @@ namespace NzbDrone.Core.MetadataSource
 {
     public interface ISearchForNewArtist
     {
-        List<Artist> SearchForNewArtist(string title);
+        List<Artist> SearchForNewArtist(string title, List<string> albums = null);
     }
 }

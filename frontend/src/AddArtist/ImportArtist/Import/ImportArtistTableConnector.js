@@ -27,10 +27,9 @@ function createMapStateToProps() {
 
 function createMapDispatchToProps(dispatch, props) {
   return {
-    onArtistLookup(name, path) {
+    onArtistLookup(name) {
       dispatch(queueLookupArtist({
         name,
-        path,
         term: name
       }));
     },

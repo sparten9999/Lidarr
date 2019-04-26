@@ -802,7 +802,7 @@
     <Compile Include="MediaFiles\Events\ArtistRenamedEvent.cs" />
     <Compile Include="MediaFiles\Events\ArtistScannedEvent.cs" />
     <Compile Include="MediaFiles\Events\ArtistScanSkippedEvent.cs" />
-    <Compile Include="MediaFiles\Commands\RescanArtistCommand.cs" />
+    <Compile Include="MediaFiles\Commands\RescanFoldersCommand.cs" />
     <Compile Include="MediaFiles\Events\TrackFileAddedEvent.cs" />
     <Compile Include="MediaFiles\Events\TrackFileDeletedEvent.cs" />
     <Compile Include="MediaFiles\Events\TrackImportedEvent.cs" />
@@ -1190,7 +1190,8 @@
     <Compile Include="RootFolders\RootFolderService.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="RootFolders\UnmappedFolder.cs" />
+    <Compile Include="RootFolders\UnmappedArtist.cs" />
+    <Compile Include="RootFolders\UnmappedArtistsService.cs" />
     <Compile Include="Security.cs" />
     <Compile Include="ArtistStats\AlbumStatistics.cs" />
     <Compile Include="ArtistStats\ArtistStatistics.cs" />

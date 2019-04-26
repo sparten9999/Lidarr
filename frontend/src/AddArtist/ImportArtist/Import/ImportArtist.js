@@ -86,7 +86,7 @@ class ImportArtist extends Component {
       rootFoldersFetching,
       rootFoldersPopulated,
       rootFoldersError,
-      unmappedFolders,
+      unmappedArtists,
       showLanguageProfile,
       showMetadataProfile
     } = this.props;
@@ -115,17 +115,17 @@ class ImportArtist extends Component {
           }
 
           {
-            !rootFoldersError && rootFoldersPopulated && !unmappedFolders.length &&
+            !rootFoldersError && rootFoldersPopulated && !unmappedArtists.length &&
               <div>
                 All artist in {path} have been imported
               </div>
           }
 
           {
-            !rootFoldersError && rootFoldersPopulated && !!unmappedFolders.length && contentBody &&
+            !rootFoldersError && rootFoldersPopulated && !!unmappedArtists.length && contentBody &&
               <ImportArtistTableConnector
                 rootFolderId={rootFolderId}
-                unmappedFolders={unmappedFolders}
+                unmappedArtists={unmappedArtists}
                 allSelected={allSelected}
                 allUnselected={allUnselected}
                 selectedState={selectedState}
@@ -142,7 +142,7 @@ class ImportArtist extends Component {
         </PageContentBodyConnector>
 
         {
-          !rootFoldersError && rootFoldersPopulated && !!unmappedFolders.length &&
+          !rootFoldersError && rootFoldersPopulated && !!unmappedArtists.length &&
             <ImportArtistFooterConnector
               selectedIds={this.getSelectedIds()}
               showLanguageProfile={showLanguageProfile}
@@ -162,7 +162,7 @@ ImportArtist.propTypes = {
   rootFoldersFetching: PropTypes.bool.isRequired,
   rootFoldersPopulated: PropTypes.bool.isRequired,
   rootFoldersError: PropTypes.object,
-  unmappedFolders: PropTypes.arrayOf(PropTypes.object),
+  unmappedArtists: PropTypes.arrayOf(PropTypes.object),
   items: PropTypes.arrayOf(PropTypes.object),
   showLanguageProfile: PropTypes.bool.isRequired,
   showMetadataProfile: PropTypes.bool.isRequired,
@@ -171,7 +171,7 @@ ImportArtist.propTypes = {
 };
 
 ImportArtist.defaultProps = {
-  unmappedFolders: []
+  unmappedArtists: []
 };
 
 export default ImportArtist;

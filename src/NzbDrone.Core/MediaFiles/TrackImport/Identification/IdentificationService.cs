@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using NLog;
@@ -10,19 +9,26 @@ using NzbDrone.Common.Extensions;
 using NzbDrone.Common.Serializer;
 using NzbDrone.Core.Configuration;
 using NzbDrone.Core.MediaFiles.TrackImport.Aggregation;
+using NzbDrone.Core.MetadataSource;
 using NzbDrone.Core.Music;
 using NzbDrone.Core.Parser;
 using NzbDrone.Core.Parser.Model;
+using NzbDrone.Core.RootFolders;
 
 namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
 {
     public interface IIdentificationService
     {
         List<LocalAlbumRelease> Identify(List<LocalTrack> localTracks, Artist artist, Album album, AlbumRelease release, bool newDownload, bool singleRelease, bool includeExisting);
+        List<LocalTrack> TracksWithoutArtists(List<LocalTrack> localTracks);
+        void AddMissingArtists(List<LocalTrack> localTracks);
     }
 
     public class IdentificationService : IIdentificationService
     {
+        private readonly ISearchForNewArtist _artistSearchService;
+        private readonly IAddArtistService _addArtistService;
+        private readonly IRootFolderService _rootFolderService;
         private readonly IArtistService _artistService;
         private readonly IAlbumService _albumService;
         private readonly IReleaseService _releaseService;
@@ -35,7 +41,10 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
         private readonly IConfigService _configService;
         private readonly Logger _logger;
 
-        public IdentificationService(IArtistService artistService,
+        public IdentificationService(ISearchForNewArtist artistSearchService,
+                                     IAddArtistService addArtistService,
+                                     IRootFolderService rootFolderService,
+                                     IArtistService artistService,
                                      IAlbumService albumService,
                                      IReleaseService releaseService,
                                      ITrackService trackService,
@@ -47,6 +56,9 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
                                      IConfigService configService,
                                      Logger logger)
         {
+            _artistSearchService = artistSearchService;
+            _addArtistService = addArtistService;
+            _rootFolderService = rootFolderService;
             _artistService = artistService;
             _albumService = albumService;
             _releaseService = releaseService;
@@ -100,6 +112,36 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
             _logger.Debug($"*** IdentificationService TestCaseGenerator ***\n{output}");
         }
 
+        public List<LocalAlbumRelease> GetLocalAlbumReleases(List<LocalTrack> localTracks, bool singleRelease)
+        {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
+            List<LocalAlbumRelease> releases = null;
+            if (singleRelease)
+            {
+                releases = new List<LocalAlbumRelease>{ new LocalAlbumRelease(localTracks) };
+            }
+            else
+            {
+                releases = _trackGroupingService.GroupTracks(localTracks);
+            }
+
+            _logger.Debug($"Sorted {localTracks.Count} tracks into {releases.Count} releases in {watch.ElapsedMilliseconds}ms");
+
+            foreach (var localRelease in releases)
+            {
+                try
+                {
+                    _augmentingService.Augment(localRelease);
+                }
+                catch (AugmentingFailedException)
+                {
+                    _logger.Warn($"Augmentation failed for {localRelease}");
+                }
+            }
+            
+            return releases;
+        }
+
         public List<LocalAlbumRelease> Identify(List<LocalTrack> localTracks, Artist artist, Album album, AlbumRelease release, bool newDownload, bool singleRelease, bool includeExisting)
         {
             // 1 group localTracks so that we think they represent a single release
@@ -112,28 +154,9 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
             _logger.Debug("Starting track identification");
             LogTestCaseOutput(localTracks, artist, album, release, newDownload, singleRelease);
 
-            List<LocalAlbumRelease> releases = null;
-            if (singleRelease)
-            {
-                releases = new List<LocalAlbumRelease>{ new LocalAlbumRelease(localTracks) };
-            }
-            else
-            {
-                releases = _trackGroupingService.GroupTracks(localTracks);
-            }
-
-            _logger.Debug($"Sorted {localTracks.Count} tracks into {releases.Count} releases in {watch.ElapsedMilliseconds}ms");
-            
+            var releases = GetLocalAlbumReleases(localTracks, singleRelease);
             foreach (var localRelease in releases)
             {
-                try
-                {
-                    _augmentingService.Augment(localRelease);
-                }
-                catch (AugmentingFailedException)
-                {
-                    _logger.Warn($"Augmentation failed for {localRelease}");
-                }
                 IdentifyRelease(localRelease, artist, album, release, newDownload, includeExisting);
             }
 
@@ -256,6 +279,53 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
             localAlbumRelease.PopulateMatch();
 
             _logger.Debug($"IdentifyRelease done in {watch.ElapsedMilliseconds}ms");
+        }
+
+        public List<LocalTrack> TracksWithoutArtists(List<LocalTrack> localTracks)
+        {
+            var releases = GetLocalAlbumReleases(localTracks, false);
+
+            var result = new List<LocalTrack>();
+            foreach (var release in releases)
+            {
+                var candidates = GetCandidates(release, false);
+                if (!candidates.Any())
+                {
+                    result.AddRange(release.LocalTracks);
+                }
+            }
+
+            return result;
+        }
+
+        public void AddMissingArtists(List<LocalTrack> localTracks)
+        {
+            var releases = GetLocalAlbumReleases(localTracks, false);
+            
+            var artistReleases = releases.GroupBy(x => MostCommon(x.LocalTracks.Select(y => y.FileTrackInfo.ArtistTitle?.CleanTrackTitle())));
+            
+            foreach (var artist in artistReleases.Where(x => x.Key != null))
+            {
+                // if we get candidates by artist for one release, we'll get them for all
+                var candidates = GetCandidates(artist.First(), false);
+                if (!candidates.Any())
+                {
+                    // grab the possible album names and searh for artist
+                    var albums = artist.Select(x => MostCommon(x.LocalTracks.Select(y => y.FileTrackInfo.AlbumTitle?.CleanTrackTitle())))
+                        .Where(x => x != null)
+                        .ToList();
+                    var artists = _artistSearchService.SearchForNewArtist(artist.Key, albums);
+
+                    foreach (var addArtist in artists)
+                    {
+                        addArtist.RootFolderPath = _rootFolderService.GetBestRootFolderPath(artist.First().LocalTracks.First().Path);
+                        addArtist.MetadataProfileId = 1;
+                        addArtist.LanguageProfileId = 1;
+                        addArtist.QualityProfileId = 1;
+                    }
+                    _addArtistService.AddArtists(artists);
+                }
+            }
         }
 
         public List<CandidateAlbumRelease> GetCandidatesFromTags(LocalAlbumRelease localAlbumRelease, Artist artist, Album album, AlbumRelease release, bool includeExisting)
