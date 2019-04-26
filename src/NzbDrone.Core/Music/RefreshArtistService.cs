@@ -267,7 +267,7 @@ namespace NzbDrone.Core.Music
                 }
             }
 
-            Rescan(isNew, trigger, updated);
+            // Rescan(isNew, trigger, updated);
         }
     }
 }

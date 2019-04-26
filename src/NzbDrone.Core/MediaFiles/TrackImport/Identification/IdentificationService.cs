@@ -1,16 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Newtonsoft.Json;
 using NLog;
 using NzbDrone.Common;
+using NzbDrone.Common.Cache;
 using NzbDrone.Common.EnsureThat;
 using NzbDrone.Common.Extensions;
 using NzbDrone.Common.Serializer;
 using NzbDrone.Core.Configuration;
 using NzbDrone.Core.MediaFiles.TrackImport.Aggregation;
+using NzbDrone.Core.Messaging.Events;
 using NzbDrone.Core.MetadataSource;
 using NzbDrone.Core.Music;
+using NzbDrone.Core.Music.Events;
 using NzbDrone.Core.Parser;
 using NzbDrone.Core.Parser.Model;
 using NzbDrone.Core.RootFolders;
@@ -24,7 +28,8 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
         void AddMissingArtists(List<LocalTrack> localTracks);
     }
 
-    public class IdentificationService : IIdentificationService
+    public class IdentificationService : IIdentificationService,
+        IHandleAsync<ArtistUpdatedEvent>
     {
         private readonly ISearchForNewArtist _artistSearchService;
         private readonly IAddArtistService _addArtistService;
@@ -39,6 +44,7 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
         private readonly IAugmentingService _augmentingService;
         private readonly IMediaFileService _mediaFileService;
         private readonly IConfigService _configService;
+        private readonly ICached<string> _cache;
         private readonly Logger _logger;
 
         public IdentificationService(ISearchForNewArtist artistSearchService,
@@ -54,6 +60,7 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
                                      IAugmentingService augmentingService,
                                      IMediaFileService mediaFileService,
                                      IConfigService configService,
+                                     ICacheManager cacheManager,
                                      Logger logger)
         {
             _artistSearchService = artistSearchService;
@@ -69,6 +76,7 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
             _augmentingService = augmentingService;
             _mediaFileService = mediaFileService;
             _configService = configService;
+            _cache = cacheManager.GetCache<string>(GetType());
             _logger = logger;
         }
 
@@ -301,31 +309,58 @@ namespace NzbDrone.Core.MediaFiles.TrackImport.Identification
         public void AddMissingArtists(List<LocalTrack> localTracks)
         {
             var releases = GetLocalAlbumReleases(localTracks, false);
-            
-            var artistReleases = releases.GroupBy(x => MostCommon(x.LocalTracks.Select(y => y.FileTrackInfo.ArtistTitle?.CleanTrackTitle())));
-            
-            foreach (var artist in artistReleases.Where(x => x.Key != null))
+
+            foreach (var release in releases)
             {
-                // if we get candidates by artist for one release, we'll get them for all
-                var candidates = GetCandidates(artist.First(), false);
+                var candidates = GetCandidates(release, false);
                 if (!candidates.Any())
                 {
                     // grab the possible album names and searh for artist
-                    var albums = artist.Select(x => MostCommon(x.LocalTracks.Select(y => y.FileTrackInfo.AlbumTitle?.CleanTrackTitle())))
-                        .Where(x => x != null)
-                        .ToList();
-                    var artists = _artistSearchService.SearchForNewArtist(artist.Key, albums);
+                    var artist = MostCommon(release.LocalTracks.Select(y => y.FileTrackInfo.ArtistTitle?.CleanTrackTitle()));
+                    var album = MostCommon(release.LocalTracks.Select(y => y.FileTrackInfo.AlbumTitle?.CleanTrackTitle()));
+
+                    if (artist.IsNullOrWhiteSpace() || album.IsNullOrWhiteSpace())
+                    {
+                        continue;
+                    }
+                    
+                    var artists = _artistSearchService.SearchForNewArtist(artist, new List<string> { album });
 
                     foreach (var addArtist in artists)
                     {
-                        addArtist.RootFolderPath = _rootFolderService.GetBestRootFolderPath(artist.First().LocalTracks.First().Path);
+                        addArtist.RootFolderPath = _rootFolderService.GetBestRootFolderPath(release.LocalTracks.First().Path);
                         addArtist.MetadataProfileId = 1;
                         addArtist.LanguageProfileId = 1;
                         addArtist.QualityProfileId = 1;
                     }
-                    _addArtistService.AddArtists(artists);
+                    
+                    AddArtists(artists);
                 }
+
             }
+        }
+
+        private void AddArtists(List<Artist> addArtists)
+        {
+            // this will get populated by event handler as refreshes finish
+            _cache.Clear();
+
+            addArtists = addArtists.DistinctBy(x => x.ForeignArtistId).ToList();
+            _addArtistService.AddArtists(addArtists);
+
+            // TODO add a way to break out if nothing returned for x minutes
+            while(addArtists.Select(x => x.ForeignArtistId).Except(_cache.Values).Any())
+            {
+                _logger.Debug($"Added {_cache.Values.Count} of {addArtists.Count} artists");
+                _logger.Debug($"Waiting for {addArtists.Select(x => x.ForeignArtistId).Except(_cache.Values).ConcatToString("\n")}");
+                Thread.Sleep(500);
+            }
+        }
+
+        public void HandleAsync(ArtistUpdatedEvent message)
+        {
+            _logger.Debug($"Imported {message.Artist}");
+            _cache.Set(message.Artist.ForeignArtistId, message.Artist.ForeignArtistId);
         }
 
         public List<CandidateAlbumRelease> GetCandidatesFromTags(LocalAlbumRelease localAlbumRelease, Artist artist, Album album, AlbumRelease release, bool includeExisting)
