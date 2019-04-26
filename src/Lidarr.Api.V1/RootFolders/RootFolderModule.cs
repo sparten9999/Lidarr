@@ -58,7 +58,7 @@ namespace Lidarr.Api.V1.RootFolders
         private List<RootFolderResource> GetRootFolders()
         {
             var folders = _rootFolderService.AllWithSpaceStats().ToResource();
-            folders.ForEach(x => x.UnmappedArtists = _unmappedArtistsService.Get(x.Path));
+            // folders.ForEach(x => x.UnmappedArtists = _unmappedArtistsService.Get(x.Path));
             return folders;
         }
 

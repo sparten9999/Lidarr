@@ -117,7 +117,7 @@ class ImportArtist extends Component {
           {
             !rootFoldersError && rootFoldersPopulated && !unmappedArtists.length &&
               <div>
-                All artist in {path} have been imported
+                Lidarr has added {path} and will begin scanning.
               </div>
           }
 

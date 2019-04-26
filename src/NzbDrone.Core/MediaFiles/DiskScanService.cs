@@ -19,6 +19,7 @@ using NzbDrone.Core.Music;
 using NzbDrone.Core.MediaFiles.TrackImport;
 using NzbDrone.Common;
 using NzbDrone.Core.Parser.Model;
+using NzbDrone.Core.Datastore.Events;
 
 namespace NzbDrone.Core.MediaFiles
 {
@@ -34,6 +35,7 @@ namespace NzbDrone.Core.MediaFiles
 
     public class DiskScanService :
         IDiskScanService,
+        IHandleAsync<ModelEvent<RootFolder>>,
         IExecute<RescanFoldersCommand> 
     {
         private readonly IDiskProvider _diskProvider;
@@ -286,6 +288,14 @@ namespace NzbDrone.Core.MediaFiles
                 {
                     _diskProvider.RemoveEmptySubfolders(path);
                 }
+            }
+        }
+
+        public void HandleAsync(ModelEvent<RootFolder> message)
+        {
+            if (message.Action == ModelAction.Created)
+            {
+                Scan(new List<string> { message.Model.Path });
             }
         }
 
