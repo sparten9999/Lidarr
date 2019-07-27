@@ -22,7 +22,9 @@ class AddImportListModalContent extends Component {
       isSchemaFetching,
       isSchemaPopulated,
       schemaError,
-      allLists,
+      spotifyLists,
+      lastFmLists,
+      otherLists,
       onImportListSelect,
       onModalClose
     } = this.props;
@@ -53,10 +55,44 @@ class AddImportListModalContent extends Component {
                   <div>For more information on the individual lists, click on the info buttons.</div>
                 </Alert>
 
-                <FieldSet legend="Import Lists">
+                <FieldSet legend="Spotify Lists">
                   <div className={styles.lists}>
                     {
-                      allLists.map((list) => {
+                      spotifyLists.map((list) => {
+                        return (
+                          <AddImportListItem
+                            key={list.implementation}
+                            implementation={list.implementation}
+                            {...list}
+                            onImportListSelect={onImportListSelect}
+                          />
+                        );
+                      })
+                    }
+                  </div>
+                </FieldSet>
+
+                <FieldSet legend="Last.fm Lists">
+                  <div className={styles.lists}>
+                    {
+                      lastFmLists.map((list) => {
+                        return (
+                          <AddImportListItem
+                            key={list.implementation}
+                            implementation={list.implementation}
+                            {...list}
+                            onImportListSelect={onImportListSelect}
+                          />
+                        );
+                      })
+                    }
+                  </div>
+                </FieldSet>
+
+                <FieldSet legend="Other">
+                  <div className={styles.lists}>
+                    {
+                      otherLists.map((list) => {
                         return (
                           <AddImportListItem
                             key={list.implementation}
@@ -88,7 +124,9 @@ AddImportListModalContent.propTypes = {
   isSchemaFetching: PropTypes.bool.isRequired,
   isSchemaPopulated: PropTypes.bool.isRequired,
   schemaError: PropTypes.object,
-  allLists: PropTypes.arrayOf(PropTypes.object).isRequired,
+  spotifyLists: PropTypes.arrayOf(PropTypes.object).isRequired,
+  lastFmLists: PropTypes.arrayOf(PropTypes.object).isRequired,
+  otherLists: PropTypes.arrayOf(PropTypes.object).isRequired,
   onImportListSelect: PropTypes.func.isRequired,
   onModalClose: PropTypes.func.isRequired
 };

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
@@ -16,13 +17,17 @@ function createMapStateToProps() {
         schema
       } = importLists;
 
-      const allLists = schema;
+      const spotifyLists = _.filter(schema, { listType: 'spotify' });
+      const lastFmLists = _.filter(schema, { listType: 'lastFm' });
+      const otherLists = _.filter(schema, { listType: 'other' });
 
       return {
         isSchemaFetching,
         isSchemaPopulated,
         schemaError,
-        allLists
+        spotifyLists,
+        lastFmLists,
+        otherLists
       };
     }
   );
