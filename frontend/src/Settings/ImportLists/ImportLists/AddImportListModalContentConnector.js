@@ -17,17 +17,13 @@ function createMapStateToProps() {
         schema
       } = importLists;
 
-      const spotifyLists = _.filter(schema, { listType: 'spotify' });
-      const lastFmLists = _.filter(schema, { listType: 'lastFm' });
-      const otherLists = _.filter(schema, { listType: 'other' });
+      const listGroups = _.groupBy(schema, 'listType');
 
       return {
         isSchemaFetching,
         isSchemaPopulated,
         schemaError,
-        spotifyLists,
-        lastFmLists,
-        otherLists
+        listGroups
       };
     }
   );
