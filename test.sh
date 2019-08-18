@@ -62,11 +62,11 @@ if [ "$PLATFORM" = "Mac" ]; then
   echo $DYLD_FALLBACK_LIBRARY_PATH
 
   # link dylib to user/local/lib directory incase SIP is stopping use of env variables. 
-  ln -s $TEST_DIR/*.dylib* /usr/local/lib
+  ln -s $TEST_DIR/*.dylib* /usr/lib
 
   sqlite3 -version
 
-  export DYLD_PRINT_LIBRARIES=YES
+  #export DYLD_PRINT_LIBRARIES=YES
 
   #echo $LD_LIBRARY_PATH
   #echo $DYLD_LIBRARY_PATH
