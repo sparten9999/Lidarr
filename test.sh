@@ -51,18 +51,18 @@ if [ "$PLATFORM" = "Mac" ]; then
       export DYLD_FALLBACK_LIBRARY_PATH="$DYLD_FALLBACK_LIBRARY_PATH:/opt/local/lib"
   fi
 
-  #export DYLD_FALLBACK_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
+  export DYLD_FALLBACK_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib:/usr/lib"
   
   #export LD_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
   #export DYLD_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
-  export DYLD_FALLBACK_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
+  #export DYLD_FALLBACK_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
 
-  echo $LD_LIBRARY_PATH
-  echo $DYLD_LIBRARY_PATH
+  #echo $LD_LIBRARY_PATH
+  #echo $DYLD_LIBRARY_PATH
   echo $DYLD_FALLBACK_LIBRARY_PATH
 
   # link dylib to user/local/lib directory incase SIP is stopping use of env variables. 
-  # ln -s $TEST_DIR/*.dylib* /usr/local/lib
+  ln -s $TEST_DIR/*.dylib* /usr/local/lib
   ln -s $TEST_DIR/*.dylib* $TEST_DIR/NUnit.ConsoleRunner.3.7.0/tools/
 
   sqlite3 -version
