@@ -53,8 +53,8 @@ if [ "$PLATFORM" = "Mac" ]; then
 
   #export DYLD_FALLBACK_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
   
-  export LD_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
-  export DYLD_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
+  #export LD_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
+  #export DYLD_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
   export DYLD_FALLBACK_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib"
 
   echo $LD_LIBRARY_PATH
