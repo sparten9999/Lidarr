@@ -29,18 +29,44 @@ NUNIT_PARAMS="--workers=1"
 
 if [ "$PLATFORM" = "Mac" ]; then
 
+  #set up environment
+  if [[ -x '/opt/local/bin/mono' ]]; then
+      # Macports and mono-supplied installer path
+      export PATH="/opt/local/bin:$PATH"
+  elif [[ -x '/usr/local/bin/mono' ]]; then
+      # Homebrew-supplied path to mono
+      export PATH="/usr/local/bin:$PATH"
+  fi
+
+  echo $TEST_DIR
+  export DYLD_FALLBACK_LIBRARY_PATH="$TEST_DIR"
+
+  if [ -e /Library/Frameworks/Mono.framework ]; then
+      MONO_FRAMEWORK_PATH=/Library/Frameworks/Mono.framework/Versions/Current
+      export PATH="$MONO_FRAMEWORK_PATH/bin:$PATH"
+      export DYLD_FALLBACK_LIBRARY_PATH="$DYLD_FALLBACK_LIBRARY_PATH:$MONO_FRAMEWORK_PATH/lib"
+  fi
+
+  if [[ -f '/opt/local/lib/libsqlite3.0.dylib' ]]; then
+      export DYLD_FALLBACK_LIBRARY_PATH="$DYLD_FALLBACK_LIBRARY_PATH:/opt/local/lib"
+  fi
+
+  export DYLD_FALLBACK_LIBRARY_PATH="$DYLD_FALLBACK_LIBRARY_PATH:$HOME/lib:/usr/local/lib:/lib:/usr/lib"
+  
+  #export LD_LIBRARY_PATH=$TEST_DIR:$LD_LIBRARY_PATH
+  #export DYLD_LIBRARY_PATH=$TEST_DIR:$DYLD_LIBRARY_PATH
+  #export DYLD_FALLBACK_LIBRARY_PATH=$TEST_DIR:$DYLD_FALLBACK_LIBRARY_PATH
+
   echo $LD_LIBRARY_PATH
   echo $DYLD_LIBRARY_PATH
   echo $DYLD_FALLBACK_LIBRARY_PATH
-  
-  export LD_LIBRARY_PATH=$TEST_DIR:$LD_LIBRARY_PATH
-  export DYLD_LIBRARY_PATH=$TEST_DIR:$DYLD_LIBRARY_PATH
-  export DYLD_FALLBACK_LIBRARY_PATH=$TEST_DIR:$DYLD_FALLBACK_LIBRARY_PATH
 
   # link dylib to user/local/lib directory incase SIP is stopping use of env variables. 
   ln -s $TEST_DIR/*.dylib* /usr/local/lib
 
   sqlite3 -version
+
+  export DYLD_PRINT_LIBRARIES=YES
 
   #echo $LD_LIBRARY_PATH
   #echo $DYLD_LIBRARY_PATH
