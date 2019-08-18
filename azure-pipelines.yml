@@ -252,7 +252,6 @@ stages:
         condition: and(succeeded(), eq(variables['osName'], 'Windows'))
       - bash: |
           chmod a+x _tests/fpcalc
-          # export DYLD_FALLBACK_LIBRARY_PATH=${BUILD_SOURCESDIRECTORY}/_tests
         displayName: Make fpcalc Executable
         condition: and(succeeded(), eq(variables['osName'], 'Mac'))
       - task: Bash@3
