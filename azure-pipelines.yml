@@ -263,17 +263,19 @@ stages:
           echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;]${Build.SourcesDirectory}/_tests:/usr/local/lib:$MONOPREFIX/lib:/lib:/usr/lib:$DYLD_LIBRARY_FALLBACK_PATH"
           echo "##vso[task.setvariable variable=PKG_CONFIG_PATH;]$MONOPREFIX/lib/pkgconfig:$MONOPREFIX/share/pkgconfig:$PKG_CONFIG_PATH"
           echo "##vso[task.setvariable variable=PATH;]$MONOPREFIX/bin:$PATH"
+          echo "##vso[task.setvariable variable=TEST_DIR;]${Build.SourcesDirectory}/_tests"
+          bash ${Build.SourcesDirectory}/_tests/test.sh Mac Unit Test
         displayName: Set Mono Version
         condition: and(succeeded(), eq(variables['osName'], 'Mac'))
-      - task: Bash@3
-        displayName: Run Tests
-        env:
-          DYLD_FALLBACK_LIBRARY_PATH: $(Build.SourcesDirectory)/_tests
-          TEST_DIR: $(Build.SourcesDirectory)/_tests
-        inputs:
-          targetType: 'filePath'
-          filePath: '$(testsFolder)/test.sh'
-          arguments: '$(osName) Unit Test'
+      #- task: Bash@3
+       # displayName: Run Tests
+       # env:
+       #   DYLD_FALLBACK_LIBRARY_PATH: $(Build.SourcesDirectory)/_tests
+       #   TEST_DIR: $(Build.SourcesDirectory)/_tests
+       # inputs:
+       #   targetType: 'filePath'
+       #   filePath: '$(testsFolder)/test.sh'
+       #   arguments: '$(osName) Unit Test'
       - publish: TestResult.xml
         artifact: 'TestResult'
         displayName: Publish Test Result
