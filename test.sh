@@ -25,7 +25,7 @@ export LIDARR_TESTS_LOG_OUTPUT="File"
 
 NUNIT="$TEST_DIR/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe"
 NUNIT_COMMAND="$NUNIT"
-NUNIT_PARAMS="--workers=1"
+NUNIT_PARAMS="--workers=1 --trace=verbose"
 
 if [ "$PLATFORM" = "Mac" ]; then
 
@@ -51,7 +51,7 @@ if [ "$PLATFORM" = "Mac" ]; then
       export DYLD_FALLBACK_LIBRARY_PATH="$DYLD_FALLBACK_LIBRARY_PATH:/opt/local/lib"
   fi
 
-  export DYLD_FALLBACK_LIBRARY_PATH="$DYLD_FALLBACK_LIBRARY_PATH:$HOME/lib:/usr/local/lib:/lib:/usr/lib"
+  export DYLD_FALLBACK_LIBRARY_PATH="$TEST_DIR:/usr/local/lib:/lib:/usr/lib"
   
   #export LD_LIBRARY_PATH=$TEST_DIR:$LD_LIBRARY_PATH
   #export DYLD_LIBRARY_PATH=$TEST_DIR:$DYLD_LIBRARY_PATH
@@ -62,11 +62,11 @@ if [ "$PLATFORM" = "Mac" ]; then
   echo $DYLD_FALLBACK_LIBRARY_PATH
 
   # link dylib to user/local/lib directory incase SIP is stopping use of env variables. 
-  ln -s $TEST_DIR/*.dylib* /usr/lib
+  ln -s $TEST_DIR/*.dylib* /usr/local/lib
 
   sqlite3 -version
 
-  #export DYLD_PRINT_LIBRARIES=YES
+  export DYLD_PRINT_LIBRARIES=YES
 
   #echo $LD_LIBRARY_PATH
   #echo $DYLD_LIBRARY_PATH
