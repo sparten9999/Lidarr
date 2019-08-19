@@ -268,9 +268,9 @@ stages:
           unzip sqlite.zip -d sqlite
           mv sqlite/**/* sqlite
           cd sqlite
-          gcc -O2 -c -fPIC -DSQLITE_ENABLE_COLUMN_METADATA sqlite3.c
-          gcc -shared -o libsqlite_lidarr.so -fPIC sqlite3.o -ldl -lpthread
-          cp libsqlite_lidarr.so $TESTSFOLDER
+          gcc -v -O2 -c -fPIC -DSQLITE_ENABLE_COLUMN_METADATA sqlite3.c
+          gcc -v -shared -o libsqlite_lidarr.so -fPIC sqlite3.o -ldl -lpthread
+          cp -v libsqlite_lidarr.so $TESTSFOLDER
   
       - bash: |
           export DYLD_PRINT_LIBRARIES=YES
