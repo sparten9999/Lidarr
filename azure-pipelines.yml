@@ -221,9 +221,9 @@ stages:
     - job: Unit
       strategy:
         matrix:
-          # Linux:
-          #   osName: 'Linux'
-          #   imageName: 'ubuntu-16.04'
+          Linux:
+            osName: 'Linux'
+            imageName: 'ubuntu-16.04'
           Mac:
             osName: 'Mac'
             imageName: 'macos-10.13'
@@ -263,6 +263,15 @@ stages:
           echo "##vso[task.setvariable variable=PATH;]$MONOPREFIX/bin:$PATH"
         displayName: Set Mono Version
         condition: and(succeeded(), eq(variables['osName'], 'Mac'))
+      - bash: |
+          wget -O sqlite.zip http://www.sqlite.org/2015/sqlite-amalgamation-3090200.zip
+          unzip sqlite.zip -d sqlite
+          mv sqlite/**/* sqlite
+          cd sqlite
+          gcc -O2 -c -fPIC -DSQLITE_ENABLE_COLUMN_METADATA sqlite3.c
+          gcc -shared -o libsqlite_lidarr.so -fPIC sqlite3.o -ldl -lpthread
+          cp libsqlite_lidarr.so $TESTSFOLDER
+  
       - bash: |
           export DYLD_PRINT_LIBRARIES=YES
           export MONO_LOG_LEVEL=debug
