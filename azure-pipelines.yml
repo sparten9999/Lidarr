@@ -221,9 +221,9 @@ stages:
     - job: Unit
       strategy:
         matrix:
-          Linux:
-            osName: 'Linux'
-            imageName: 'ubuntu-16.04'
+          # Linux:
+          #   osName: 'Linux'
+          #   imageName: 'ubuntu-16.04'
           Mac:
             osName: 'Mac'
             imageName: 'macos-10.13'
@@ -242,6 +242,8 @@ stages:
           buildType: 'current'
           artifactName: WindowsTests
           targetPath: $(testsFolder)
+      - bash: |
+          file $TESTSFOLDER/libsqlite_lidarr.dylib
       - bash: |
           wget https://github.com/acoustid/chromaprint/releases/download/v1.4.3/chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz
           sudo tar xf chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz --strip-components=1 --directory /usr/bin
@@ -269,23 +271,25 @@ stages:
           mv sqlite/**/* sqlite
           cd sqlite
           gcc -v -O2 -dynamiclib -o libsqlite_lidarr.dylib -DSQLITE_ENABLE_COLUMN_METADATA sqlite3.c
-          #gcc -v -dynamiclib -o libsqlite_lidarr.so -fPIC sqlite3.o -ldl -lpthread
           cp -v libsqlite_lidarr.dylib $TESTSFOLDER
-  
+          ls -l
+          file libsqlite_lidarr.dylib
       - bash: |
           export DYLD_PRINT_LIBRARIES=YES
           export MONO_LOG_LEVEL=debug
           export MONO_LOG_MASK=dll
           # echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;]${BUILD_SOURCESDIRECTORY}/_tests:$DYLD_LIBRARY_FALLBACK_PATH"
           # ln -s ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib /usr/local/lib
-          ls -la /usr/local/lib
+          # ls -la /usr/local/lib
           # ln -s ./src/Libraries/Sqlite/*.dylib ${BUILD_SOURCESDIRECTORY}/_tests/NUnit.ConsoleRunner.3.7.0/tools/
           # rm -f /Library/Frameworks/Mono.framework/Versions/5.18.1/lib/libsqlite3*.dylib
           # cp ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib /Library/Frameworks/Mono.framework/Versions/5.18.1/lib/
           # cp ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib ${BUILD_SOURCESDIRECTORY}/_tests/NUnit.ConsoleRunner.3.7.0/tools/
           # printenv
-          sqlite3 -version
+          # sqlite3 -version
           # sqlite3 pragma compile_options
+          ls -l $TESTSFOLDER
+          file libsqlite_lidarr.dylib
           mono --debug --runtime=v4.0 ${TESTSFOLDER}/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe --workers=1 --test=NzbDrone.Core.Test.Datastore.Migration.add_release_groups_etcFixture.migration_023_simple_case ${BUILD_SOURCESDIRECTORY}/_tests/Lidarr.Core.Test.dll
         displayName: Run a Test
       - publish: TestResult.xml
