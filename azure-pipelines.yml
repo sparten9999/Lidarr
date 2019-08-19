@@ -263,7 +263,8 @@ stages:
         displayName: Set Mono Version
         condition: and(succeeded(), eq(variables['osName'], 'Mac'))
       - bash: |
-          mono --debug --runtime=v4.0 ${TESTSFOLDER}/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe --workers=1 --test=migration_023_simple_case ${TESTSFOLDER}/Lidarr.Core.Test.dll
+          mono --debug --runtime=v4.0 ${TESTSFOLDER}/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe --workers=1 --test=migration_023_simple_case ${BUILD_SOURCESDIRECTORY}/_tests/Lidarr.Core.Test.dll
+        displayName: Run a Test
       - publish: TestResult.xml
         artifact: 'TestResult'
         displayName: Publish Test Result
