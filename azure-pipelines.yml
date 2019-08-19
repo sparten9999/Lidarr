@@ -4,9 +4,9 @@
 # https://aka.ms/yaml
 
 variables:
-  outputFolder: './_output'
-  artifactsFolder: './_artifacts'
-  testsFolder: './_tests'
+  outputFolder: '$(Build.SourcesDirectory)/_output'
+  artifactsFolder: '$(Build.SourcesDirectory)/_artifacts'
+  testsFolder: '$(Build.SourcesDirectory)/_tests'
   majorVersion: '0.6.2'
   minorVersion: $[counter('minorVersion', 1076)]
   lidarrVersion: '$(majorVersion).$(minorVersion)'
@@ -289,7 +289,7 @@ stages:
           # sqlite3 -version
           # sqlite3 pragma compile_options
           ls -l $TESTSFOLDER
-          file libsqlite_lidarr.dylib
+          file $TESTSFOLDER/libsqlite_lidarr.dylib
           mono --debug --runtime=v4.0 ${TESTSFOLDER}/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe --workers=1 --test=NzbDrone.Core.Test.Datastore.Migration.add_release_groups_etcFixture.migration_023_simple_case ${BUILD_SOURCESDIRECTORY}/_tests/Lidarr.Core.Test.dll
         displayName: Run a Test
       - publish: TestResult.xml
