@@ -1256,6 +1256,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="System.Data.SQLite.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\AnalysisRules.ruleset" />
   </ItemGroup>
   <ItemGroup>
@@ -1281,8 +1284,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Libraries\Sqlite\libsqlite3.0.dylib">
-      <Link>libsqlite3.0.dylib</Link>
+    <Content Include="..\Libraries\Sqlite\libsqlite_lidarr.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Notifications\Telegram\TelegramError.cs" />

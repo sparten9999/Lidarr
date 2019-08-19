@@ -226,8 +226,7 @@
     <Content Include="Expansive\license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\Libraries\Sqlite\libsqlite3.0.dylib">
-      <Link>libsqlite3.0.dylib</Link>
+    <Content Include="..\Libraries\Sqlite\libsqlite_lidarr.dylib">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
