@@ -267,6 +267,8 @@ stages:
           echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;]${BUILD_SOURCESDIRECTORY}/_tests:$DYLD_LIBRARY_FALLBACK_PATH"
           # ln -s ./src/Libraries/Sqlite/*.dylib /usr/local/lib
           # ln -s ./src/Libraries/Sqlite/*.dylib ${BUILD_SOURCESDIRECTORY}/_tests/NUnit.ConsoleRunner.3.7.0/tools/
+          rm -f /Library/Frameworks/Mono.framework/Versions/5.18.1/lib/libsqlite3*.dylib
+          cp ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib /Library/Frameworks/Mono.framework/Versions/5.18.1/lib/
           # printenv
           sqlite3 -version
           # sqlite3 pragma compile_options
