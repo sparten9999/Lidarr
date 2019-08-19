@@ -265,8 +265,8 @@ stages:
       - bash: |
           # export DYLD_PRINT_LIBRARIES=YES
           export DYLD_FALLBACK_LIBRARY_PATH=${BUILD_SOURCESDIRECTORY}/_tests:/usr/local/lib:/usr/lib
-          cp $TEST_DIR/*.dylib /usr/local/lib
-          cp $TEST_DIR/*.dylib $TEST_DIR/NUnit.ConsoleRunner.3.7.0/tools/
+          cp ./src/Libraries/Sqlite/*.dylib /usr/local/lib
+          cp ./src/Libraries/Sqlite/*.dylib ${BUILD_SOURCESDIRECTORY}/_tests/NUnit.ConsoleRunner.3.7.0/tools/
           printenv
           sqlite3 -version
           mono --debug --runtime=v4.0 ${TESTSFOLDER}/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe --workers=1 --test=NzbDrone.Core.Test.Datastore.Migration.add_release_groups_etcFixture.migration_023_simple_case ${BUILD_SOURCESDIRECTORY}/_tests/Lidarr.Core.Test.dll
