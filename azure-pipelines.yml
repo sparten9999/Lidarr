@@ -235,7 +235,7 @@ stages:
         vmImage: $(imageName)
 
       steps:
-      - checkout: none
+      - checkout: self
       - task: DownloadPipelineArtifact@2
         displayName: Download Test Artifact
         inputs:
