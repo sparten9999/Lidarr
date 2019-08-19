@@ -265,6 +265,8 @@ stages:
         condition: and(succeeded(), eq(variables['osName'], 'Mac'))
       - bash: |
           export DYLD_PRINT_LIBRARIES=YES
+          export MONO_LOG_LEVEL=debug
+          export MONO_LOG_MASK=dll
           # echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;]${BUILD_SOURCESDIRECTORY}/_tests:$DYLD_LIBRARY_FALLBACK_PATH"
           # ln -s ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib /usr/local/lib
           ls -la /usr/local/lib
