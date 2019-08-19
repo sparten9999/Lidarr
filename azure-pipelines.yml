@@ -257,7 +257,8 @@ stages:
       - bash: |
           SYMLINK=5_18_1
           MONOPREFIX=/Library/Frameworks/Mono.framework/Versions/$SYMLINK
-          echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;]${BUILD_SOURCESDIRECTORY}/_tests:$MONOPREFIX/lib:/lib:/usr/lib:$DYLD_LIBRARY_FALLBACK_PATH"
+          ln -s ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib /usr/local/lib
+          echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;]/usr/local/lib:$MONOPREFIX/lib:/lib:/usr/lib:$DYLD_LIBRARY_FALLBACK_PATH"
           echo "##vso[task.setvariable variable=PKG_CONFIG_PATH;]$MONOPREFIX/lib/pkgconfig:$MONOPREFIX/share/pkgconfig:$PKG_CONFIG_PATH"
           echo "##vso[task.setvariable variable=PATH;]$MONOPREFIX/bin:$PATH"
         displayName: Set Mono Version
@@ -265,10 +266,11 @@ stages:
       - bash: |
           export DYLD_PRINT_LIBRARIES=YES
           echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;]${BUILD_SOURCESDIRECTORY}/_tests:$DYLD_LIBRARY_FALLBACK_PATH"
-          # ln -s ./src/Libraries/Sqlite/*.dylib /usr/local/lib
+          # ln -s ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib /usr/local/lib
+          ls -la /usr/local/lib
           # ln -s ./src/Libraries/Sqlite/*.dylib ${BUILD_SOURCESDIRECTORY}/_tests/NUnit.ConsoleRunner.3.7.0/tools/
-          rm -f /Library/Frameworks/Mono.framework/Versions/5.18.1/lib/libsqlite3*.dylib
-          cp ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib /Library/Frameworks/Mono.framework/Versions/5.18.1/lib/
+          # rm -f /Library/Frameworks/Mono.framework/Versions/5.18.1/lib/libsqlite3*.dylib
+          # cp ${BUILD_SOURCESDIRECTORY}/src/Libraries/Sqlite/*.dylib /Library/Frameworks/Mono.framework/Versions/5.18.1/lib/
           # printenv
           sqlite3 -version
           # sqlite3 pragma compile_options
