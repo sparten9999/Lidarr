@@ -93,6 +93,7 @@ namespace NzbDrone.Common.Test
             process.HasExited.Should().BeFalse();
 
             TestLogger.Debug(string.Join(", ", process.Modules.Cast<ProcessModule>().Select(x => x.ModuleName)));
+            TestLogger.Debug(string.Join(", ", process.Modules.Cast<ProcessModule>().Select(x => x.FileName)));
 
             process.Kill();
             process.WaitForExit();
