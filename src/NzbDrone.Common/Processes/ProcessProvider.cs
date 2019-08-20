@@ -326,8 +326,12 @@ namespace NzbDrone.Common.Processes
         {
             //TODO: move this to an OS specific class
 
-            var monoProcesses = Process.GetProcessesByName("mono")
+            var allMonoProcesses = Process.GetProcessesByName("mono")
                                        .Union(Process.GetProcessesByName("mono-sgen"))
+                .Union(Process.GetProcessesByName("mono-sgen32"))
+                .Union(Process.GetProcessesByName("mono-sgen64"));
+
+            var monoProcesses = allMonoProcesses
                                        .Where(process =>
                                               process.Modules.Cast<ProcessModule>()
                                                      .Any(module =>
@@ -335,6 +339,9 @@ namespace NzbDrone.Common.Processes
 
             var processes = Process.GetProcessesByName(name)
                                    .Union(monoProcesses).ToList();
+
+            _logger.Debug("Processes found:\n{0}", string.Join("\n", Process.GetProcessesByName(name).Select(x => x.ProcessName)));
+            _logger.Debug("Mono Processes found:\n{0}", string.Join("\n", allMonoProcesses.Select(x => x.ProcessName + ": " + string.Join(" ", x.Modules.Cast<ProcessModule>().Select(y => y.ModuleName)))));
 
             _logger.Debug("Found {0} processes with the name: {1}", processes.Count, name);
 
