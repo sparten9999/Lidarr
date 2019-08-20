@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using FluentAssertions;
 using NUnit.Framework;
 using NzbDrone.Common.Model;
@@ -64,19 +65,39 @@ namespace NzbDrone.Common.Test
         }
 
         [Test]
-        public void Should_be_able_to_start_process()
+        public void Exists_should_find_running_process()
         {
             var process = StartDummyProcess();
 
             Subject.Exists(DummyApp.DUMMY_PROCCESS_NAME).Should()
-                   .BeTrue("expected one dummy process to be already running");
+                   .BeTrue("expected one dummy process to be running");
 
             process.Kill();
             process.WaitForExit();
 
-            Subject.Exists(DummyApp.DUMMY_PROCCESS_NAME).Should().BeFalse();
+            Subject.Exists(DummyApp.DUMMY_PROCCESS_NAME).Should()
+                   .BeFalse("process was killed");
         }
 
+        [Test]
+        public void should_be_able_to_start_process()
+        {
+            var process = StartDummyProcess();
+
+            Thread.Sleep(1000);
+
+            var check = Subject.GetProcessById(process.Id);
+            check.Should().NotBeNull();
+
+            process.Refresh();
+            process.HasExited.Should().BeFalse();
+
+            TestLogger.Debug(string.Join(", ", process.Modules.Cast<ProcessModule>().Select(x => x.ModuleName)));
+
+            process.Kill();
+            process.WaitForExit();
+            process.HasExited.Should().BeTrue();
+        }
 
         [Test]
         public void kill_all_should_kill_all_process_with_name()
