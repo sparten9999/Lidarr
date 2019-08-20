@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace NzbDrone.Test.Dummy
 {
@@ -12,6 +13,7 @@ namespace NzbDrone.Test.Dummy
             var process = Process.GetCurrentProcess();
 
             Console.WriteLine("Dummy process. ID:{0} Name:{1} Path:{2}", process.Id, process.ProcessName, process.MainModule.FileName);
+            Console.WriteLine("Modules: " + string.Join(", ", process.Modules.Cast<ProcessModule>().Select(x => x.ModuleName)));
             Console.ReadLine();
         }
     }
