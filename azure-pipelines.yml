@@ -71,46 +71,46 @@ stages:
         displayName: Publish Test Package
         condition: and(succeeded(), eq(variables['osName'], 'Windows'))
 
-  - stage: Build_Frontend
-    displayName: Build Frontend
-    dependsOn: []
+  # - stage: Build_Frontend
+  #   displayName: Build Frontend
+  #   dependsOn: []
     
-    jobs:
-    - job: Frontend
-      strategy:
-        matrix:
-          # Linux:
-          #   osName: 'Linux'
-          #   imageName: 'ubuntu-16.04'
-          # Mac:
-          #   osName: 'Mac'
-          #   imageName: 'macos-10.13'
-          Windows:
-            osName: 'Windows'
-            imageName: 'vs2017-win2016'
-      pool:
-        vmImage: $(imageName)
-      steps:
-      - task: NodeTool@0
-        displayName: Set Node.js version
-        inputs:
-          versionSpec: '10.x'
-      - checkout: self
-        submodules: true
-        fetchDepth: 1
-      - bash: ./build.sh --only-frontend
-        displayName: Build Lidarr Frontend
-        env:
-          FORCE_COLOR: 0
-      - publish: $(outputFolder)
-        artifact: '$(osName)Frontend'
-        displayName: Publish Frontend
-        condition: and(succeeded(), eq(variables['osName'], 'Windows'))
+  #   jobs:
+  #   - job: Frontend
+  #     strategy:
+  #       matrix:
+  #         # Linux:
+  #         #   osName: 'Linux'
+  #         #   imageName: 'ubuntu-16.04'
+  #         # Mac:
+  #         #   osName: 'Mac'
+  #         #   imageName: 'macos-10.13'
+  #         Windows:
+  #           osName: 'Windows'
+  #           imageName: 'vs2017-win2016'
+  #     pool:
+  #       vmImage: $(imageName)
+  #     steps:
+  #     - task: NodeTool@0
+  #       displayName: Set Node.js version
+  #       inputs:
+  #         versionSpec: '10.x'
+  #     - checkout: self
+  #       submodules: true
+  #       fetchDepth: 1
+  #     - bash: ./build.sh --only-frontend
+  #       displayName: Build Lidarr Frontend
+  #       env:
+  #         FORCE_COLOR: 0
+  #     - publish: $(outputFolder)
+  #       artifact: '$(osName)Frontend'
+  #       displayName: Publish Frontend
+  #       condition: and(succeeded(), eq(variables['osName'], 'Windows'))
         
   - stage: Package
     dependsOn:
     - Build_Backend
-    - Build_Frontend
+    # - Build_Frontend
     jobs:
   #   - job: Windows_Installer
   #     displayName: Create Installer
@@ -157,9 +157,13 @@ stages:
         displayName: Fetch Backend
       - task: DownloadPipelineArtifact@2
         inputs:
-          buildType: 'current'
-          artifactName: WindowsFrontend
-          targetPath: _output
+          buildType: 'specific'
+          project: '43582661-9ac3-4ec6-9583-209885d5ff34'
+          definition: '1'
+          buildVersionToDownload: 'specific'
+          pipelineId: '338'
+          artifactName: 'WindowsFrontend'
+          targetPath: '_output'
         displayName: Fetch Frontend
       - bash: ./build.sh --only-packages
         displayName: Create Packages
@@ -167,20 +171,20 @@ stages:
           chmod a+x $(artifactsFolder)/macos/Lidarr/fpcalc
           chmod a+x $(artifactsFolder)/macos-app/Lidarr.app/Contents/MacOS/fpcalc
         displayName: Make fpcalc Executable
-      - task: ArchiveFiles@2
-        displayName: Create Windows zip
-        inputs:
-          archiveFile: '$(Build.ArtifactStagingDirectory)/$(windowsZip)'
-          archiveType: 'zip'
-          includeRootFolder: false
-          rootFolderOrFile: $(artifactsFolder)/windows
-      - task: ArchiveFiles@2
-        displayName: Create MacOS app
-        inputs:
-          archiveFile: '$(Build.ArtifactStagingDirectory)/$(macOsApp)'
-          archiveType: 'zip'
-          includeRootFolder: false
-          rootFolderOrFile: $(artifactsFolder)/macos-app
+      # - task: ArchiveFiles@2
+      #   displayName: Create Windows zip
+      #   inputs:
+      #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(windowsZip)'
+      #     archiveType: 'zip'
+      #     includeRootFolder: false
+      #     rootFolderOrFile: $(artifactsFolder)/windows
+      # - task: ArchiveFiles@2
+      #   displayName: Create MacOS app
+      #   inputs:
+      #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(macOsApp)'
+      #     archiveType: 'zip'
+      #     includeRootFolder: false
+      #     rootFolderOrFile: $(artifactsFolder)/macos-app
       - task: ArchiveFiles@2
         displayName: Create MacOS tar
         inputs:
@@ -371,12 +375,12 @@ stages:
           mono --debug --runtime=v4.0 ${TESTSFOLDER}/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe --workers=1 --where "test =~ /cutoff_should_have_artist/" ${BUILD_SOURCESDIRECTORY}/_tests/Lidarr.Integration.Test.dll
         displayName: Run a Test
 
-      # - task: Bash@3
-      #   displayName: Run Integration Tests
-      #   inputs:
-      #     targetType: 'filePath'
-      #     filePath: '$(testsFolder)/test.sh'
-      #     arguments: $(osName) Integration Test
+      - task: Bash@3
+        displayName: Run Integration Tests
+        inputs:
+          targetType: 'filePath'
+          filePath: '$(testsFolder)/test.sh'
+          arguments: $(osName) Integration Test
       - task: PublishTestResults@2
         inputs:
           testResultsFormat: 'NUnit'
