@@ -369,9 +369,9 @@ stages:
           cp -r -v ${BUILD_ARTIFACTSTAGINGDIRECTORY}/bin/Lidarr/. ./bin/
         displayName: Move Package Contents
       - bash: |
-          export DYLD_PRINT_LIBRARIES=YES
-          export MONO_LOG_LEVEL=debug
-          export MONO_LOG_MASK=dll
+          # export DYLD_PRINT_LIBRARIES=YES
+          # export MONO_LOG_LEVEL=debug
+          # export MONO_LOG_MASK=dll
           mono --debug --runtime=v4.0 ${TESTSFOLDER}/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe --workers=1 --where "test =~ /cutoff_should_have_artist/" ${BUILD_SOURCESDIRECTORY}/_tests/Lidarr.Integration.Test.dll
         displayName: Run a Test
 
