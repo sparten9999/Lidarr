@@ -84,7 +84,7 @@ namespace NzbDrone.Common.Test
         {
             var process = StartDummyProcess();
 
-            Thread.Sleep(1000);
+            Thread.Sleep(10000);
 
             var check = Subject.GetProcessById(process.Id);
             check.Should().NotBeNull();

@@ -271,6 +271,8 @@ stages:
         condition: and(succeeded(), eq(variables['osName'], 'Mac'))
       - bash: |
           export DYLD_PRINT_LIBRARIES=YES
+          export MONO_LOG_LEVEL=debug
+          export MONO_LOG_MASK=dll
           mono --debug --runtime=v4.0 ${TESTSFOLDER}/NUnit.ConsoleRunner.3.7.0/tools/nunit3-console.exe --workers=1 --where "test =~ /ProcessProviderTests/" ${BUILD_SOURCESDIRECTORY}/_tests/Lidarr.Common.Test.dll
         displayName: Run a Test
       - publish: TestResult.xml
