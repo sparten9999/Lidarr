@@ -377,6 +377,7 @@ stages:
 
       - task: Bash@3
         displayName: Run Integration Tests
+        condition: always()
         inputs:
           targetType: 'filePath'
           filePath: '$(testsFolder)/test.sh'
