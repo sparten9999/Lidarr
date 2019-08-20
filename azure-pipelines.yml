@@ -79,12 +79,12 @@ stages:
     - job: Frontend
       strategy:
         matrix:
-          Linux:
-            osName: 'Linux'
-            imageName: 'ubuntu-16.04'
-          Mac:
-            osName: 'Mac'
-            imageName: 'macos-10.13'
+          # Linux:
+          #   osName: 'Linux'
+          #   imageName: 'ubuntu-16.04'
+          # Mac:
+          #   osName: 'Mac'
+          #   imageName: 'macos-10.13'
           Windows:
             osName: 'Windows'
             imageName: 'vs2017-win2016'
@@ -333,6 +333,14 @@ stages:
           sudo tar xf chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz --strip-components=1 --directory /usr/bin
         displayName: Install fpcalc
         condition: and(succeeded(), eq(variables['osName'], 'Linux'))
+      - bash: |
+          SYMLINK=5_18_1
+          MONOPREFIX=/Library/Frameworks/Mono.framework/Versions/$SYMLINK
+          echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;].:$MONOPREFIX/lib:/lib:/usr/lib:$DYLD_LIBRARY_FALLBACK_PATH"
+          echo "##vso[task.setvariable variable=PKG_CONFIG_PATH;]$MONOPREFIX/lib/pkgconfig:$MONOPREFIX/share/pkgconfig:$PKG_CONFIG_PATH"
+          echo "##vso[task.setvariable variable=PATH;]$MONOPREFIX/bin:$PATH"
+        displayName: Set Mono Version
+        condition: and(succeeded(), ne(variables['osName'], 'Linux'))
       - checkout: none
       - task: DownloadPipelineArtifact@2
         displayName: Download Test Artifact
