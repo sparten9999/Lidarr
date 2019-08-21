@@ -52,9 +52,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\Libraries\Sqlite\System.Data.SQLite.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArtistStatsTests\ArtistStatisticsFixture.cs" />
@@ -397,10 +394,6 @@
   <ItemGroup>
     <Content Include="..\..\Logo\1024.png">
       <Link>Files\1024.png</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Libraries\Sqlite\sqlite3.dll">
-      <Link>sqlite3.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Files\Indexers\Gazelle\Gazelle.json">
