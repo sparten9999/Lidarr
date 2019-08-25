@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Specialized;
-using System.Configuration.Install;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
@@ -62,48 +61,48 @@ namespace NzbDrone.Common
 
         public virtual void Install(string serviceName)
         {
-            _logger.Info("Installing service '{0}'", serviceName);
+            // _logger.Info("Installing service '{0}'", serviceName);
 
 
-            var installer = new ServiceProcessInstaller
-                                {
-                                    Account = ServiceAccount.LocalService
-                                };
+            // var installer = new ServiceProcessInstaller
+            //                     {
+            //                         Account = ServiceAccount.LocalService
+            //                     };
 
-            var serviceInstaller = new ServiceInstaller();
+            // var serviceInstaller = new ServiceInstaller();
 
 
-            string[] cmdline = { @"/assemblypath=" + Process.GetCurrentProcess().MainModule.FileName };
+            // string[] cmdline = { @"/assemblypath=" + Process.GetCurrentProcess().MainModule.FileName };
 
-            var context = new InstallContext("service_install.log", cmdline);
-            serviceInstaller.Context = context;
-            serviceInstaller.DisplayName = serviceName;
-            serviceInstaller.ServiceName = serviceName;
-            serviceInstaller.Description = "Lidarr Application Server";
-            serviceInstaller.StartType = ServiceStartMode.Automatic;
-            serviceInstaller.ServicesDependedOn = new[] { "EventLog", "Tcpip", "http" };
+            // var context = new InstallContext("service_install.log", cmdline);
+            // serviceInstaller.Context = context;
+            // serviceInstaller.DisplayName = serviceName;
+            // serviceInstaller.ServiceName = serviceName;
+            // serviceInstaller.Description = "Lidarr Application Server";
+            // serviceInstaller.StartType = ServiceStartMode.Automatic;
+            // serviceInstaller.ServicesDependedOn = new[] { "EventLog", "Tcpip", "http" };
 
-            serviceInstaller.Parent = installer;
+            // serviceInstaller.Parent = installer;
 
-            serviceInstaller.Install(new ListDictionary());
+            // serviceInstaller.Install(new ListDictionary());
 
-            _logger.Info("Service Has installed successfully.");
+            // _logger.Info("Service Has installed successfully.");
         }
 
         public virtual void Uninstall(string serviceName)
         {
-            _logger.Info("Uninstalling {0} service", serviceName);
+            // _logger.Info("Uninstalling {0} service", serviceName);
 
-            Stop(serviceName);
+            // Stop(serviceName);
 
-            var serviceInstaller = new ServiceInstaller();
+            // var serviceInstaller = new ServiceInstaller();
 
-            var context = new InstallContext("service_uninstall.log", null);
-            serviceInstaller.Context = context;
-            serviceInstaller.ServiceName = serviceName;
-            serviceInstaller.Uninstall(null);
+            // var context = new InstallContext("service_uninstall.log", null);
+            // serviceInstaller.Context = context;
+            // serviceInstaller.ServiceName = serviceName;
+            // serviceInstaller.Uninstall(null);
 
-            _logger.Info("{0} successfully uninstalled", serviceName);
+            // _logger.Info("{0} successfully uninstalled", serviceName);
         }
 
         public virtual void Run(ServiceBase service)
