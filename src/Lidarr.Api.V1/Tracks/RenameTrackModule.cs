@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using NzbDrone.Core.MediaFiles;
 using Lidarr.Http;
 using Lidarr.Http.REST;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Tracks
 {
@@ -9,8 +10,9 @@ namespace Lidarr.Api.V1.Tracks
     {
         private readonly IRenameTrackFileService _renameTrackFileService;
 
-        public RenameTrackModule(IRenameTrackFileService renameTrackFileService)
-            : base("rename")
+        public RenameTrackModule(INancyEnvironment environment,
+                                 IRenameTrackFileService renameTrackFileService)
+        : base(environment, "rename")
         {
             _renameTrackFileService = renameTrackFileService;
 

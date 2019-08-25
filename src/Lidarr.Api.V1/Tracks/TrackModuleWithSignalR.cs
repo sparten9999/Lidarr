@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using NzbDrone.Common.Extensions;
 using NzbDrone.Core.Datastore.Events;
 using NzbDrone.Core.DecisionEngine.Specifications;
-using NzbDrone.Core.MediaFiles;
 using NzbDrone.Core.Messaging.Events;
 using NzbDrone.Core.Music;
 using Lidarr.SignalR;
@@ -10,6 +8,7 @@ using Lidarr.Api.V1.TrackFiles;
 using Lidarr.Api.V1.Artist;
 using Lidarr.Http;
 using NzbDrone.Core.MediaFiles.Events;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Tracks
 {
@@ -21,11 +20,12 @@ namespace Lidarr.Api.V1.Tracks
         protected readonly IArtistService _artistService;
         protected readonly IUpgradableSpecification _upgradableSpecification;
 
-        protected TrackModuleWithSignalR(ITrackService trackService,
-                                           IArtistService artistService,
-                                           IUpgradableSpecification upgradableSpecification,
-                                           IBroadcastSignalRMessage signalRBroadcaster)
-            : base(signalRBroadcaster)
+        protected TrackModuleWithSignalR(INancyEnvironment environment,
+                                         ITrackService trackService,
+                                         IArtistService artistService,
+                                         IUpgradableSpecification upgradableSpecification,
+                                         IBroadcastSignalRMessage signalRBroadcaster)
+        : base(environment, signalRBroadcaster)
         {
             _trackService = trackService;
             _artistService = artistService;
@@ -34,12 +34,13 @@ namespace Lidarr.Api.V1.Tracks
             GetResourceById = GetTrack;
         }
 
-        protected TrackModuleWithSignalR(ITrackService trackService,
-                                           IArtistService artistService,
-                                           IUpgradableSpecification upgradableSpecification,
-                                           IBroadcastSignalRMessage signalRBroadcaster,
-                                           string resource)
-            : base(signalRBroadcaster, resource)
+        protected TrackModuleWithSignalR(INancyEnvironment environment,
+                                         ITrackService trackService,
+                                         IArtistService artistService,
+                                         IUpgradableSpecification upgradableSpecification,
+                                         IBroadcastSignalRMessage signalRBroadcaster,
+                                         string resource)
+        : base(environment, signalRBroadcaster, resource)
         {
             _trackService = trackService;
             _artistService = artistService;

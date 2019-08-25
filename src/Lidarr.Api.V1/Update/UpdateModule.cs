@@ -3,6 +3,7 @@ using System.Linq;
 using NzbDrone.Common.EnvironmentInfo;
 using NzbDrone.Core.Update;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Update
 {
@@ -10,7 +11,9 @@ namespace Lidarr.Api.V1.Update
     {
         private readonly IRecentUpdateProvider _recentUpdateProvider;
 
-        public UpdateModule(IRecentUpdateProvider recentUpdateProvider)
+        public UpdateModule(INancyEnvironment environment,
+                            IRecentUpdateProvider recentUpdateProvider)
+        : base(environment)
         {
             _recentUpdateProvider = recentUpdateProvider;
             GetResourceAll = GetRecentUpdates;

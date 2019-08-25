@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Lidarr.Http;
 using Lidarr.Http.REST;
+using Nancy.Configuration;
 using NzbDrone.Core.MediaFiles;
 
 namespace Lidarr.Api.V1.Tracks
@@ -10,8 +11,9 @@ namespace Lidarr.Api.V1.Tracks
     {
         private readonly IAudioTagService _audioTagService;
 
-        public RetagTrackModule(IAudioTagService audioTagService)
-            : base("retag")
+        public RetagTrackModule(INancyEnvironment environment,
+                                IAudioTagService audioTagService)
+        : base(environment, "retag")
         {
             _audioTagService = audioTagService;
 

@@ -8,6 +8,7 @@ using NzbDrone.Core.ArtistStats;
 using Lidarr.SignalR;
 using Lidarr.Http;
 using NzbDrone.Core.MediaCover;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Albums
 {
@@ -18,12 +19,13 @@ namespace Lidarr.Api.V1.Albums
         protected readonly IUpgradableSpecification _qualityUpgradableSpecification;
         protected readonly IMapCoversToLocal _coverMapper;
 
-        protected AlbumModuleWithSignalR(IAlbumService albumService,
-                                           IArtistStatisticsService artistStatisticsService,
-                                           IMapCoversToLocal coverMapper,
-                                           IUpgradableSpecification qualityUpgradableSpecification,
-                                           IBroadcastSignalRMessage signalRBroadcaster)
-            : base(signalRBroadcaster)
+        protected AlbumModuleWithSignalR(INancyEnvironment environment,
+                                         IAlbumService albumService,
+                                         IArtistStatisticsService artistStatisticsService,
+                                         IMapCoversToLocal coverMapper,
+                                         IUpgradableSpecification qualityUpgradableSpecification,
+                                         IBroadcastSignalRMessage signalRBroadcaster)
+        : base(environment, signalRBroadcaster)
         {
             _albumService = albumService;
             _artistStatisticsService = artistStatisticsService;
@@ -33,13 +35,14 @@ namespace Lidarr.Api.V1.Albums
             GetResourceById = GetAlbum;
         }
 
-        protected AlbumModuleWithSignalR(IAlbumService albumService,
-                                           IArtistStatisticsService artistStatisticsService,
-                                           IMapCoversToLocal coverMapper,
-                                           IUpgradableSpecification qualityUpgradableSpecification,
-                                           IBroadcastSignalRMessage signalRBroadcaster,
-                                           string resource)
-            : base(signalRBroadcaster, resource)
+        protected AlbumModuleWithSignalR(INancyEnvironment environment,
+                                         IAlbumService albumService,
+                                         IArtistStatisticsService artistStatisticsService,
+                                         IMapCoversToLocal coverMapper,
+                                         IUpgradableSpecification qualityUpgradableSpecification,
+                                         IBroadcastSignalRMessage signalRBroadcaster,
+                                         string resource)
+        : base(environment, signalRBroadcaster, resource)
         {
             _albumService = albumService;
             _artistStatisticsService = artistStatisticsService;

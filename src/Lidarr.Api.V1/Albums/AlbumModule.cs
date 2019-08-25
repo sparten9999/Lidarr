@@ -101,7 +101,7 @@ namespace Lidarr.Api.V1.Albums
 
             _albumService.SetMonitored(resource.AlbumIds, resource.Monitored);
 
-            return MapToResource(_albumService.GetAlbums(resource.AlbumIds), false).AsResponse(HttpStatusCode.Accepted);
+            return MapToResource(_albumService.GetAlbums(resource.AlbumIds), false).AsResponse(_environment, HttpStatusCode.Accepted);
         }
 
         public void Handle(AlbumGrabbedEvent message)

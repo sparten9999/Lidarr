@@ -13,6 +13,7 @@ using Lidarr.Http;
 using Lidarr.Http.Extensions;
 using NzbDrone.Core.Exceptions;
 using HttpStatusCode = System.Net.HttpStatusCode;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.TrackFiles
 {
@@ -27,14 +28,15 @@ namespace Lidarr.Api.V1.TrackFiles
         private readonly IAlbumService _albumService;
         private readonly IUpgradableSpecification _upgradableSpecification;
 
-        public TrackFileModule(IBroadcastSignalRMessage signalRBroadcaster,
+        public TrackFileModule(INancyEnvironment environment,
+                               IBroadcastSignalRMessage signalRBroadcaster,
                                IMediaFileService mediaFileService,
                                IDeleteMediaFiles mediaFileDeletionService,
                                IAudioTagService audioTagService,
                                IArtistService artistService,
                                IAlbumService albumService,
                                IUpgradableSpecification upgradableSpecification)
-            : base(signalRBroadcaster)
+        : base(environment, signalRBroadcaster)
         {
             _mediaFileService = mediaFileService;
             _mediaFileDeletionService = mediaFileDeletionService;
