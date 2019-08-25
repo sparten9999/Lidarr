@@ -6,6 +6,7 @@ using Nancy;
 using NzbDrone.Core.Datastore;
 using Lidarr.Http.Extensions;
 using Newtonsoft.Json;
+using Nancy.Configuration;
 
 namespace Lidarr.Http.REST
 {
@@ -14,6 +15,7 @@ namespace Lidarr.Http.REST
     {
         private const string ROOT_ROUTE = "/";
         private const string ID_ROUTE = @"/(?<id>[\d]{1,10})";
+        protected readonly INancyEnvironment _environment;
 
         private HashSet<string> EXCLUDED_KEYS = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase)
         {
@@ -45,9 +47,11 @@ namespace Lidarr.Http.REST
             }
         }
 
-        protected RestModule(string modulePath)
+        protected RestModule(INancyEnvironment environment,
+                             string modulePath)
             : base(modulePath)
         {
+            _environment = environment;
             ValidateModule();
 
             PostValidator = new ResourceValidator<TResource>();
@@ -72,13 +76,13 @@ namespace Lidarr.Http.REST
             set
             {
                 _deleteResource = value;
-                Delete[ID_ROUTE] = options =>
+                Delete(ID_ROUTE, options =>
                 {
                     ValidateId(options.Id);
                     DeleteResource((int)options.Id);
 
-                    return new object().AsResponse();
-                };
+                    return new object().AsResponse(_environment);
+                });
             }
         }
 
@@ -88,7 +92,7 @@ namespace Lidarr.Http.REST
             set
             {
                 _getResourceById = value;
-                Get[ID_ROUTE] = options =>
+                Get(ID_ROUTE, options =>
                     {
                         ValidateId(options.Id);
                         try
@@ -100,13 +104,13 @@ namespace Lidarr.Http.REST
                                 return new NotFoundResponse();
                             }
 
-                            return resource.AsResponse();
+                            return resource.AsResponse(_environment);
                         }
                         catch (ModelNotFoundException)
                         {
                             return new NotFoundResponse();
                         }
-                    };
+                    });
             }
         }
 
@@ -117,11 +121,11 @@ namespace Lidarr.Http.REST
             {
                 _getResourceAll = value;
 
-                Get[ROOT_ROUTE] = options =>
+                Get(ROOT_ROUTE, options =>
                 {
                     var resource = GetResourceAll();
-                    return resource.AsResponse();
-                };
+                    return resource.AsResponse(_environment);
+                });
             }
         }
 
@@ -132,11 +136,11 @@ namespace Lidarr.Http.REST
             {
                 _getResourcePaged = value;
 
-                Get[ROOT_ROUTE] = options =>
+                Get(ROOT_ROUTE, options =>
                 {
                     var resource = GetResourcePaged(ReadPagingResourceFromRequest());
-                    return resource.AsResponse();
-                };
+                    return resource.AsResponse(_environment);
+                });
             }
         }
 
@@ -147,11 +151,11 @@ namespace Lidarr.Http.REST
             {
                 _getResourceSingle = value;
 
-                Get[ROOT_ROUTE] = options =>
+                Get(ROOT_ROUTE, options =>
                 {
                     var resource = GetResourceSingle();
-                    return resource.AsResponse();
-                };
+                    return resource.AsResponse(_environment);
+                });
             }
         }
 
@@ -161,11 +165,11 @@ namespace Lidarr.Http.REST
             set
             {
                 _createResource = value;
-                Post[ROOT_ROUTE] = options =>
+                Post(ROOT_ROUTE, options =>
                 {
                     var id = CreateResource(ReadResourceFromRequest());
-                    return GetResourceById(id).AsResponse(HttpStatusCode.Created);
-                };
+                    return GetResourceById(id).AsResponse(_environment, HttpStatusCode.Created);
+                });
 
             }
         }
@@ -176,20 +180,20 @@ namespace Lidarr.Http.REST
             set
             {
                 _updateResource = value;
-                Put[ROOT_ROUTE] = options =>
+                Put(ROOT_ROUTE, options =>
                     {
                         var resource = ReadResourceFromRequest();
                         UpdateResource(resource);
-                        return GetResourceById(resource.Id).AsResponse(HttpStatusCode.Accepted);
-                    };
+                        return GetResourceById(resource.Id).AsResponse(_environment, HttpStatusCode.Accepted);
+                    });
 
-                Put[ID_ROUTE] = options =>
+                Put(ID_ROUTE, options =>
                     {
                         var resource = ReadResourceFromRequest();
                         resource.Id = options.Id;
                         UpdateResource(resource);
-                        return GetResourceById(resource.Id).AsResponse(HttpStatusCode.Accepted);
-                    };
+                        return GetResourceById(resource.Id).AsResponse(_environment, HttpStatusCode.Accepted);
+                    });
             }
         }
 

@@ -7,15 +7,19 @@ using NzbDrone.Core.Exceptions;
 using Lidarr.Http.Exceptions;
 using Lidarr.Http.Extensions;
 using HttpStatusCode = Nancy.HttpStatusCode;
+using Nancy.Configuration;
 
 namespace Lidarr.Http.ErrorManagement
 {
     public class LidarrErrorPipeline
     {
+        private readonly INancyEnvironment _environment;
         private readonly Logger _logger;
 
-        public LidarrErrorPipeline(Logger logger)
+        public LidarrErrorPipeline(INancyEnvironment environment,
+                                   Logger logger)
         {
+            _environment = environment;
             _logger = logger;
         }
 
@@ -28,7 +32,7 @@ namespace Lidarr.Http.ErrorManagement
             if (apiException != null)
             {
                 _logger.Warn(apiException, "API Error");
-                return apiException.ToErrorResponse();
+                return apiException.ToErrorResponse(_environment);
             }
 
             var validationException = exception as ValidationException;
@@ -37,7 +41,7 @@ namespace Lidarr.Http.ErrorManagement
             {
                 _logger.Warn("Invalid request {0}", validationException.Message);
 
-                return validationException.Errors.AsResponse(HttpStatusCode.BadRequest);
+                return validationException.Errors.AsResponse(_environment, HttpStatusCode.BadRequest);
             }
 
             var clientException = exception as NzbDroneClientException;
@@ -48,7 +52,7 @@ namespace Lidarr.Http.ErrorManagement
                 {
                     Message = exception.Message,
                     Description = exception.ToString()
-                }.AsResponse((HttpStatusCode)clientException.StatusCode);
+                }.AsResponse(_environment, (HttpStatusCode)clientException.StatusCode);
             }
 
             var sqLiteException = exception as SQLiteException;
@@ -61,7 +65,7 @@ namespace Lidarr.Http.ErrorManagement
                         return new ErrorModel
                         {
                             Message = exception.Message,
-                        }.AsResponse(HttpStatusCode.Conflict);
+                        }.AsResponse(_environment, HttpStatusCode.Conflict);
                 }
 
                 _logger.Error(sqLiteException, "[{0} {1}]", context.Request.Method, context.Request.Path);
@@ -73,7 +77,7 @@ namespace Lidarr.Http.ErrorManagement
             {
                 Message = exception.Message,
                 Description = exception.ToString()
-            }.AsResponse(HttpStatusCode.InternalServerError);
+            }.AsResponse(_environment, HttpStatusCode.InternalServerError);
         }
     }
 }

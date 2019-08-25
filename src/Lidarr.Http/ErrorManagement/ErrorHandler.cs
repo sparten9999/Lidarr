@@ -1,11 +1,19 @@
 ﻿using Nancy;
 using Nancy.ErrorHandling;
 using Lidarr.Http.Extensions;
+using Nancy.Configuration;
 
 namespace Lidarr.Http.ErrorManagement
 {
     public class ErrorHandler : IStatusCodeHandler
     {
+        private readonly INancyEnvironment _environment;
+
+        public ErrorHandler(INancyEnvironment environment)
+        {
+            _environment = environment;
+        }
+
         public bool HandlesStatusCode(HttpStatusCode statusCode, NancyContext context)
         {
             return true;
@@ -29,7 +37,7 @@ namespace Lidarr.Http.ErrorManagement
                 context.Response = new ErrorModel
                     {
                             Message = statusCode.ToString()
-                    }.AsResponse(statusCode);
+                    }.AsResponse(_environment, statusCode);
         }
     }
 }

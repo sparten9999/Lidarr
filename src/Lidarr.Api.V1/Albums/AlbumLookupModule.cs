@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Nancy;
@@ -6,6 +5,7 @@ using NzbDrone.Core.MediaCover;
 using NzbDrone.Core.MetadataSource;
 using Lidarr.Http;
 using Lidarr.Http.Extensions;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Albums
 {
@@ -13,17 +13,18 @@ namespace Lidarr.Api.V1.Albums
     {
         private readonly ISearchForNewAlbum _searchProxy;
 
-        public AlbumLookupModule(ISearchForNewAlbum searchProxy)
-            : base("/album/lookup")
+        public AlbumLookupModule(INancyEnvironment environment,
+                                 ISearchForNewAlbum searchProxy)
+        : base(environment, "/album/lookup")
         {
             _searchProxy = searchProxy;
-            Get["/"] = x => Search();
+            Get("/", x => Search());
         }
 
         private Response Search()
         {
             var searchResults = _searchProxy.SearchForNewAlbum((string)Request.Query.term, null);
-            return MapToResource(searchResults).ToList().AsResponse();
+            return MapToResource(searchResults).ToList().AsResponse(_environment);
         }
 
         private static IEnumerable<AlbumResource> MapToResource(IEnumerable<NzbDrone.Core.Music.Album> albums)

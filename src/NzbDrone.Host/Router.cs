@@ -42,12 +42,12 @@ namespace NzbDrone.Host
 
             switch (applicationModes)
             {
-                case ApplicationModes.Service:
-                    {
-                        _logger.Debug("Service selected");
-                        _serviceProvider.Run(_nzbDroneServiceFactory.Build());
-                        break;
-                    }
+                // case ApplicationModes.Service:
+                //     {
+                //         _logger.Debug("Service selected");
+                //         _serviceProvider.Run(_nzbDroneServiceFactory.Build());
+                //         break;
+                //     }
 
                 case ApplicationModes.Interactive:
                     {
@@ -55,39 +55,39 @@ namespace NzbDrone.Host
                         _nzbDroneServiceFactory.Start();
                         break;
                     }
-                case ApplicationModes.InstallService:
-                    {
-                        _logger.Debug("Install Service selected");
-                        if (_serviceProvider.ServiceExist(ServiceProvider.SERVICE_NAME))
-                        {
-                            _consoleService.PrintServiceAlreadyExist();
-                        }
-                        else
-                        {
-                            _remoteAccessAdapter.MakeAccessible(true);
-                            _serviceProvider.Install(ServiceProvider.SERVICE_NAME);
-                            _serviceProvider.SetPermissions(ServiceProvider.SERVICE_NAME);
+                // case ApplicationModes.InstallService:
+                //     {
+                //         _logger.Debug("Install Service selected");
+                //         if (_serviceProvider.ServiceExist(ServiceProvider.SERVICE_NAME))
+                //         {
+                //             _consoleService.PrintServiceAlreadyExist();
+                //         }
+                //         else
+                //         {
+                //             _remoteAccessAdapter.MakeAccessible(true);
+                //             _serviceProvider.Install(ServiceProvider.SERVICE_NAME);
+                //             _serviceProvider.SetPermissions(ServiceProvider.SERVICE_NAME);
 
-                            // Start the service and exit.
-                            // Ensures that there isn't an instance of Lidarr already running that the service account cannot stop.
-                            _processProvider.SpawnNewProcess("sc.exe", $"start {ServiceProvider.SERVICE_NAME}", null, true);
-                        }
-                        break;
-                    }
-                case ApplicationModes.UninstallService:
-                    {
-                        _logger.Debug("Uninstall Service selected");
-                        if (!_serviceProvider.ServiceExist(ServiceProvider.SERVICE_NAME))
-                        {
-                            _consoleService.PrintServiceDoesNotExist();
-                        }
-                        else
-                        {
-                            _serviceProvider.Uninstall(ServiceProvider.SERVICE_NAME);
-                        }
+                //             // Start the service and exit.
+                //             // Ensures that there isn't an instance of Lidarr already running that the service account cannot stop.
+                //             _processProvider.SpawnNewProcess("sc.exe", $"start {ServiceProvider.SERVICE_NAME}", null, true);
+                //         }
+                //         break;
+                //     }
+                // case ApplicationModes.UninstallService:
+                //     {
+                //         _logger.Debug("Uninstall Service selected");
+                //         if (!_serviceProvider.ServiceExist(ServiceProvider.SERVICE_NAME))
+                //         {
+                //             _consoleService.PrintServiceDoesNotExist();
+                //         }
+                //         else
+                //         {
+                //             _serviceProvider.Uninstall(ServiceProvider.SERVICE_NAME);
+                //         }
 
-                        break;
-                    }
+                //         break;
+                //     }
                 case ApplicationModes.RegisterUrl:
                     {
                         _logger.Debug("Regiser URL selected");

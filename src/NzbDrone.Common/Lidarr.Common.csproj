@@ -17,9 +17,6 @@
     <PackageReference Include="System.Data.SQLite.Core.Lidarr" Version="1.0.111.0-2" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExternalModules\CurlSharp\CurlSharp\CurlSharp.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="EnsureThat\Resources\ExceptionMessages.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

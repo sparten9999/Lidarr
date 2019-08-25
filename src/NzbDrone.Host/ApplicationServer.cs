@@ -12,11 +12,11 @@ namespace NzbDrone.Host
 {
     public interface INzbDroneServiceFactory
     {
-        ServiceBase Build();
+        // ServiceBase Build();
         void Start();
     }
 
-    public class NzbDroneServiceFactory : ServiceBase, INzbDroneServiceFactory, IHandle<ApplicationShutdownRequested>
+    public class NzbDroneServiceFactory : INzbDroneServiceFactory, IHandle<ApplicationShutdownRequested>
     {
         private readonly IConfigFileProvider _configFileProvider;
         private readonly IRuntimeInfo _runtimeInfo;
@@ -43,10 +43,10 @@ namespace NzbDrone.Host
             _logger = logger;
         }
 
-        protected override void OnStart(string[] args)
-        {
-            Start();
-        }
+        // protected override void OnStart(string[] args)
+        // {
+        //     Start();
+        // }
 
         public void Start()
         {
@@ -68,15 +68,15 @@ namespace NzbDrone.Host
             _container.Resolve<IEventAggregator>().PublishEvent(new ApplicationStartedEvent());
         }
 
-        protected override void OnStop()
-        {
-            Shutdown();
-        }
+        // protected override void OnStop()
+        // {
+        //     Shutdown();
+        // }
 
-        public ServiceBase Build()
-        {
-            return this;
-        }
+        // public ServiceBase Build()
+        // {
+        //     return this;
+        // }
 
         private void Shutdown()
         {

@@ -2,13 +2,13 @@ using System;
 using NzbDrone.Core.Datastore;
 using Lidarr.Http.REST;
 using Lidarr.Http.Validation;
+using Nancy.Configuration;
 
 namespace Lidarr.Http
 {
     public abstract class LidarrRestModule<TResource> : RestModule<TResource> where TResource : RestResource, new()
     {
         protected string Resource { get; private set; }
-
 
         private static string BaseUrl()
         {
@@ -25,13 +25,13 @@ namespace Lidarr.Http
             return new TResource().ResourceName.Trim('/').ToLower();
         }
 
-        protected LidarrRestModule()
-            : this(ResourceName())
+        protected LidarrRestModule(INancyEnvironment environment)
+        : this(environment, ResourceName())
         {
         }
 
-        protected LidarrRestModule(string resource)
-            : base(BaseUrl() + resource.Trim('/').ToLower())
+        protected LidarrRestModule(INancyEnvironment environment, string resource)
+        : base(environment, BaseUrl() + resource.Trim('/').ToLower())
         {
             Resource = resource;
             PostValidator.RuleFor(r => r.Id).IsZero();

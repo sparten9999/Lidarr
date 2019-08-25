@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Nancy;
+using Nancy.Configuration;
 using Nancy.Responses;
 using NzbDrone.Common.EnvironmentInfo;
 using NzbDrone.Common.Serializer;
@@ -32,9 +33,9 @@ namespace Lidarr.Http.Extensions
             return Json.Deserialize(value, type);
         }
 
-        public static JsonResponse<TModel> AsResponse<TModel>(this TModel model, HttpStatusCode statusCode = HttpStatusCode.OK)
+        public static JsonResponse<TModel> AsResponse<TModel>(this TModel model, INancyEnvironment environment, HttpStatusCode statusCode = HttpStatusCode.OK)
         {
-            var response = new JsonResponse<TModel>(model, NancySerializer) { StatusCode = statusCode };
+            var response = new JsonResponse<TModel>(model, NancySerializer, environment) { StatusCode = statusCode };
             response.Headers.DisableCache();
 
             return response;

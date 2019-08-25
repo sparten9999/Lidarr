@@ -30,7 +30,7 @@ namespace NzbDrone.Host
             AutoRegisterImplementations<MessageHub>();
 
             Container.Register<INancyBootstrapper, LidarrBootstrapper>();
-            Container.Register<IHttpDispatcher, FallbackHttpDispatcher>();
+            Container.Register<IHttpDispatcher, ManagedHttpDispatcher>();
         }
     }
 }

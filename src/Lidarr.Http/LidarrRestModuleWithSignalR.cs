@@ -3,6 +3,7 @@ using NzbDrone.Core.Datastore.Events;
 using NzbDrone.Core.Messaging.Events;
 using Lidarr.SignalR;
 using Lidarr.Http.REST;
+using Nancy.Configuration;
 
 namespace Lidarr.Http
 {
@@ -12,20 +13,24 @@ namespace Lidarr.Http
     {
         private readonly IBroadcastSignalRMessage _signalRBroadcaster;
 
-        protected LidarrRestModuleWithSignalR(IBroadcastSignalRMessage signalRBroadcaster)
+        protected LidarrRestModuleWithSignalR(INancyEnvironment environment,
+                                              IBroadcastSignalRMessage signalRBroadcaster)
+        : base(environment)
         {
             _signalRBroadcaster = signalRBroadcaster;
         }
 
-        protected LidarrRestModuleWithSignalR(IBroadcastSignalRMessage signalRBroadcaster, string resource)
-            : base(resource)
+        protected LidarrRestModuleWithSignalR(INancyEnvironment environment,
+                                              IBroadcastSignalRMessage signalRBroadcaster,
+                                              string resource)
+        : base(environment, resource)
         {
             _signalRBroadcaster = signalRBroadcaster;
         }
 
         public void Handle(ModelEvent<TModel> message)
         {
-            if (!_signalRBroadcaster.IsConnected) return;
+            // if (!_signalRBroadcaster.IsConnected) return;
 
             if (message.Action == ModelAction.Deleted || message.Action == ModelAction.Sync)
             {
@@ -37,7 +42,7 @@ namespace Lidarr.Http
 
         protected void BroadcastResourceChange(ModelAction action, int id)
         {
-            if (!_signalRBroadcaster.IsConnected) return;
+            // if (!_signalRBroadcaster.IsConnected) return;
 
             if (action == ModelAction.Deleted)
             {
@@ -52,7 +57,7 @@ namespace Lidarr.Http
 
         protected void BroadcastResourceChange(ModelAction action, TResource resource)
         {
-            if (!_signalRBroadcaster.IsConnected) return;
+            // if (!_signalRBroadcaster.IsConnected) return;
 
             if (GetType().Namespace.Contains("V1"))
             {
@@ -70,7 +75,7 @@ namespace Lidarr.Http
 
         protected void BroadcastResourceChange(ModelAction action)
         {
-            if (!_signalRBroadcaster.IsConnected) return;
+            // if (!_signalRBroadcaster.IsConnected) return;
 
             if (GetType().Namespace.Contains("V1"))
             {
