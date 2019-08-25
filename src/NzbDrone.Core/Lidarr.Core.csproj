@@ -16,6 +16,7 @@
     <PackageReference Include="xmlrpcnet" Version="2.5.0" />
     <PackageReference Include="SpotifyAPI.Web" Version="4.2.0" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0006" />
+    <PackageReference Include="System.Data.SQLite.Core.Lidarr" Version="1.0.111.0-2" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marr.Data\Marr.Data.csproj" />
@@ -28,9 +29,6 @@
     </Reference>
     <Reference Include="Growl.CoreLibrary, Version=2.0.0.0, Culture=neutral, PublicKeyToken=13e59d82e007b064, processorArchitecture=MSIL">
       <HintPath>..\Libraries\Growl.CoreLibrary.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\Libraries\Sqlite\System.Data.SQLite.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
