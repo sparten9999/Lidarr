@@ -16,7 +16,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
     public class ValidCutoffValidator<T> : PropertyValidator
     {
         public ValidCutoffValidator()
-            : base("Cutoff must be an allowed quality or group")
+            : base(environment, "Cutoff must be an allowed quality or group")
         {
 
         }

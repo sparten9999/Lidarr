@@ -16,7 +16,7 @@ namespace Lidarr.Api.V1.Tracks
                              ITrackService trackService,
                              IUpgradableSpecification upgradableSpecification,
                              IBroadcastSignalRMessage signalRBroadcaster)
-            : base(trackService, artistService, upgradableSpecification, signalRBroadcaster)
+            : base(environment, trackService, artistService, upgradableSpecification, signalRBroadcaster)
         {
             GetResourceAll = GetTracks;
         }

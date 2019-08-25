@@ -7,7 +7,7 @@ namespace Lidarr.Api.V1.Indexers
         public static readonly IndexerResourceMapper ResourceMapper = new IndexerResourceMapper();
 
         public IndexerModule(IndexerFactory indexerFactory)
-            : base(indexerFactory, "indexer", ResourceMapper)
+            : base(environment, indexerFactory, "indexer", ResourceMapper)
         {
         }
 

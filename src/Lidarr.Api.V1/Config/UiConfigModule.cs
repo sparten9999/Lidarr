@@ -8,7 +8,7 @@ namespace Lidarr.Api.V1.Config
     public class UiConfigModule : LidarrConfigModule<UiConfigResource>
     {
         public UiConfigModule(IConfigService configService)
-            : base(configService)
+            : base(environment, configService)
         {
 
         }

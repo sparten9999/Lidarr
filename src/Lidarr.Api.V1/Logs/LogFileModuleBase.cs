@@ -20,7 +20,7 @@ namespace Lidarr.Api.V1.Logs
         public LogFileModuleBase(IDiskProvider diskProvider,
                                  IConfigFileProvider configFileProvider,
                                  string route)
-            : base("log/file" + route)
+            : base(environment, "log/file" + route)
         {
             _diskProvider = diskProvider;
             _configFileProvider = configFileProvider;

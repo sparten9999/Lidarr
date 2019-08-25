@@ -17,7 +17,7 @@ namespace Lidarr.Api.V1.Logs
         public UpdateLogFileModule(IAppFolderInfo appFolderInfo,
                                    IDiskProvider diskProvider,
                                    IConfigFileProvider configFileProvider)
-            : base(diskProvider, configFileProvider, "/update")
+            : base(environment, diskProvider, configFileProvider, "/update")
         {
             _appFolderInfo = appFolderInfo;
             _diskProvider = diskProvider;

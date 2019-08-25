@@ -21,7 +21,7 @@ namespace Lidarr.Api.V1.Wanted
                             IMapCoversToLocal coverMapper,
                             IUpgradableSpecification upgradableSpecification,
                             IBroadcastSignalRMessage signalRBroadcaster)
-            : base(albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "wanted/cutoff")
+            : base(environment, albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "wanted/cutoff")
         {
             _albumCutoffService = albumCutoffService;
             GetResourcePaged = GetCutoffUnmetAlbums;

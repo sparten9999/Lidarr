@@ -12,7 +12,7 @@ namespace Lidarr.Api.V1.Config
     public class MetadataProviderConfigModule : LidarrConfigModule<MetadataProviderConfigResource>
     {
         public MetadataProviderConfigModule(IConfigService configService)
-            : base(configService)
+            : base(environment, configService)
         {
             SharedValidator.RuleFor(c => c.MetadataSource).IsValidUrl().When(c => !c.MetadataSource.IsNullOrWhiteSpace());
         }

@@ -27,7 +27,7 @@ namespace Lidarr.Api.V1.Queue
                            IQueueService queueService,
                            IPendingReleaseService pendingReleaseService,
                            QualityProfileService qualityProfileService)
-            : base(broadcastSignalRMessage)
+            : base(environment, broadcastSignalRMessage)
         {
             _queueService = queueService;
             _pendingReleaseService = pendingReleaseService;

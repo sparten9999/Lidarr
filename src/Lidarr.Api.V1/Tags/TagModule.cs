@@ -13,7 +13,7 @@ namespace Lidarr.Api.V1.Tags
 
         public TagModule(IBroadcastSignalRMessage signalRBroadcaster,
                          ITagService tagService)
-            : base(signalRBroadcaster)
+            : base(environment, signalRBroadcaster)
         {
             _tagService = tagService;
 

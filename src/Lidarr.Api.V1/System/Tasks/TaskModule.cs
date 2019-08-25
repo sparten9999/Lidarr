@@ -15,7 +15,7 @@ namespace Lidarr.Api.V1.System.Tasks
         private readonly ITaskManager _taskManager;
 
         public TaskModule(ITaskManager taskManager, IBroadcastSignalRMessage broadcastSignalRMessage)
-            : base(broadcastSignalRMessage, "system/task")
+            : base(environment, broadcastSignalRMessage, "system/task")
         {
             _taskManager = taskManager;
             GetResourceAll = GetAll;

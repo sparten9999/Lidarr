@@ -33,7 +33,7 @@ namespace Lidarr.Api.V1.Profiles.Metadata
     public class PrimaryTypeValidator<T> : PropertyValidator
     {
         public PrimaryTypeValidator()
-            : base("Must have at least one allowed primary type")
+            : base(environment, "Must have at least one allowed primary type")
         {
         }
 
@@ -58,7 +58,7 @@ namespace Lidarr.Api.V1.Profiles.Metadata
     public class SecondaryTypeValidator<T> : PropertyValidator
     {
         public SecondaryTypeValidator()
-            : base("Must have at least one allowed secondary type")
+            : base(environment, "Must have at least one allowed secondary type")
         {
         }
 
@@ -83,7 +83,7 @@ namespace Lidarr.Api.V1.Profiles.Metadata
     public class ReleaseStatusValidator<T> : PropertyValidator
     {
         public ReleaseStatusValidator()
-            : base("Must have at least one allowed release status")
+            : base(environment, "Must have at least one allowed release status")
         {
         }
 

@@ -7,7 +7,7 @@ namespace Lidarr.Api.V1.Metadata
         public static readonly MetadataResourceMapper ResourceMapper = new MetadataResourceMapper();
 
         public MetadataModule(IMetadataFactory metadataFactory)
-            : base(metadataFactory, "metadata", ResourceMapper)
+            : base(environment, metadataFactory, "metadata", ResourceMapper)
         {
         }
 

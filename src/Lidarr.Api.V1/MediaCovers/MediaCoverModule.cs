@@ -18,7 +18,7 @@ namespace Lidarr.Api.V1.MediaCovers
         private readonly IAppFolderInfo _appFolderInfo;
         private readonly IDiskProvider _diskProvider;
 
-        public MediaCoverModule(IAppFolderInfo appFolderInfo, IDiskProvider diskProvider) : base("MediaCover")
+        public MediaCoverModule(IAppFolderInfo appFolderInfo, IDiskProvider diskProvider) : base(environment, "MediaCover")
         {
             _appFolderInfo = appFolderInfo;
             _diskProvider = diskProvider;

@@ -18,7 +18,7 @@ namespace Lidarr.Api.V1.Calendar
                               IMapCoversToLocal coverMapper,
                               IUpgradableSpecification upgradableSpecification,
                               IBroadcastSignalRMessage signalRBroadcaster)
-            : base(albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "calendar")
+            : base(environment, albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "calendar")
         {
             GetResourceAll = GetCalendar;
         }

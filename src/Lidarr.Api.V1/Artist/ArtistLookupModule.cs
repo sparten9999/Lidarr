@@ -13,7 +13,7 @@ namespace Lidarr.Api.V1.Artist
         private readonly ISearchForNewArtist _searchProxy;
 
         public ArtistLookupModule(ISearchForNewArtist searchProxy)
-            : base("/artist/lookup")
+            : base(environment, "/artist/lookup")
         {
             _searchProxy = searchProxy;
             Get("/",  x => Search());

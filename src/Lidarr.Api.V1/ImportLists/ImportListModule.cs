@@ -12,7 +12,7 @@ namespace Lidarr.Api.V1.ImportLists
                                 ProfileExistsValidator profileExistsValidator,
                                 MetadataProfileExistsValidator metadataProfileExistsValidator
             )
-            : base(importListFactory, "importlist", ResourceMapper)
+            : base(environment, importListFactory, "importlist", ResourceMapper)
         {
             Http.Validation.RuleBuilderExtensions.ValidId(SharedValidator.RuleFor(s => s.QualityProfileId));
             Http.Validation.RuleBuilderExtensions.ValidId(SharedValidator.RuleFor(s => s.MetadataProfileId));

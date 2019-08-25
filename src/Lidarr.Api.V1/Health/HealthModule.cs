@@ -13,7 +13,7 @@ namespace Lidarr.Api.V1.Health
         private readonly IHealthCheckService _healthCheckService;
 
         public HealthModule(IBroadcastSignalRMessage signalRBroadcaster, IHealthCheckService healthCheckService)
-            : base(signalRBroadcaster)
+            : base(environment, signalRBroadcaster)
         {
             _healthCheckService = healthCheckService;
             GetResourceAll = GetHealth;

@@ -19,7 +19,7 @@ namespace Lidarr.Api.V1.FileSystem
         public FileSystemModule(IFileSystemLookupService fileSystemLookupService,
                                 IDiskProvider diskProvider,
                                 IDiskScanService diskScanService)
-            : base("/filesystem")
+            : base(environment, "/filesystem")
         {
             _fileSystemLookupService = fileSystemLookupService;
             _diskProvider = diskProvider;

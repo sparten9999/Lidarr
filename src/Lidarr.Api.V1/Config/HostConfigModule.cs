@@ -20,7 +20,7 @@ namespace Lidarr.Api.V1.Config
         private readonly IUserService _userService;
 
         public HostConfigModule(IConfigFileProvider configFileProvider, IConfigService configService, IUserService userService)
-            : base("/config/host")
+            : base(environment, "/config/host")
         {
             _configFileProvider = configFileProvider;
             _configService = configService;

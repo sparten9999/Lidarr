@@ -21,7 +21,7 @@ namespace Lidarr.Api.V1.Queue
 
 
         public QueueStatusModule(IBroadcastSignalRMessage broadcastSignalRMessage, IQueueService queueService, IPendingReleaseService pendingReleaseService)
-            : base(broadcastSignalRMessage, "queue/status")
+            : base(environment, broadcastSignalRMessage, "queue/status")
         {
             _queueService = queueService;
             _pendingReleaseService = pendingReleaseService;

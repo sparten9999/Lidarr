@@ -7,7 +7,7 @@ namespace Lidarr.Api.V1.DownloadClient
         public static readonly DownloadClientResourceMapper ResourceMapper = new DownloadClientResourceMapper();
 
         public DownloadClientModule(IDownloadClientFactory downloadClientFactory)
-            : base(downloadClientFactory, "downloadclient", ResourceMapper)
+            : base(environment, downloadClientFactory, "downloadclient", ResourceMapper)
         {
         }
 

@@ -16,7 +16,7 @@ namespace Lidarr.Api.V1.Config
         }
 
         protected LidarrConfigModule(string resource, IConfigService configService) :
-            base("config/" + resource.Trim('/'))
+            base(environment, "config/" + resource.Trim('/'))
         {
             _configService = configService;
 

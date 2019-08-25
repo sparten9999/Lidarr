@@ -9,7 +9,7 @@ namespace Lidarr.Api.V1.Tags
         private readonly ITagService _tagService;
 
         public TagDetailsModule(ITagService tagService)
-            : base("/tag/detail")
+            : base(environment, "/tag/detail")
         {
             _tagService = tagService;
 

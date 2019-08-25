@@ -31,7 +31,7 @@ namespace Lidarr.Api.V1.Albums
                            IMapCoversToLocal coverMapper,
                            IUpgradableSpecification upgradableSpecification,
                            IBroadcastSignalRMessage signalRBroadcaster)
-        : base(albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster)
+        : base(environment, albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster)
         {
             _releaseService = releaseService;
             GetResourceAll = GetAlbums;

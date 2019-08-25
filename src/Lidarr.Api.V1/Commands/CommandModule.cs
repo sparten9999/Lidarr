@@ -24,7 +24,7 @@ namespace Lidarr.Api.V1.Commands
         public CommandModule(IManageCommandQueue commandQueueManager,
                              IBroadcastSignalRMessage signalRBroadcaster,
                              IServiceFactory serviceFactory)
-            : base(signalRBroadcaster)
+            : base(environment, signalRBroadcaster)
         {
             _commandQueueManager = commandQueueManager;
             _serviceFactory = serviceFactory;

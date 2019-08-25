@@ -5,7 +5,7 @@ namespace Lidarr.Api.V1.Config
     public class DownloadClientConfigModule : LidarrConfigModule<DownloadClientConfigResource>
     {
         public DownloadClientConfigModule(IConfigService configService)
-            : base(configService)
+            : base(environment, configService)
         {
         }
 

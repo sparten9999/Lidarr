@@ -15,7 +15,7 @@ namespace Lidarr.Api.V1.Logs
         public LogFileModule(IAppFolderInfo appFolderInfo,
                              IDiskProvider diskProvider,
                              IConfigFileProvider configFileProvider)
-            : base(diskProvider, configFileProvider, "")
+            : base(environment, diskProvider, configFileProvider, "")
         {
             _appFolderInfo = appFolderInfo;
             _diskProvider = diskProvider;

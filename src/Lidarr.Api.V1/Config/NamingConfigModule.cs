@@ -23,7 +23,7 @@ namespace Lidarr.Api.V1.Config
                             IFilenameSampleService filenameSampleService,
                             IFilenameValidationService filenameValidationService,
                             IBuildFileNames filenameBuilder)
-            : base("config/naming")
+            : base(environment, "config/naming")
         {
             _namingConfigService = namingConfigService;
             _filenameSampleService = filenameSampleService;

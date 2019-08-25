@@ -59,7 +59,7 @@ namespace Lidarr.Api.V1.Artist
                             ProfileExistsValidator profileExistsValidator,
                             MetadataProfileExistsValidator metadataProfileExistsValidator
             )
-            : base(signalRBroadcaster)
+            : base(environment, signalRBroadcaster)
         {
             _artistService = artistService;
             _albumService = albumService;

@@ -23,7 +23,7 @@ namespace Lidarr.Api.V1.Calendar
         private readonly ITagService _tagService;
 
         public CalendarFeedModule(IAlbumService albumService, IArtistService artistService, ITagService tagService)
-            : base("calendar")
+            : base(environment, "calendar")
         {
             _albumService = albumService;
             _artistService = artistService;

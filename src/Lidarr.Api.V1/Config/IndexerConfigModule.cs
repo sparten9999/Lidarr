@@ -8,7 +8,7 @@ namespace Lidarr.Api.V1.Config
     {
 
         public IndexerConfigModule(IConfigService configService)
-            : base(configService)
+            : base(environment, configService)
         {
             SharedValidator.RuleFor(c => c.MinimumAge)
                            .GreaterThanOrEqualTo(0);

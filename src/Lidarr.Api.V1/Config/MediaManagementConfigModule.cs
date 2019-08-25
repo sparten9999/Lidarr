@@ -7,7 +7,7 @@ namespace Lidarr.Api.V1.Config
     public class MediaManagementConfigModule : LidarrConfigModule<MediaManagementConfigResource>
     {
         public MediaManagementConfigModule(IConfigService configService, PathExistsValidator pathExistsValidator)
-            : base(configService)
+            : base(environment, configService)
         {
             SharedValidator.RuleFor(c => c.RecycleBinCleanupDays).GreaterThanOrEqualTo(0);
             SharedValidator.RuleFor(c => c.FileChmod).NotEmpty();

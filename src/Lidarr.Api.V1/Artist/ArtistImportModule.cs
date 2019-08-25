@@ -11,7 +11,7 @@ namespace Lidarr.Api.V1.Artist
         private readonly IAddArtistService _addArtistService;
 
         public ArtistImportModule(IAddArtistService addArtistService)
-            : base("/artist/import")
+            : base(environment, "/artist/import")
         {
             _addArtistService = addArtistService;
             Post("/",  x => Import());

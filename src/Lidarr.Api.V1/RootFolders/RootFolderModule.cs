@@ -20,7 +20,7 @@ namespace Lidarr.Api.V1.RootFolders
                                 SystemFolderValidator systemFolderValidator,
                                 FolderWritableValidator folderWritableValidator
         )
-            : base(signalRBroadcaster)
+            : base(environment, signalRBroadcaster)
         {
             _rootFolderService = rootFolderService;
 

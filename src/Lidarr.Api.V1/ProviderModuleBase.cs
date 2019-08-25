@@ -21,7 +21,7 @@ namespace Lidarr.Api.V1
         private readonly ProviderResourceMapper<TProviderResource, TProviderDefinition> _resourceMapper;
 
         protected ProviderModuleBase(IProviderFactory<TProvider, TProviderDefinition> providerFactory, string resource, ProviderResourceMapper<TProviderResource, TProviderDefinition> resourceMapper)
-            : base(resource)
+            : base(environment, resource)
         {
             _providerFactory = providerFactory;
             _resourceMapper = resourceMapper;

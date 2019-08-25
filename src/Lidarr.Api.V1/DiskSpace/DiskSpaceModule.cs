@@ -9,7 +9,7 @@ namespace Lidarr.Api.V1.DiskSpace
         private readonly IDiskSpaceService _diskSpaceService;
 
         public DiskSpaceModule(IDiskSpaceService diskSpaceService)
-            :base("diskspace")
+            :base(environment, "diskspace")
         {
             _diskSpaceService = diskSpaceService;
             GetResourceAll = GetFreeSpace;

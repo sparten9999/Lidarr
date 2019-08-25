@@ -15,7 +15,7 @@ namespace Lidarr.Api.V1.Artist
         private readonly IManageCommandQueue _commandQueueManager;
 
         public ArtistEditorModule(IArtistService artistService, IManageCommandQueue commandQueueManager)
-            : base("/artist/editor")
+            : base(environment, "/artist/editor")
         {
             _artistService = artistService;
             _commandQueueManager = commandQueueManager;

@@ -8,7 +8,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
         private readonly IProfileService _profileService;
 
         public QualityProfileSchemaModule(IProfileService profileService)
-            : base("/qualityprofile/schema")
+            : base(environment, "/qualityprofile/schema")
         {
             _profileService = profileService;
             GetResourceSingle = GetSchema;

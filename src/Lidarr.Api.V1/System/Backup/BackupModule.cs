@@ -24,7 +24,7 @@ namespace Lidarr.Api.V1.System.Backup
         public BackupModule(IBackupService backupService,
                             IAppFolderInfo appFolderInfo,
                             IDiskProvider diskProvider)
-            : base("system/backup")
+            : base(environment, "system/backup")
         {
             _backupService = backupService;
             _appFolderInfo = appFolderInfo;

@@ -7,7 +7,7 @@ namespace Lidarr.Api.V1.Notifications
         public static readonly NotificationResourceMapper ResourceMapper = new NotificationResourceMapper();
 
         public NotificationModule(NotificationFactory notificationFactory)
-            : base(notificationFactory, "notification", ResourceMapper)
+            : base(environment, notificationFactory, "notification", ResourceMapper)
         {
         }
 

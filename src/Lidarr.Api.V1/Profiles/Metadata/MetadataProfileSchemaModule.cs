@@ -8,7 +8,7 @@ namespace Lidarr.Api.V1.Profiles.Metadata
     {
 
         public MetadataProfileSchemaModule()
-            : base("/metadataprofile/schema")
+            : base(environment, "/metadataprofile/schema")
         {
             GetResourceSingle = GetAll;
         }
