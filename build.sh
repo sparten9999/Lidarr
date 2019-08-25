@@ -77,28 +77,16 @@ CleanFolder()
 
 BuildWithMSBuild()
 {
-    installationPath=`$vswhere -latest -products \* -requires Microsoft.Component.MSBuild -property installationPath`
-    installationPath=${installationPath/C:\\/\/c\/}
-    installationPath=${installationPath//\\/\/}
-    msBuild="$installationPath/MSBuild/$msBuildVersion/Bin"
-    echo $msBuild
-
-    export PATH=$msBuild:$PATH
-    CheckExitCode MSBuild.exe $slnFile //p:Configuration=Debug //p:Platform=x86 //t:Clean //m
-    CheckExitCode MSBuild.exe $slnFile //p:Configuration=Release //p:Platform=x86 //t:Clean //m
-    $nuget locals all -clear
-    $nuget restore $slnFile
-    CheckExitCode MSBuild.exe $slnFile //p:Configuration=Release //p:Platform=x86 //t:Build //m //p:AllowedReferenceRelatedFileExtensions=.pdb
+    CheckExitCode dotnet clean $slnFile -p:Configuration=Debug
+    CheckExitCode dotnet clean $slnFile -p:Configuration=Release
+    CheckExitCode dotnet build $slnFile -p:Configuration=Release
 }
 
 BuildWithXbuild()
 {
-    export MONO_IOMAP=case
-    CheckExitCode msbuild /p:Configuration=Debug /t:Clean $slnFile
-    CheckExitCode msbuild /p:Configuration=Release /t:Clean $slnFile
-    mono $nuget locals all -clear
-    mono $nuget restore $slnFile
-    CheckExitCode msbuild /p:Configuration=Release /p:Platform=x86 /t:Build /p:AllowedReferenceRelatedFileExtensions=.pdb $slnFile
+    CheckExitCode dotnet clean $slnFile -p:Configuration=Debug
+    CheckExitCode dotnet clean $slnFile -p:Configuration=Release
+    CheckExitCode dotnet build $slnFile -p:Configuration=Release
 }
 
 LintUI()

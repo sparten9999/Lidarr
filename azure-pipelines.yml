@@ -22,6 +22,7 @@ trigger:
   branches:
     include:
     - develop
+    - dotnet-rebase
 
 pr:
 - develop
