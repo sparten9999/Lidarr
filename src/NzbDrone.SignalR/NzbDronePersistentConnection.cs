@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Infrastructure;
 using NzbDrone.Common.EnvironmentInfo;
 using NzbDrone.Common.Serializer;
 using NzbDrone.Common.Extensions;
