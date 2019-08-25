@@ -19,7 +19,10 @@
     <LidarrProject Condition="$(MSBuildProjectName.StartsWith('Lidarr'))">true</LidarrProject>
     <LidarrProject Condition="$(MSBuildProjectName.StartsWith('ServiceInstall'))">true</LidarrProject>
     <LidarrProject Condition="$(MSBuildProjectName.StartsWith('ServiceUninstall'))">true</LidarrProject>
+    <LidarrProject Condition="$(MSBuildProjectName.StartsWith('Mono.Posix'))">true</LidarrProject>
+        
   </PropertyGroup>
+  
 
   <PropertyGroup>
     <!-- Centralize intermediate and default outputs -->
@@ -40,12 +43,6 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   
-  <!-- Test projects need bindingRedirects -->
-  <PropertyGroup Condition="'$(LidarrOutputType)'=='Test'">
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-  </PropertyGroup>
-
   <!-- Set the Product and Version info for our own projects -->
   <PropertyGroup Condition="'$(LidarrProject)'=='true'">
     <Product>Lidarr</Product>

@@ -4,11 +4,9 @@
     <Platforms>x86;x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Mono.Posix.NETStandard" Version="1.0.0" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\NzbDrone.Common.Test\Lidarr.Common.Test.csproj" />
     <ProjectReference Include="..\NzbDrone.Test.Common\Lidarr.Test.Common.csproj" />
+    <ProjectReference Include="..\Mono.Posix\Mono.Posix.csproj" />
     <ProjectReference Include="..\NzbDrone.Mono\Lidarr.Mono.csproj" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,12 @@
 using System;
+using System.Runtime.Loader;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using NzbDrone.Common.EnvironmentInfo;
 using NzbDrone.Common.Messaging;
 using TinyIoC;
+using System.IO;
 
 namespace NzbDrone.Common.Composition
 {
@@ -20,10 +22,16 @@ namespace NzbDrone.Common.Composition
 
             assemblies.Add(OsInfo.IsWindows ? "Lidarr.Windows" : "Lidarr.Mono");
             assemblies.Add("Lidarr.Common");
+           assemblies.Add("Mono.Posix");
+
+            var path = AppDomain.CurrentDomain.BaseDirectory;
 
             foreach (var assembly in assemblies)
             {
-                _loadedTypes.AddRange(Assembly.LoadFrom($"{assembly}.dll").GetTypes());
+//                var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
+//                Console.WriteLine(path);
+                _loadedTypes.AddRange(AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(path, $"{assembly}.dll")).GetTypes());
+//                Assembly.Load(assembly);
             }
 
             Container = new Container(new TinyIoCContainer(), _loadedTypes);

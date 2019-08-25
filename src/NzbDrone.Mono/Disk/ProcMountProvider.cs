@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NLog;
 using NzbDrone.Common.Disk;
+using NzbDrone.Common.Extensions;
 
 namespace NzbDrone.Mono.Disk
 {
@@ -74,7 +75,7 @@ namespace NzbDrone.Mono.Disk
                     _logger.Debug(ex, "Failed to get filesystem types from {0}, using default set.", PROC_FILESYSTEMS_FILENAME);
                 }
 
-                if (!result.Any())
+                if (result.Empty())
                 {
                     foreach (var type in _fixedTypes)
                     {
@@ -142,7 +143,7 @@ namespace NzbDrone.Mono.Disk
 
         private string ExpandEscapes(string mount)
         {
-            return OctalRegex.Replace(mount, match => NzbDrone.Common.Extensions.StringExtensions.FromOctalString(match.Captures[0].Value));
+            return OctalRegex.Replace(mount, match => match.Captures[0].Value.FromOctalString());
         }
     }
 }
