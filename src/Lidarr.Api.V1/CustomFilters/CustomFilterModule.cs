@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using NzbDrone.Core.CustomFilters;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.CustomFilters
 {
@@ -8,7 +9,8 @@ namespace Lidarr.Api.V1.CustomFilters
     {
         private readonly ICustomFilterService _customFilterService;
 
-        public CustomFilterModule(ICustomFilterService customFilterService)
+        public CustomFilterModule(INancyEnvironment environment, ICustomFilterService customFilterService)
+        : base(environment)
         {
             _customFilterService = customFilterService;
 

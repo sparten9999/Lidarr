@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using NzbDrone.Core.ImportLists;
 using NzbDrone.Core.Validation;
 using NzbDrone.Core.Validation.Paths;
@@ -8,11 +9,12 @@ namespace Lidarr.Api.V1.ImportLists
     {
         public static readonly ImportListResourceMapper ResourceMapper = new ImportListResourceMapper();
 
-        public ImportListModule(ImportListFactory importListFactory,
+        public ImportListModule(INancyEnvironment environment,
+                                ImportListFactory importListFactory,
                                 ProfileExistsValidator profileExistsValidator,
                                 MetadataProfileExistsValidator metadataProfileExistsValidator
             )
-            : base(environment, importListFactory, "importlist", ResourceMapper)
+            : base(environment,  importListFactory, "importlist", ResourceMapper)
         {
             Http.Validation.RuleBuilderExtensions.ValidId(SharedValidator.RuleFor(s => s.QualityProfileId));
             Http.Validation.RuleBuilderExtensions.ValidId(SharedValidator.RuleFor(s => s.MetadataProfileId));

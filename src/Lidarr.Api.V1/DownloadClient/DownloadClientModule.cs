@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 ﻿using NzbDrone.Core.Download;
 
 namespace Lidarr.Api.V1.DownloadClient
@@ -6,8 +7,8 @@ namespace Lidarr.Api.V1.DownloadClient
     {
         public static readonly DownloadClientResourceMapper ResourceMapper = new DownloadClientResourceMapper();
 
-        public DownloadClientModule(IDownloadClientFactory downloadClientFactory)
-            : base(environment, downloadClientFactory, "downloadclient", ResourceMapper)
+        public DownloadClientModule(INancyEnvironment environment, IDownloadClientFactory downloadClientFactory)
+            : base(environment,  downloadClientFactory, "downloadclient", ResourceMapper)
         {
         }
 

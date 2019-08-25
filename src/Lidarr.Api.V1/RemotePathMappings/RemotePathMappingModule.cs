@@ -3,6 +3,7 @@ using FluentValidation;
 using NzbDrone.Core.RemotePathMappings;
 using NzbDrone.Core.Validation.Paths;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.RemotePathMappings
 {
@@ -10,9 +11,11 @@ namespace Lidarr.Api.V1.RemotePathMappings
     {
         private readonly IRemotePathMappingService _remotePathMappingService;
 
-        public RemotePathMappingModule(IRemotePathMappingService remotePathMappingService,
+        public RemotePathMappingModule(INancyEnvironment environment,
+                                       IRemotePathMappingService remotePathMappingService,
                                        PathExistsValidator pathExistsValidator,
                                        MappedNetworkDriveValidator mappedNetworkDriveValidator)
+        : base(environment)
         {
             _remotePathMappingService = remotePathMappingService;
 

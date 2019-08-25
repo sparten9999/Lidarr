@@ -3,6 +3,7 @@ using NzbDrone.Core.ImportLists.Exclusions;
 using Lidarr.Http;
 using FluentValidation;
 using NzbDrone.Core.Validation;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.ImportLists
 {
@@ -10,9 +11,11 @@ namespace Lidarr.Api.V1.ImportLists
     {
         private readonly IImportListExclusionService _importListExclusionService;
 
-        public ImportListExclusionModule(IImportListExclusionService importListExclusionService,
+        public ImportListExclusionModule(INancyEnvironment environment,
+                                         IImportListExclusionService importListExclusionService,
                                          ImportListExclusionExistsValidator importListExclusionExistsValidator,
                                          GuidValidator guidValidator)
+        : base(environment)
         {
             _importListExclusionService = importListExclusionService;
 

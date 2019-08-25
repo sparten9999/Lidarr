@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.IO;
 using System.Text.RegularExpressions;
 using Nancy;
@@ -18,13 +19,13 @@ namespace Lidarr.Api.V1.MediaCovers
         private readonly IAppFolderInfo _appFolderInfo;
         private readonly IDiskProvider _diskProvider;
 
-        public MediaCoverModule(IAppFolderInfo appFolderInfo, IDiskProvider diskProvider) : base(environment, "MediaCover")
+        public MediaCoverModule(INancyEnvironment environment, IAppFolderInfo appFolderInfo, IDiskProvider diskProvider) : base(environment,  "MediaCover")
         {
             _appFolderInfo = appFolderInfo;
             _diskProvider = diskProvider;
 
-            Get[MEDIA_COVER_ARTIST_ROUTE] = options => GetArtistMediaCover(options.artistId, options.filename);
-            Get[MEDIA_COVER_ALBUM_ROUTE] = options => GetAlbumMediaCover(options.artistId, options.filename);
+            Get(MEDIA_COVER_ARTIST_ROUTE, options => GetArtistMediaCover(options.artistId, options.filename));
+            Get(MEDIA_COVER_ALBUM_ROUTE, options => GetAlbumMediaCover(options.artistId, options.filename));
         }
 
         private Response GetArtistMediaCover(int artistId, string filename)

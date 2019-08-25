@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -19,8 +20,8 @@ namespace Lidarr.Api.V1.Config
         private readonly IConfigService _configService;
         private readonly IUserService _userService;
 
-        public HostConfigModule(IConfigFileProvider configFileProvider, IConfigService configService, IUserService userService)
-            : base(environment, "/config/host")
+        public HostConfigModule(INancyEnvironment environment, IConfigFileProvider configFileProvider, IConfigService configService, IUserService userService)
+            : base(environment,  "/config/host")
         {
             _configFileProvider = configFileProvider;
             _configService = configService;

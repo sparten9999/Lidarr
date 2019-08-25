@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using FluentValidation;
 using NzbDrone.Core.Profiles.Metadata;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Profiles.Metadata
 {
@@ -9,7 +10,8 @@ namespace Lidarr.Api.V1.Profiles.Metadata
     {
         private readonly IMetadataProfileService _profileService;
 
-        public MetadataProfileModule(IMetadataProfileService profileService)
+        public MetadataProfileModule(INancyEnvironment environment, IMetadataProfileService profileService)
+        : base(environment)
         {
             _profileService = profileService;
             SharedValidator.RuleFor(c => c.Name).NotEmpty();

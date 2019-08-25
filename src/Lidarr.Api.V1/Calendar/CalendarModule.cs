@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,12 @@ namespace Lidarr.Api.V1.Calendar
 {
     public class CalendarModule : AlbumModuleWithSignalR
     {
-        public CalendarModule(IAlbumService albumService,
+        public CalendarModule(INancyEnvironment environment, IAlbumService albumService,
                               IArtistStatisticsService artistStatisticsService,
                               IMapCoversToLocal coverMapper,
                               IUpgradableSpecification upgradableSpecification,
                               IBroadcastSignalRMessage signalRBroadcaster)
-            : base(environment, albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "calendar")
+            : base(environment,  albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "calendar")
         {
             GetResourceAll = GetCalendar;
         }

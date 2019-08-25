@@ -4,6 +4,7 @@ using Nancy;
 using NzbDrone.Core.Qualities;
 using Lidarr.Http;
 using Lidarr.Http.Extensions;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Qualities
 {
@@ -11,7 +12,8 @@ namespace Lidarr.Api.V1.Qualities
     {
         private readonly IQualityDefinitionService _qualityDefinitionService;
 
-        public QualityDefinitionModule(IQualityDefinitionService qualityDefinitionService)
+        public QualityDefinitionModule(INancyEnvironment environment, IQualityDefinitionService qualityDefinitionService)
+        : base(environment)
         {
             _qualityDefinitionService = qualityDefinitionService;
 
@@ -48,7 +50,7 @@ namespace Lidarr.Api.V1.Qualities
 
             return _qualityDefinitionService.All()
                                             .ToResource()
-                                            .AsResponse(HttpStatusCode.Accepted);
+                .AsResponse(_environment, HttpStatusCode.Accepted);
         }
     }
 }

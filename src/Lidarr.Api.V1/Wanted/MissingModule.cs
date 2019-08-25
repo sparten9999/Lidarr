@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Linq;
 using NzbDrone.Core.Datastore;
 using NzbDrone.Core.DecisionEngine.Specifications;
@@ -13,12 +14,12 @@ namespace Lidarr.Api.V1.Wanted
 {
     public class MissingModule : AlbumModuleWithSignalR
     {
-        public MissingModule(IAlbumService albumService,
+        public MissingModule(INancyEnvironment environment, IAlbumService albumService,
                              IArtistStatisticsService artistStatisticsService,
                              IMapCoversToLocal coverMapper,
                              IUpgradableSpecification upgradableSpecification,
                              IBroadcastSignalRMessage signalRBroadcaster)
-            : base(environment, albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "wanted/missing")
+            : base(environment,  albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "wanted/missing")
         {
             GetResourcePaged = GetMissingAlbums;
         }

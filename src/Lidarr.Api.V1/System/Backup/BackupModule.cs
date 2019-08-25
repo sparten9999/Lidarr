@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -21,10 +22,10 @@ namespace Lidarr.Api.V1.System.Backup
 
         private static readonly List<string> ValidExtensions = new List<string> { ".zip", ".db", ".xml" };
 
-        public BackupModule(IBackupService backupService,
+        public BackupModule(INancyEnvironment environment, IBackupService backupService,
                             IAppFolderInfo appFolderInfo,
                             IDiskProvider diskProvider)
-            : base(environment, "system/backup")
+            : base(environment,  "system/backup")
         {
             _backupService = backupService;
             _appFolderInfo = appFolderInfo;
@@ -32,7 +33,7 @@ namespace Lidarr.Api.V1.System.Backup
             GetResourceAll = GetBackupFiles;
             DeleteResource = DeleteBackup;
 
-            Post[@"/restore/(?<id>[\d]{1,10})"] = x => Restore((int)x.Id);
+            Post(@"/restore/(?<id>[\d]{1,10})", x => Restore((int)x.Id));
             Post("/restore/upload",  x => UploadAndRestore());
         }
 
@@ -81,7 +82,7 @@ namespace Lidarr.Api.V1.System.Backup
             return new
             {
                 RestartRequired = true
-            }.AsResponse();
+            }.AsResponse(_environment);
         }
 
         public Response UploadAndRestore()
@@ -112,7 +113,7 @@ namespace Lidarr.Api.V1.System.Backup
             return new
             {
                 RestartRequired = true
-            }.AsResponse();
+            }.AsResponse(_environment);
         }
 
         private string GetBackupPath(NzbDrone.Core.Backup.Backup backup)

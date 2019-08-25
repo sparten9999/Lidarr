@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using NzbDrone.Core.Datastore.Events;
 using NzbDrone.Core.Messaging.Events;
@@ -11,9 +12,9 @@ namespace Lidarr.Api.V1.Tags
     {
         private readonly ITagService _tagService;
 
-        public TagModule(IBroadcastSignalRMessage signalRBroadcaster,
+        public TagModule(INancyEnvironment environment, IBroadcastSignalRMessage signalRBroadcaster,
                          ITagService tagService)
-            : base(environment, signalRBroadcaster)
+            : base(environment,  signalRBroadcaster)
         {
             _tagService = tagService;
 

@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.IO;
 using System.IO.Abstractions;
@@ -16,10 +17,10 @@ namespace Lidarr.Api.V1.FileSystem
         private readonly IDiskProvider _diskProvider;
         private readonly IDiskScanService _diskScanService;
 
-        public FileSystemModule(IFileSystemLookupService fileSystemLookupService,
+        public FileSystemModule(INancyEnvironment environment, IFileSystemLookupService fileSystemLookupService,
                                 IDiskProvider diskProvider,
                                 IDiskScanService diskScanService)
-            : base(environment, "/filesystem")
+            : base(environment,  "/filesystem")
         {
             _fileSystemLookupService = fileSystemLookupService;
             _diskProvider = diskProvider;
@@ -35,7 +36,7 @@ namespace Lidarr.Api.V1.FileSystem
             var includeFiles = Request.GetBooleanQueryParameter("includeFiles");
             var allowFoldersWithoutTrailingSlashes = Request.GetBooleanQueryParameter("allowFoldersWithoutTrailingSlashes");
 
-            return _fileSystemLookupService.LookupContents((string)pathQuery.Value, includeFiles, allowFoldersWithoutTrailingSlashes).AsResponse();
+            return _fileSystemLookupService.LookupContents((string)pathQuery.Value, includeFiles, allowFoldersWithoutTrailingSlashes).AsResponse(_environment);
         }
 
         private Response GetEntityType()
@@ -45,11 +46,11 @@ namespace Lidarr.Api.V1.FileSystem
 
             if (_diskProvider.FileExists(path))
             {
-                return new { type = "file" }.AsResponse();
+                return new { type = "file" }.AsResponse(_environment);
             }
 
             //Return folder even if it doesn't exist on disk to avoid leaking anything from the UI about the underlying system
-            return new { type = "folder" }.AsResponse();
+            return new { type = "folder" }.AsResponse(_environment);
         }
 
         private Response GetMediaFiles()
@@ -59,14 +60,14 @@ namespace Lidarr.Api.V1.FileSystem
 
             if (!_diskProvider.FolderExists(path))
             {
-                return new string[0].AsResponse();
+                return new string[0].AsResponse(_environment);
             }
 
             return _diskScanService.GetAudioFiles(path).Select(f => new {
                 Path = f.FullName,
                 RelativePath = path.GetRelativePath(f.FullName),
                 Name = f.Name
-            }).AsResponse();
+            }).AsResponse(_environment);
         }
     }
 }

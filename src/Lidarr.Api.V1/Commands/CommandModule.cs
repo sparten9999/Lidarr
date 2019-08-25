@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,10 +22,10 @@ namespace Lidarr.Api.V1.Commands
         private readonly Debouncer _debouncer;
         private readonly Dictionary<int, CommandResource> _pendingUpdates;
 
-        public CommandModule(IManageCommandQueue commandQueueManager,
+        public CommandModule(INancyEnvironment environment, IManageCommandQueue commandQueueManager,
                              IBroadcastSignalRMessage signalRBroadcaster,
                              IServiceFactory serviceFactory)
-            : base(environment, signalRBroadcaster)
+            : base(environment,  signalRBroadcaster)
         {
             _commandQueueManager = commandQueueManager;
             _serviceFactory = serviceFactory;

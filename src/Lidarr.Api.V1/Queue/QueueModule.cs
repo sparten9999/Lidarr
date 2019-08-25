@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Linq;
 using NzbDrone.Common.Extensions;
@@ -23,11 +24,11 @@ namespace Lidarr.Api.V1.Queue
 
         private readonly QualityModelComparer QUALITY_COMPARER;
 
-        public QueueModule(IBroadcastSignalRMessage broadcastSignalRMessage,
+        public QueueModule(INancyEnvironment environment, IBroadcastSignalRMessage broadcastSignalRMessage,
                            IQueueService queueService,
                            IPendingReleaseService pendingReleaseService,
                            QualityProfileService qualityProfileService)
-            : base(environment, broadcastSignalRMessage)
+            : base(environment,  broadcastSignalRMessage)
         {
             _queueService = queueService;
             _pendingReleaseService = pendingReleaseService;

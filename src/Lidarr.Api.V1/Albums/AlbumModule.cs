@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace Lidarr.Api.V1.Albums
     {
         protected readonly IReleaseService _releaseService;
 
-        public AlbumModule(IAlbumService albumService,
+        public AlbumModule(INancyEnvironment environment,
+                           IAlbumService albumService,
                            IReleaseService releaseService,
                            IArtistStatisticsService artistStatisticsService,
                            IMapCoversToLocal coverMapper,

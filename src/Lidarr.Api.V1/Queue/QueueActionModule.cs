@@ -8,6 +8,7 @@ using NzbDrone.Core.Queue;
 using Lidarr.Http;
 using Lidarr.Http.Extensions;
 using Lidarr.Http.REST;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Queue
 {
@@ -20,12 +21,14 @@ namespace Lidarr.Api.V1.Queue
         private readonly IPendingReleaseService _pendingReleaseService;
         private readonly IDownloadService _downloadService;
 
-        public QueueActionModule(IQueueService queueService,
+        public QueueActionModule(INancyEnvironment environment,
+                                 IQueueService queueService,
                                  ITrackedDownloadService trackedDownloadService,
                                  IFailedDownloadService failedDownloadService,
                                  IProvideDownloadClient downloadClientProvider,
                                  IPendingReleaseService pendingReleaseService,
                                  IDownloadService downloadService)
+        : base(environment)
         {
             _queueService = queueService;
             _trackedDownloadService = trackedDownloadService;
@@ -34,10 +37,10 @@ namespace Lidarr.Api.V1.Queue
             _pendingReleaseService = pendingReleaseService;
             _downloadService = downloadService;
 
-            Post[@"/grab/(?<id>[\d]{1,10})"] = x => Grab((int)x.Id);
+            Post(@"/grab/(?<id>[\d]{1,10})", x => Grab((int)x.Id));
             Post("/grab/bulk",  x => Grab());
 
-            Delete[@"/(?<id>[\d]{1,10})"] = x => Remove((int)x.Id);
+            Delete(@"/(?<id>[\d]{1,10})", x => Remove((int)x.Id));
             Delete("/bulk",  x => Remove());
         }
 
@@ -52,7 +55,7 @@ namespace Lidarr.Api.V1.Queue
 
             _downloadService.DownloadReport(pendingRelease.RemoteAlbum);
 
-            return new object().AsResponse();
+            return new object().AsResponse(_environment);
         }
 
         private Response Grab()
@@ -71,7 +74,7 @@ namespace Lidarr.Api.V1.Queue
                 _downloadService.DownloadReport(pendingRelease.RemoteAlbum);
             }
 
-            return new object().AsResponse();
+            return new object().AsResponse(_environment);
         }
 
         private Response Remove(int id)
@@ -86,7 +89,7 @@ namespace Lidarr.Api.V1.Queue
                 _trackedDownloadService.StopTracking(trackedDownload.DownloadItem.DownloadId);
             }
 
-            return new object().AsResponse();
+            return new object().AsResponse(_environment);
         }
 
         private Response Remove()
@@ -109,7 +112,7 @@ namespace Lidarr.Api.V1.Queue
 
             _trackedDownloadService.StopTracking(trackedDownloadIds);
 
-            return new object().AsResponse();
+            return new object().AsResponse(_environment);
         }
 
         private TrackedDownload Remove(int id, bool blacklist, bool skipReDownload)

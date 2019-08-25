@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using Nancy;
 using NzbDrone.Core.Music;
@@ -10,7 +11,7 @@ namespace Lidarr.Api.V1.Artist
     {
         private readonly IAddArtistService _addArtistService;
 
-        public ArtistImportModule(IAddArtistService addArtistService)
+        public ArtistImportModule(INancyEnvironment environment, IAddArtistService addArtistService)
             : base(environment, "/artist/import")
         {
             _addArtistService = addArtistService;
@@ -23,7 +24,7 @@ namespace Lidarr.Api.V1.Artist
             var resource = Request.Body.FromJson<List<ArtistResource>>();
             var newArtists = resource.ToModel();
 
-            return _addArtistService.AddArtists(newArtists).ToResource().AsResponse();
+            return _addArtistService.AddArtists(newArtists).ToResource().AsResponse(_environment);
         }
     }
 }

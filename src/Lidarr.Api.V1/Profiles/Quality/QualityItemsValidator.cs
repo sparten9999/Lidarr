@@ -24,7 +24,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
     public class AllowedValidator<T> : PropertyValidator
     {
         public AllowedValidator()
-            : base(environment, "Must contain at least one allowed quality")
+            : base("Must contain at least one allowed quality")
         {
 
         }
@@ -50,7 +50,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
     public class GroupItemValidator<T> : PropertyValidator
     {
         public GroupItemValidator()
-            : base(environment, "Groups must contain multiple qualities")
+            : base("Groups must contain multiple qualities")
         {
 
         }
@@ -71,7 +71,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
     public class QualityNameValidator<T> : PropertyValidator
     {
         public QualityNameValidator()
-            : base(environment, "Individual qualities should not be named")
+            : base("Individual qualities should not be named")
         {
 
         }
@@ -92,7 +92,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
     public class ItemGroupNameValidator<T> : PropertyValidator
     {
         public ItemGroupNameValidator()
-            : base(environment, "Groups must have a name")
+            : base("Groups must have a name")
         {
 
         }
@@ -113,7 +113,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
     public class ItemGroupIdValidator<T> : PropertyValidator
     {
         public ItemGroupIdValidator()
-            : base(environment, "Groups must have an ID")
+            : base("Groups must have an ID")
         {
 
         }
@@ -134,7 +134,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
     public class UniqueIdValidator<T> : PropertyValidator
     {
         public UniqueIdValidator()
-            : base(environment, "Groups must have a unique ID")
+            : base("Groups must have a unique ID")
         {
 
         }
@@ -155,7 +155,7 @@ namespace Lidarr.Api.V1.Profiles.Quality
     public class UniqueQualityIdValidator<T> : PropertyValidator
     {
         public UniqueQualityIdValidator()
-            : base(environment, "Qualities can only be used once")
+            : base("Qualities can only be used once")
         {
 
         }

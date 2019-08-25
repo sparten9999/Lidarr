@@ -4,6 +4,7 @@ using FluentValidation.Results;
 using NzbDrone.Common.Extensions;
 using NzbDrone.Core.Profiles.Releases;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Profiles.Release
 {
@@ -12,7 +13,8 @@ namespace Lidarr.Api.V1.Profiles.Release
         private readonly IReleaseProfileService _releaseProfileService;
 
 
-        public ReleaseProfileModule(IReleaseProfileService releaseProfileService)
+        public ReleaseProfileModule(INancyEnvironment environment, IReleaseProfileService releaseProfileService)
+        : base(environment)
         {
             _releaseProfileService = releaseProfileService;
 

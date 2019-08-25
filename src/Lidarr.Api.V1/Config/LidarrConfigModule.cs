@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Linq;
 using System.Reflection;
 using NzbDrone.Core.Configuration;
@@ -10,13 +11,13 @@ namespace Lidarr.Api.V1.Config
     {
         private readonly IConfigService _configService;
 
-        protected LidarrConfigModule(IConfigService configService)
-            : this(new TResource().ResourceName.Replace("config", ""), configService)
+        protected LidarrConfigModule(INancyEnvironment environment, IConfigService configService)
+        : this(environment, new TResource().ResourceName.Replace("config", ""), configService)
         {
         }
 
-        protected LidarrConfigModule(string resource, IConfigService configService) :
-            base(environment, "config/" + resource.Trim('/'))
+        protected LidarrConfigModule(INancyEnvironment environment, string resource, IConfigService configService) :
+            base(environment,  "config/" + resource.Trim('/'))
         {
             _configService = configService;
 

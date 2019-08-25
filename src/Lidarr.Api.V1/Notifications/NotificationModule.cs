@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 ﻿using NzbDrone.Core.Notifications;
 
 namespace Lidarr.Api.V1.Notifications
@@ -6,8 +7,8 @@ namespace Lidarr.Api.V1.Notifications
     {
         public static readonly NotificationResourceMapper ResourceMapper = new NotificationResourceMapper();
 
-        public NotificationModule(NotificationFactory notificationFactory)
-            : base(environment, notificationFactory, "notification", ResourceMapper)
+        public NotificationModule(INancyEnvironment environment, NotificationFactory notificationFactory)
+            : base(environment,  notificationFactory, "notification", ResourceMapper)
         {
         }
 

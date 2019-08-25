@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,8 @@ namespace Lidarr.Api.V1.Artist
         private readonly IManageCommandQueue _commandQueueManager;
         private readonly IRootFolderService _rootFolderService;
 
-        public ArtistModule(IBroadcastSignalRMessage signalRBroadcaster,
+        public ArtistModule(INancyEnvironment environment,
+                            IBroadcastSignalRMessage signalRBroadcaster,
                             IArtistService artistService,
                             IAlbumService albumService,
                             IAddArtistService addArtistService,

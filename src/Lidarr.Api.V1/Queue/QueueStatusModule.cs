@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Linq;
 using Nancy.Responses;
@@ -20,8 +21,8 @@ namespace Lidarr.Api.V1.Queue
         private readonly Debouncer _broadcastDebounce;
 
 
-        public QueueStatusModule(IBroadcastSignalRMessage broadcastSignalRMessage, IQueueService queueService, IPendingReleaseService pendingReleaseService)
-            : base(environment, broadcastSignalRMessage, "queue/status")
+        public QueueStatusModule(INancyEnvironment environment, IBroadcastSignalRMessage broadcastSignalRMessage, IQueueService queueService, IPendingReleaseService pendingReleaseService)
+            : base(environment,  broadcastSignalRMessage, "queue/status")
         {
             _queueService = queueService;
             _pendingReleaseService = pendingReleaseService;
@@ -34,7 +35,7 @@ namespace Lidarr.Api.V1.Queue
 
         private JsonResponse<QueueStatusResource> GetQueueStatusResponse()
         {
-            return GetQueueStatus().AsResponse();
+            return GetQueueStatus().AsResponse(_environment);
         }
 
         private QueueStatusResource GetQueueStatus()

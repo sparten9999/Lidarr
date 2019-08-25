@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Linq;
 using NzbDrone.Core.Datastore;
 using NzbDrone.Core.DecisionEngine.Specifications;
@@ -15,13 +16,13 @@ namespace Lidarr.Api.V1.Wanted
     {
         private readonly IAlbumCutoffService _albumCutoffService;
 
-        public CutoffModule(IAlbumCutoffService albumCutoffService,
+        public CutoffModule(INancyEnvironment environment, IAlbumCutoffService albumCutoffService,
                             IAlbumService albumService,
                             IArtistStatisticsService artistStatisticsService,
                             IMapCoversToLocal coverMapper,
                             IUpgradableSpecification upgradableSpecification,
                             IBroadcastSignalRMessage signalRBroadcaster)
-            : base(environment, albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "wanted/cutoff")
+            : base(environment,  albumService, artistStatisticsService, coverMapper, upgradableSpecification, signalRBroadcaster, "wanted/cutoff")
         {
             _albumCutoffService = albumCutoffService;
             GetResourcePaged = GetCutoffUnmetAlbums;

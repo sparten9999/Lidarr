@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 ﻿using NzbDrone.Core.Extras.Metadata;
 
 namespace Lidarr.Api.V1.Metadata
@@ -6,8 +7,8 @@ namespace Lidarr.Api.V1.Metadata
     {
         public static readonly MetadataResourceMapper ResourceMapper = new MetadataResourceMapper();
 
-        public MetadataModule(IMetadataFactory metadataFactory)
-            : base(environment, metadataFactory, "metadata", ResourceMapper)
+        public MetadataModule(INancyEnvironment environment, IMetadataFactory metadataFactory)
+            : base(environment,  metadataFactory, "metadata", ResourceMapper)
         {
         }
 

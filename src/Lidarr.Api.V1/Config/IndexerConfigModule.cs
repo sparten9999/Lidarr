@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using FluentValidation;
 using NzbDrone.Core.Configuration;
 using Lidarr.Http.Validation;
@@ -7,8 +8,8 @@ namespace Lidarr.Api.V1.Config
     public class IndexerConfigModule : LidarrConfigModule<IndexerConfigResource>
     {
 
-        public IndexerConfigModule(IConfigService configService)
-            : base(environment, configService)
+        public IndexerConfigModule(INancyEnvironment environment, IConfigService configService)
+            : base(environment,  configService)
         {
             SharedValidator.RuleFor(c => c.MinimumAge)
                            .GreaterThanOrEqualTo(0);

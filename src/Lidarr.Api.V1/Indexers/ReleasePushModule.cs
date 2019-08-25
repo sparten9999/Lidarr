@@ -11,6 +11,7 @@ using Lidarr.Http.Extensions;
 using NzbDrone.Common.Extensions;
 using NzbDrone.Core.Datastore;
 using NzbDrone.Core.Indexers;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Indexers
 {
@@ -21,10 +22,11 @@ namespace Lidarr.Api.V1.Indexers
         private readonly IIndexerFactory _indexerFactory;
         private readonly Logger _logger;
 
-        public ReleasePushModule(IMakeDownloadDecision downloadDecisionMaker,
+        public ReleasePushModule(INancyEnvironment environment, IMakeDownloadDecision downloadDecisionMaker,
                                  IProcessDownloadDecisions downloadDecisionProcessor,
                                  IIndexerFactory indexerFactory,
                                  Logger logger)
+        : base(environment)
         {
             _downloadDecisionMaker = downloadDecisionMaker;
             _downloadDecisionProcessor = downloadDecisionProcessor;
@@ -59,7 +61,7 @@ namespace Lidarr.Api.V1.Indexers
                 throw new ValidationException(new List<ValidationFailure> { new ValidationFailure("Title", "Unable to parse", release.Title) });
             }
 
-            return MapDecisions(new[] { firstDecision }).First().AsResponse();
+            return MapDecisions(new[] { firstDecision }).First().AsResponse(_environment);
         }
 
         private void ResolveIndexer(ReleaseInfo release)

@@ -13,6 +13,7 @@ using NzbDrone.Core.Parser.Model;
 using NzbDrone.Core.Validation;
 using Lidarr.Http.Extensions;
 using HttpStatusCode = System.Net.HttpStatusCode;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Indexers
 {
@@ -27,13 +28,15 @@ namespace Lidarr.Api.V1.Indexers
 
         private readonly ICached<RemoteAlbum> _remoteAlbumCache;
 
-        public ReleaseModule(IFetchAndParseRss rssFetcherAndParser,
+        public ReleaseModule(INancyEnvironment environment,
+                             IFetchAndParseRss rssFetcherAndParser,
                              ISearchForNzb nzbSearchService,
                              IMakeDownloadDecision downloadDecisionMaker,
                              IPrioritizeDownloadDecision prioritizeDownloadDecision,
                              IDownloadService downloadService,
                              ICacheManager cacheManager,
                              Logger logger)
+        : base(environment)
         {
             _rssFetcherAndParser = rssFetcherAndParser;
             _nzbSearchService = nzbSearchService;
@@ -72,7 +75,7 @@ namespace Lidarr.Api.V1.Indexers
                 throw new NzbDroneClientException(HttpStatusCode.Conflict, "Getting release from indexer failed");
             }
 
-            return release.AsResponse();
+            return release.AsResponse(_environment);
         }
 
         private List<ReleaseResource> GetReleases()

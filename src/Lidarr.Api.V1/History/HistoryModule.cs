@@ -12,6 +12,7 @@ using Lidarr.Api.V1.Tracks;
 using Lidarr.Http;
 using Lidarr.Http.Extensions;
 using Lidarr.Http.REST;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.History
 {
@@ -21,9 +22,11 @@ namespace Lidarr.Api.V1.History
         private readonly IUpgradableSpecification _upgradableSpecification;
         private readonly IFailedDownloadService _failedDownloadService;
 
-        public HistoryModule(IHistoryService historyService,
+        public HistoryModule(INancyEnvironment environment,
+                             IHistoryService historyService,
                              IUpgradableSpecification upgradableSpecification,
                              IFailedDownloadService failedDownloadService)
+        : base(environment)
         {
             _historyService = historyService;
             _upgradableSpecification = upgradableSpecification;
@@ -147,7 +150,7 @@ namespace Lidarr.Api.V1.History
         {
             var id = (int)Request.Form.Id;
             _failedDownloadService.MarkAsFailed(id);
-            return new object().AsResponse();
+            return new object().AsResponse(_environment);
         }
     }
 }

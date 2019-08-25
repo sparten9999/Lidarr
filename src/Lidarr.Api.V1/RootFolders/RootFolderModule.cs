@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using FluentValidation;
 using NzbDrone.Core.RootFolders;
@@ -11,7 +12,7 @@ namespace Lidarr.Api.V1.RootFolders
     {
         private readonly IRootFolderService _rootFolderService;
 
-        public RootFolderModule(IRootFolderService rootFolderService,
+        public RootFolderModule(INancyEnvironment environment, IRootFolderService rootFolderService,
                                 IBroadcastSignalRMessage signalRBroadcaster,
                                 RootFolderValidator rootFolderValidator,
                                 PathExistsValidator pathExistsValidator,
@@ -20,7 +21,7 @@ namespace Lidarr.Api.V1.RootFolders
                                 SystemFolderValidator systemFolderValidator,
                                 FolderWritableValidator folderWritableValidator
         )
-            : base(environment, signalRBroadcaster)
+            : base(environment,  signalRBroadcaster)
         {
             _rootFolderService = rootFolderService;
 

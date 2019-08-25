@@ -1,11 +1,12 @@
+using Nancy.Configuration;
 using NzbDrone.Core.Configuration;
 
 namespace Lidarr.Api.V1.Config
 {
     public class DownloadClientConfigModule : LidarrConfigModule<DownloadClientConfigResource>
     {
-        public DownloadClientConfigModule(IConfigService configService)
-            : base(environment, configService)
+        public DownloadClientConfigModule(INancyEnvironment environment, IConfigService configService)
+            : base(environment,  configService)
         {
         }
 

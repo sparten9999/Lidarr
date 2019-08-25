@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using Nancy;
@@ -12,7 +13,7 @@ namespace Lidarr.Api.V1.Artist
     {
         private readonly ISearchForNewArtist _searchProxy;
 
-        public ArtistLookupModule(ISearchForNewArtist searchProxy)
+        public ArtistLookupModule(INancyEnvironment environment, ISearchForNewArtist searchProxy)
             : base(environment, "/artist/lookup")
         {
             _searchProxy = searchProxy;
@@ -22,7 +23,7 @@ namespace Lidarr.Api.V1.Artist
         private Response Search()
         {
             var searchResults = _searchProxy.SearchForNewArtist((string)Request.Query.term);
-            return MapToResource(searchResults).ToList().AsResponse();
+            return MapToResource(searchResults).ToList().AsResponse(_environment);
         }
 
         private static IEnumerable<ArtistResource> MapToResource(IEnumerable<NzbDrone.Core.Music.Artist> artist)

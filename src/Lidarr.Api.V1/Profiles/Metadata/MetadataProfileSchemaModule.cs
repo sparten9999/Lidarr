@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Linq;
 using NzbDrone.Core.Profiles.Metadata;
 using Lidarr.Http;
@@ -7,8 +8,8 @@ namespace Lidarr.Api.V1.Profiles.Metadata
     public class MetadataProfileSchemaModule : LidarrRestModule<MetadataProfileResource>
     {
 
-        public MetadataProfileSchemaModule()
-            : base(environment, "/metadataprofile/schema")
+        public MetadataProfileSchemaModule(INancyEnvironment environment)
+            : base(environment,  "/metadataprofile/schema")
         {
             GetResourceSingle = GetAll;
         }

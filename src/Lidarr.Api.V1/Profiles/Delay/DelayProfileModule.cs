@@ -8,6 +8,7 @@ using Lidarr.Http;
 using Lidarr.Http.Extensions;
 using Lidarr.Http.REST;
 using Lidarr.Http.Validation;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Profiles.Delay
 {
@@ -15,7 +16,10 @@ namespace Lidarr.Api.V1.Profiles.Delay
     {
         private readonly IDelayProfileService _delayProfileService;
 
-        public DelayProfileModule(IDelayProfileService delayProfileService, DelayProfileTagInUseValidator tagInUseValidator)
+        public DelayProfileModule(INancyEnvironment environment,
+                                  IDelayProfileService delayProfileService,
+                                  DelayProfileTagInUseValidator tagInUseValidator)
+        : base(environment)
         {
             _delayProfileService = delayProfileService;
 
@@ -24,7 +28,7 @@ namespace Lidarr.Api.V1.Profiles.Delay
             UpdateResource = Update;
             CreateResource = Create;
             DeleteResource = DeleteProfile;
-            Put[@"/reorder/(?<id>[\d]{1,10})"] = options => Reorder(options.Id);
+            Put(@"/reorder/(?<id>[\d]{1,10})", options => Reorder(options.Id));
 
             SharedValidator.RuleFor(d => d.Tags).NotEmpty().When(d => d.Id != 1);
             SharedValidator.RuleFor(d => d.Tags).EmptyCollection<DelayProfileResource, int>().When(d => d.Id == 1);
@@ -82,7 +86,7 @@ namespace Lidarr.Api.V1.Profiles.Delay
             var afterIdQuery = Request.Query.After;
             int? afterId = afterIdQuery.HasValue ? Convert.ToInt32(afterIdQuery.Value) : null;
 
-            return _delayProfileService.Reorder(id, afterId).ToResource().AsResponse();
+            return _delayProfileService.Reorder(id, afterId).ToResource().AsResponse(_environment);
         }
     }
 }

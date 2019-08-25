@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 ﻿using NzbDrone.Core.Indexers;
 
 namespace Lidarr.Api.V1.Indexers
@@ -6,8 +7,8 @@ namespace Lidarr.Api.V1.Indexers
     {
         public static readonly IndexerResourceMapper ResourceMapper = new IndexerResourceMapper();
 
-        public IndexerModule(IndexerFactory indexerFactory)
-            : base(environment, indexerFactory, "indexer", ResourceMapper)
+        public IndexerModule(INancyEnvironment environment, IndexerFactory indexerFactory)
+            : base(environment,  indexerFactory, "indexer", ResourceMapper)
         {
         }
 

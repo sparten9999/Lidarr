@@ -8,6 +8,7 @@ using NLog;
 using Nancy;
 using Lidarr.Http;
 using NzbDrone.Core.MediaFiles;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.ManualImport
 {
@@ -19,11 +20,13 @@ namespace Lidarr.Api.V1.ManualImport
         private readonly IManualImportService _manualImportService;
         private readonly Logger _logger;
 
-        public ManualImportModule(IManualImportService manualImportService,
+        public ManualImportModule(INancyEnvironment environment,
+                                  IManualImportService manualImportService,
                                   IArtistService artistService,
                                   IAlbumService albumService,
                                   IReleaseService releaseService,
                                   Logger logger)
+        : base(environment)
         {
             _artistService = artistService;
             _albumService = albumService;
@@ -33,11 +36,11 @@ namespace Lidarr.Api.V1.ManualImport
 
             GetResourceAll = GetMediaFiles;
             
-            Put["/"] = options =>
+            Put("/", options =>
                 {
                     var resource = Request.Body.FromJson<List<ManualImportResource>>();
-                    return UpdateImportItems(resource).AsResponse(HttpStatusCode.Accepted);
-                };
+                    return UpdateImportItems(resource).AsResponse(_environment, HttpStatusCode.Accepted);
+                });
         }
 
         private List<ManualImportResource> GetMediaFiles()

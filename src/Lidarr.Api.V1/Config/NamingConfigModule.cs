@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
@@ -19,11 +20,11 @@ namespace Lidarr.Api.V1.Config
         private readonly IFilenameValidationService _filenameValidationService;
         private readonly IBuildFileNames _filenameBuilder;
 
-        public NamingConfigModule(INamingConfigService namingConfigService,
+        public NamingConfigModule(INancyEnvironment environment, INamingConfigService namingConfigService,
                             IFilenameSampleService filenameSampleService,
                             IFilenameValidationService filenameValidationService,
                             IBuildFileNames filenameBuilder)
-            : base(environment, "config/naming")
+            : base(environment,  "config/naming")
         {
             _namingConfigService = namingConfigService;
             _filenameSampleService = filenameSampleService;
@@ -92,7 +93,7 @@ namespace Lidarr.Api.V1.Config
                 ? null
                 : _filenameSampleService.GetAlbumFolderSample(nameSpec);
 
-            return sampleResource.AsResponse();
+            return sampleResource.AsResponse(_environment);
         }
 
         private void ValidateFormatResult(NamingConfig nameSpec)

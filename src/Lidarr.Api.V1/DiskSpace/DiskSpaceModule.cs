@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 ﻿using System.Collections.Generic;
 using NzbDrone.Core.DiskSpace;
 using Lidarr.Http;
@@ -8,8 +9,8 @@ namespace Lidarr.Api.V1.DiskSpace
     {
         private readonly IDiskSpaceService _diskSpaceService;
 
-        public DiskSpaceModule(IDiskSpaceService diskSpaceService)
-            :base(environment, "diskspace")
+        public DiskSpaceModule(INancyEnvironment environment, IDiskSpaceService diskSpaceService)
+            :base(environment,  "diskspace")
         {
             _diskSpaceService = diskSpaceService;
             GetResourceAll = GetFreeSpace;

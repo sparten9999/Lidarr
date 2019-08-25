@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,7 +18,8 @@ namespace Lidarr.Api.V1.Logs
         private readonly IDiskProvider _diskProvider;
         private readonly IConfigFileProvider _configFileProvider;
 
-        public LogFileModuleBase(IDiskProvider diskProvider,
+        public LogFileModuleBase(INancyEnvironment environment,
+                                 IDiskProvider diskProvider,
                                  IConfigFileProvider configFileProvider,
                                  string route)
             : base(environment, "log/file" + route)
@@ -26,7 +28,7 @@ namespace Lidarr.Api.V1.Logs
             _configFileProvider = configFileProvider;
             GetResourceAll = GetLogFilesResponse;
 
-            Get[LOGFILE_ROUTE] = options => GetLogFileResponse(options.filename);
+            Get(LOGFILE_ROUTE, options => GetLogFileResponse(options.filename));
         }
 
         private List<LogFileResource> GetLogFilesResponse()

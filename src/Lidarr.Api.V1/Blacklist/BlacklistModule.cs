@@ -1,6 +1,7 @@
 using NzbDrone.Core.Blacklisting;
 using NzbDrone.Core.Datastore;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Blacklist
 {
@@ -8,7 +9,8 @@ namespace Lidarr.Api.V1.Blacklist
     {
         private readonly IBlacklistService _blacklistService;
 
-        public BlacklistModule(IBlacklistService blacklistService)
+        public BlacklistModule(INancyEnvironment environment, IBlacklistService blacklistService)
+        : base(environment)
         {
             _blacklistService = blacklistService;
             GetResourcePaged = GetBlacklist;

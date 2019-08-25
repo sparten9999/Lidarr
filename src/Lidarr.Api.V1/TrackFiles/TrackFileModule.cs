@@ -155,7 +155,7 @@ namespace Lidarr.Api.V1.TrackFiles
             _mediaFileService.Update(trackFiles);
 
             return trackFiles.ConvertAll(f => f.ToResource(trackFiles.First().Artist.Value, _upgradableSpecification))
-                               .AsResponse(Nancy.HttpStatusCode.Accepted);
+                .AsResponse(_environment, Nancy.HttpStatusCode.Accepted);
         }
 
         private void DeleteTrackFile(int id)
@@ -188,7 +188,7 @@ namespace Lidarr.Api.V1.TrackFiles
                 _mediaFileDeletionService.DeleteTrackFile(artist, trackFile);
             }
 
-            return new object().AsResponse();
+            return new object().AsResponse(_environment);
         }
 
         public void Handle(TrackFileAddedEvent message)

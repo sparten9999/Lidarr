@@ -9,7 +9,7 @@ namespace Lidarr.Api.V1
 
         protected LidarrV1Module(INancyEnvironment environment,
                                  string resource)
-            : base(environment, "/api/v1/" + resource.Trim('/'))
+            : base("/api/v1/" + resource.Trim('/'))
         {
             _environment = environment;
         }

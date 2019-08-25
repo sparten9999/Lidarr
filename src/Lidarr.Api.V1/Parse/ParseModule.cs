@@ -3,6 +3,7 @@ using NzbDrone.Core.Parser;
 using Lidarr.Api.V1.Albums;
 using Lidarr.Api.V1.Artist;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Parse
 {
@@ -10,7 +11,8 @@ namespace Lidarr.Api.V1.Parse
     {
         private readonly IParsingService _parsingService;
 
-        public ParseModule(IParsingService parsingService)
+        public ParseModule(INancyEnvironment environment, IParsingService parsingService)
+        : base(environment)
         {
             _parsingService = parsingService;
 

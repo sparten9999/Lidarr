@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +23,8 @@ namespace Lidarr.Api.V1.Calendar
         private readonly IArtistService _artistService;
         private readonly ITagService _tagService;
 
-        public CalendarFeedModule(IAlbumService albumService, IArtistService artistService, ITagService tagService)
-            : base(environment, "calendar")
+        public CalendarFeedModule(INancyEnvironment environment, IAlbumService albumService, IArtistService artistService, ITagService tagService)
+            : base(environment,  "calendar")
         {
             _albumService = albumService;
             _artistService = artistService;

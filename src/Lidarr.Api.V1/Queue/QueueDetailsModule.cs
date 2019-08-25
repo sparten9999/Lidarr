@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,8 @@ namespace Lidarr.Api.V1.Queue
         private readonly IQueueService _queueService;
         private readonly IPendingReleaseService _pendingReleaseService;
 
-        public QueueDetailsModule(IBroadcastSignalRMessage broadcastSignalRMessage, IQueueService queueService, IPendingReleaseService pendingReleaseService)
-            : base(environment, broadcastSignalRMessage, "queue/details")
+        public QueueDetailsModule(INancyEnvironment environment, IBroadcastSignalRMessage broadcastSignalRMessage, IQueueService queueService, IPendingReleaseService pendingReleaseService)
+            : base(environment,  broadcastSignalRMessage, "queue/details")
         {
             _queueService = queueService;
             _pendingReleaseService = pendingReleaseService;

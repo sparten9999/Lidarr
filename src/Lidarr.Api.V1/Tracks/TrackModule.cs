@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,11 @@ namespace Lidarr.Api.V1.Tracks
 {
     public class TrackModule : TrackModuleWithSignalR
     {
-        public TrackModule(IArtistService artistService,
+        public TrackModule(INancyEnvironment environment, IArtistService artistService,
                              ITrackService trackService,
                              IUpgradableSpecification upgradableSpecification,
                              IBroadcastSignalRMessage signalRBroadcaster)
-            : base(environment, trackService, artistService, upgradableSpecification, signalRBroadcaster)
+            : base(environment,  trackService, artistService, upgradableSpecification, signalRBroadcaster)
         {
             GetResourceAll = GetTracks;
         }

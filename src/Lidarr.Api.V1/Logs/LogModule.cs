@@ -1,6 +1,7 @@
 using System.Linq;
 using NzbDrone.Core.Instrumentation;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Logs
 {
@@ -8,7 +9,8 @@ namespace Lidarr.Api.V1.Logs
     {
         private readonly ILogService _logService;
 
-        public LogModule(ILogService logService)
+        public LogModule(INancyEnvironment environment, ILogService logService)
+        : base(environment)
         {
             _logService = logService;
             GetResourcePaged = GetLogs;

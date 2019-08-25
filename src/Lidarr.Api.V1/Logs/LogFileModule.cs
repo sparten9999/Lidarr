@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 ﻿using System.Collections.Generic;
 using System.IO;
 using NzbDrone.Common.Disk;
@@ -12,10 +13,10 @@ namespace Lidarr.Api.V1.Logs
         private readonly IAppFolderInfo _appFolderInfo;
         private readonly IDiskProvider _diskProvider;
 
-        public LogFileModule(IAppFolderInfo appFolderInfo,
+        public LogFileModule(INancyEnvironment environment, IAppFolderInfo appFolderInfo,
                              IDiskProvider diskProvider,
                              IConfigFileProvider configFileProvider)
-            : base(environment, diskProvider, configFileProvider, "")
+            : base(environment,  diskProvider, configFileProvider, "")
         {
             _appFolderInfo = appFolderInfo;
             _diskProvider = diskProvider;

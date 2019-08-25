@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 ﻿using FluentValidation;
 using NzbDrone.Core.Configuration;
 using NzbDrone.Core.Validation.Paths;
@@ -6,8 +7,8 @@ namespace Lidarr.Api.V1.Config
 {
     public class MediaManagementConfigModule : LidarrConfigModule<MediaManagementConfigResource>
     {
-        public MediaManagementConfigModule(IConfigService configService, PathExistsValidator pathExistsValidator)
-            : base(environment, configService)
+        public MediaManagementConfigModule(INancyEnvironment environment, IConfigService configService, PathExistsValidator pathExistsValidator)
+            : base(environment,  configService)
         {
             SharedValidator.RuleFor(c => c.RecycleBinCleanupDays).GreaterThanOrEqualTo(0);
             SharedValidator.RuleFor(c => c.FileChmod).NotEmpty();

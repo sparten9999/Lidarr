@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using NzbDrone.Core.Profiles.Qualities;
 using Lidarr.Http;
 
@@ -7,8 +8,8 @@ namespace Lidarr.Api.V1.Profiles.Quality
     {
         private readonly IProfileService _profileService;
 
-        public QualityProfileSchemaModule(IProfileService profileService)
-            : base(environment, "/qualityprofile/schema")
+        public QualityProfileSchemaModule(INancyEnvironment environment, IProfileService profileService)
+            : base(environment,  "/qualityprofile/schema")
         {
             _profileService = profileService;
             GetResourceSingle = GetSchema;

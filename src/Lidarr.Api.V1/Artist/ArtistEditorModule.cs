@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using Nancy;
@@ -14,7 +15,7 @@ namespace Lidarr.Api.V1.Artist
         private readonly IArtistService _artistService;
         private readonly IManageCommandQueue _commandQueueManager;
 
-        public ArtistEditorModule(IArtistService artistService, IManageCommandQueue commandQueueManager)
+        public ArtistEditorModule(INancyEnvironment environment, IArtistService artistService, IManageCommandQueue commandQueueManager)
             : base(environment, "/artist/editor")
         {
             _artistService = artistService;
@@ -93,7 +94,7 @@ namespace Lidarr.Api.V1.Artist
 
             return _artistService.UpdateArtists(artistToUpdate, !resource.MoveFiles)
                                  .ToResource()
-                                 .AsResponse(HttpStatusCode.Accepted);
+                .AsResponse(_environment, HttpStatusCode.Accepted);
         }
 
         private Response DeleteArtist()
@@ -105,7 +106,7 @@ namespace Lidarr.Api.V1.Artist
                 _artistService.DeleteArtist(artistId, false);
             }
 
-            return new object().AsResponse();
+            return new object().AsResponse(_environment);
         }
     }
 }

@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using NzbDrone.Core.Tags;
 using Lidarr.Http;
@@ -8,8 +9,8 @@ namespace Lidarr.Api.V1.Tags
     {
         private readonly ITagService _tagService;
 
-        public TagDetailsModule(ITagService tagService)
-            : base(environment, "/tag/detail")
+        public TagDetailsModule(INancyEnvironment environment, ITagService tagService)
+            : base(environment,  "/tag/detail")
         {
             _tagService = tagService;
 

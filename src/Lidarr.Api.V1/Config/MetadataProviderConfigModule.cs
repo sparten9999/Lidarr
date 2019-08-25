@@ -1,3 +1,4 @@
+using Nancy.Configuration;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -11,8 +12,8 @@ namespace Lidarr.Api.V1.Config
 {
     public class MetadataProviderConfigModule : LidarrConfigModule<MetadataProviderConfigResource>
     {
-        public MetadataProviderConfigModule(IConfigService configService)
-            : base(environment, configService)
+        public MetadataProviderConfigModule(INancyEnvironment environment, IConfigService configService)
+            : base(environment,  configService)
         {
             SharedValidator.RuleFor(c => c.MetadataSource).IsValidUrl().When(c => !c.MetadataSource.IsNullOrWhiteSpace());
         }

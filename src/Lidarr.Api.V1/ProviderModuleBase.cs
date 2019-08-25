@@ -1,9 +1,9 @@
+using Nancy.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using FluentValidation;
 using FluentValidation.Results;
 using Nancy;
-using Newtonsoft.Json;
 using NzbDrone.Common.Serializer;
 using NzbDrone.Core.ThingiProvider;
 using NzbDrone.Core.Validation;
@@ -20,7 +20,10 @@ namespace Lidarr.Api.V1
         private readonly IProviderFactory<TProvider, TProviderDefinition> _providerFactory;
         private readonly ProviderResourceMapper<TProviderResource, TProviderDefinition> _resourceMapper;
 
-        protected ProviderModuleBase(IProviderFactory<TProvider, TProviderDefinition> providerFactory, string resource, ProviderResourceMapper<TProviderResource, TProviderDefinition> resourceMapper)
+        protected ProviderModuleBase(INancyEnvironment environment,
+                                     IProviderFactory<TProvider, TProviderDefinition> providerFactory,
+                                     string resource,
+                                     ProviderResourceMapper<TProviderResource, TProviderDefinition> resourceMapper)
             : base(environment, resource)
         {
             _providerFactory = providerFactory;
@@ -133,7 +136,7 @@ namespace Lidarr.Api.V1
                 result.Add(providerResource);
             }
 
-            return result.AsResponse();
+            return result.AsResponse(_environment);
         }
 
         private Response Test(TProviderResource providerResource)
@@ -163,7 +166,7 @@ namespace Lidarr.Api.V1
                 });
             }
 
-            return result.AsResponse(result.Any(c => !c.IsValid) ? HttpStatusCode.BadRequest : HttpStatusCode.OK);
+            return result.AsResponse(_environment, result.Any(c => !c.IsValid) ? HttpStatusCode.BadRequest : HttpStatusCode.OK);
         }
 
         private Response RequestAction(string action, TProviderResource providerResource)

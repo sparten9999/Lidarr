@@ -1,11 +1,17 @@
 using System.Collections.Generic;
 using NzbDrone.Core.DecisionEngine;
 using Lidarr.Http;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.Indexers
 {
     public abstract class ReleaseModuleBase : LidarrRestModule<ReleaseResource>
     {
+        public ReleaseModuleBase(INancyEnvironment environment)
+        : base(environment)
+        {
+        }
+
         protected virtual List<ReleaseResource> MapDecisions(IEnumerable<DownloadDecision> decisions)
         {
             var result = new List<ReleaseResource>();
