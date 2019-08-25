@@ -23,6 +23,7 @@ trigger:
     include:
     - develop
     - dotnet-rebase
+    - dotnet-testing-fun
 
 pr:
 - develop

@@ -22,7 +22,6 @@ namespace NzbDrone.Common.Composition
 
             assemblies.Add(OsInfo.IsWindows ? "Lidarr.Windows" : "Lidarr.Mono");
             assemblies.Add("Lidarr.Common");
-           assemblies.Add("Mono.Posix");
 
             var path = AppDomain.CurrentDomain.BaseDirectory;
 
