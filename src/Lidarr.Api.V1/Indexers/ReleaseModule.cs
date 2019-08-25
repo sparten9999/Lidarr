@@ -43,7 +43,7 @@ namespace Lidarr.Api.V1.Indexers
             _logger = logger;
 
             GetResourceAll = GetReleases;
-            Post["/"] = x => DownloadRelease(ReadResourceFromRequest());
+            Post("/",  x => DownloadRelease(ReadResourceFromRequest()));
 
             PostValidator.RuleFor(s => s.IndexerId).ValidId();
             PostValidator.RuleFor(s => s.Guid).NotEmpty();

@@ -30,9 +30,9 @@ namespace Lidarr.Api.V1.History
             _failedDownloadService = failedDownloadService;
             GetResourcePaged = GetHistory;
 
-            Get["/since"] = x => GetHistorySince();
-            Get["/artist"] = x => GetArtistHistory();
-            Post["/failed"] = x => MarkAsFailed();
+            Get("/since",  x => GetHistorySince());
+            Get("/artist",  x => GetArtistHistory());
+            Post("/failed",  x => MarkAsFailed());
         }
 
         protected HistoryResource MapToResource(NzbDrone.Core.History.History model, bool includeArtist, bool includeAlbum, bool includeTrack)

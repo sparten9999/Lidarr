@@ -7,6 +7,7 @@ using NzbDrone.Core.Configuration;
 using NzbDrone.Core.Datastore;
 using NzbDrone.Core.Lifecycle;
 using Lidarr.Http.Extensions;
+using Nancy.Configuration;
 
 namespace Lidarr.Api.V1.System
 {
@@ -21,7 +22,8 @@ namespace Lidarr.Api.V1.System
         private readonly IMainDatabase _database;
         private readonly ILifecycleService _lifecycleService;
 
-        public SystemModule(IAppFolderInfo appFolderInfo,
+        public SystemModule(INancyEnvironment environment,
+                            IAppFolderInfo appFolderInfo,
                             IRuntimeInfo runtimeInfo,
                             IPlatformInfo platformInfo,
                             IOsInfo osInfo,
@@ -29,7 +31,7 @@ namespace Lidarr.Api.V1.System
                             IConfigFileProvider configFileProvider,
                             IMainDatabase database,
                             ILifecycleService lifecycleService)
-            : base("system")
+        : base(environment, "system")
         {
             _appFolderInfo = appFolderInfo;
             _runtimeInfo = runtimeInfo;
@@ -39,10 +41,10 @@ namespace Lidarr.Api.V1.System
             _configFileProvider = configFileProvider;
             _database = database;
             _lifecycleService = lifecycleService;
-            Get["/status"] = x => GetStatus();
-            Get["/routes"] = x => GetRoutes();
-            Post["/shutdown"] = x => Shutdown();
-            Post["/restart"] = x => Restart();
+            Get("/status",  x => GetStatus()); 
+            Get("/routes",  x => GetRoutes()); 
+            Post("/shutdown",  x => Shutdown()); 
+            Post("/restart",  x => Restart()); 
         }
 
         private Response GetStatus()
@@ -74,24 +76,24 @@ namespace Lidarr.Api.V1.System
                 RuntimeVersion = _platformInfo.Version,
                 RuntimeName = PlatformInfo.Platform,
                 StartTime = _runtimeInfo.StartTime
-            }.AsResponse();
+            }.AsResponse(_environment);
         }
 
         private Response GetRoutes()
         {
-            return _routeCacheProvider.GetCache().Values.AsResponse();
+            return _routeCacheProvider.GetCache().Values.AsResponse(_environment);
         }
 
         private Response Shutdown()
         {
             Task.Factory.StartNew(() => _lifecycleService.Shutdown());
-            return new { ShuttingDown = true }.AsResponse();
+            return new { ShuttingDown = true }.AsResponse(_environment);
         }
 
         private Response Restart()
         {
             Task.Factory.StartNew(() => _lifecycleService.Restart());
-            return new { Restarting = true }.AsResponse();
+            return new { Restarting = true }.AsResponse(_environment);
         }
     }
 }

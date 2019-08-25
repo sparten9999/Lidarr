@@ -24,9 +24,9 @@ namespace Lidarr.Api.V1.FileSystem
             _fileSystemLookupService = fileSystemLookupService;
             _diskProvider = diskProvider;
             _diskScanService = diskScanService;
-            Get["/"] = x => GetContents();
-            Get["/type"] = x => GetEntityType();
-            Get["/mediafiles"] = x => GetMediaFiles();
+            Get("/",  x => GetContents());
+            Get("/type",  x => GetEntityType());
+            Get("/mediafiles",  x => GetMediaFiles());
         }
 
         private Response GetContents()

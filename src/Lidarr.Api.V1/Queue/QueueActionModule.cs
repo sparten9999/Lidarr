@@ -35,10 +35,10 @@ namespace Lidarr.Api.V1.Queue
             _downloadService = downloadService;
 
             Post[@"/grab/(?<id>[\d]{1,10})"] = x => Grab((int)x.Id);
-            Post["/grab/bulk"] = x => Grab();
+            Post("/grab/bulk",  x => Grab());
 
             Delete[@"/(?<id>[\d]{1,10})"] = x => Remove((int)x.Id);
-            Delete["/bulk"] = x => Remove();
+            Delete("/bulk",  x => Remove());
         }
 
         private Response Grab(int id)

@@ -26,10 +26,10 @@ namespace Lidarr.Api.V1
             _providerFactory = providerFactory;
             _resourceMapper = resourceMapper;
 
-            Get["schema"] = x => GetTemplates();
-            Post["test"] = x => Test(ReadResourceFromRequest(true));
-            Post["testall"] = x => TestAll();
-            Post["action/{action}"] = x => RequestAction(x.action, ReadResourceFromRequest(true));
+            Get("schema",  x => GetTemplates());
+            Post("test",  x => Test(ReadResourceFromRequest(true)));
+            Post("testall",  x => TestAll());
+            Post("action/{action}",  x => RequestAction(x.action, ReadResourceFromRequest(true)));
 
             GetResourceAll = GetAll;
             GetResourceById = GetProviderById;

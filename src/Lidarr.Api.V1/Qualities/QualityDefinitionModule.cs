@@ -18,7 +18,7 @@ namespace Lidarr.Api.V1.Qualities
             GetResourceAll = GetAll;
             GetResourceById = GetById;
             UpdateResource = Update;
-            Put["/update"] = d => UpdateMany();
+            Put("/update",  d => UpdateMany());
         }
 
         private void Update(QualityDefinitionResource resource)

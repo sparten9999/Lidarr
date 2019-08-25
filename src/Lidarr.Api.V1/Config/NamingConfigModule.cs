@@ -33,7 +33,7 @@ namespace Lidarr.Api.V1.Config
             GetResourceById = GetNamingConfig;
             UpdateResource = UpdateNamingConfig;
 
-            Get["/examples"] = x => GetExamples(this.Bind<NamingConfigResource>());
+            Get("/examples",  x => GetExamples(this.Bind<NamingConfigResource>()));
 
 
             SharedValidator.RuleFor(c => c.StandardTrackFormat).ValidTrackFormat();

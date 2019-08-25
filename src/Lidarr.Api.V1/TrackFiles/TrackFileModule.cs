@@ -48,8 +48,8 @@ namespace Lidarr.Api.V1.TrackFiles
             UpdateResource = SetQuality;
             DeleteResource = DeleteTrackFile;
 
-            Put["/editor"] = trackFiles => SetQuality();
-            Delete["/bulk"] = trackFiles => DeleteTrackFiles();
+            Put("/editor",  trackFiles => SetQuality());
+            Delete("/bulk",  trackFiles => DeleteTrackFiles());
         }
 
         private TrackFileResource MapToResource(TrackFile trackFile)

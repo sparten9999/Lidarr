@@ -33,7 +33,7 @@ namespace Lidarr.Api.V1.System.Backup
             DeleteResource = DeleteBackup;
 
             Post[@"/restore/(?<id>[\d]{1,10})"] = x => Restore((int)x.Id);
-            Post["/restore/upload"] = x => UploadAndRestore();
+            Post("/restore/upload",  x => UploadAndRestore());
         }
 
         public List<BackupResource> GetBackupFiles()

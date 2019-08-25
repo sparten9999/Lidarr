@@ -16,7 +16,7 @@ namespace Lidarr.Api.V1.Artist
             : base("/artist/lookup")
         {
             _searchProxy = searchProxy;
-            Get["/"] = x => Search();
+            Get("/",  x => Search());
         }
 
         private Response Search()

@@ -31,7 +31,7 @@ namespace Lidarr.Api.V1.Indexers
             _indexerFactory = indexerFactory;
             _logger = logger;
 
-            Post["/push"] = x => ProcessRelease(ReadResourceFromRequest());
+            Post("/push",  x => ProcessRelease(ReadResourceFromRequest()));
 
             PostValidator.RuleFor(s => s.Title).NotEmpty();
             PostValidator.RuleFor(s => s.DownloadUrl).NotEmpty();

@@ -14,7 +14,7 @@ namespace Lidarr.Api.V1.Artist
             : base("/artist/import")
         {
             _addArtistService = addArtistService;
-            Post["/"] = x => Import();
+            Post("/",  x => Import());
         }
 
 

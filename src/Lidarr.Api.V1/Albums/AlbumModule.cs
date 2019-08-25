@@ -36,7 +36,7 @@ namespace Lidarr.Api.V1.Albums
             _releaseService = releaseService;
             GetResourceAll = GetAlbums;
             UpdateResource = UpdateAlbum;
-            Put["/monitor"] = x => SetAlbumsMonitored();
+            Put("/monitor",  x => SetAlbumsMonitored());
         }
 
         private List<AlbumResource> GetAlbums()

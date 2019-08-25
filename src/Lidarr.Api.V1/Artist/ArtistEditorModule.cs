@@ -19,8 +19,8 @@ namespace Lidarr.Api.V1.Artist
         {
             _artistService = artistService;
             _commandQueueManager = commandQueueManager;
-            Put["/"] = artist => SaveAll();
-            Delete["/"] = artist => DeleteArtist();
+            Put("/",  artist => SaveAll());
+            Delete("/",  artist => DeleteArtist());
         }
 
         private Response SaveAll()

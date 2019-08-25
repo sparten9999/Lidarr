@@ -29,7 +29,7 @@ namespace Lidarr.Api.V1.Queue
             _broadcastDebounce = new Debouncer(BroadcastChange, TimeSpan.FromSeconds(5));
 
 
-            Get["/"] = x => GetQueueStatusResponse();
+            Get("/",  x => GetQueueStatusResponse());
         }
 
         private JsonResponse<QueueStatusResource> GetQueueStatusResponse()
