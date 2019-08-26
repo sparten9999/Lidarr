@@ -16,7 +16,7 @@
     <PackageReference Include="Kveer.XmlRPC" Version="1.1.1" />
     <PackageReference Include="SpotifyAPI.Web" Version="4.2.0" />
     <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="1.0.0-beta0006" />
-    <PackageReference Include="System.Data.SQLite.Core.Lidarr" Version="1.0.111.0-2" />
+    <PackageReference Include="System.Data.SQLite.Core.Lidarr" Version="1.0.111.0-4" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Marr.Data\Marr.Data.csproj" />

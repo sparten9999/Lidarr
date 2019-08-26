@@ -77,16 +77,16 @@ CleanFolder()
 
 BuildWithMSBuild()
 {
-    CheckExitCode dotnet clean $slnFile -p:Configuration=Debug
-    CheckExitCode dotnet clean $slnFile -p:Configuration=Release
-    CheckExitCode dotnet build $slnFile -p:Configuration=Release
+    CheckExitCode dotnet clean $slnFile -c Debug
+    CheckExitCode dotnet clean $slnFile -c Release
+    CheckExitCode dotnet publish $slnFile -c Release -r win-x64
 }
 
 BuildWithXbuild()
 {
-    CheckExitCode dotnet clean $slnFile -p:Configuration=Debug
-    CheckExitCode dotnet clean $slnFile -p:Configuration=Release
-    CheckExitCode dotnet build $slnFile -p:Configuration=Release
+    CheckExitCode dotnet clean $slnFile -c Debug
+    CheckExitCode dotnet clean $slnFile -c Release
+    CheckExitCode dotnet publish $slnFile -c Release -r linux-x64
 }
 
 LintUI()
