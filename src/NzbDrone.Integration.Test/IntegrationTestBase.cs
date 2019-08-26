@@ -26,7 +26,8 @@ using NzbDrone.Test.Common.Categories;
 using RestSharp;
 using NzbDrone.Core.MediaFiles.TrackImport.Manual;
 using NzbDrone.Test.Common;
-using Microsoft.AspNet.SignalR.Client;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace NzbDrone.Integration.Test
 {
