@@ -36,11 +36,11 @@ namespace NzbDrone.Test.Common
 
             GenerateConfigFile();
             
-            var lidarrConsoleExe = OsInfo.IsWindows ? "Lidarr.Console.exe" : "Lidarr.exe";
+            var lidarrConsoleExe = "Lidarr.Console.dll";
 
             if (BuildInfo.IsDebug)
             {
-                Start(Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "_output", "Lidarr.Console.exe"));
+                Start(Path.Combine(TestContext.CurrentContext.TestDirectory, "..", "_output", "linux-x64", "publish", lidarrConsoleExe));
             }
             else
             {
