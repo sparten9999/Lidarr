@@ -55,6 +55,10 @@ stages:
       - checkout: self
         submodules: true
         fetchDepth: 1
+      - task: DotNetCoreInstaller@0
+        displayName: 'Install .net core 3.0 (preview)'
+        inputs:
+          version: '3.0.100-preview8-013656'
       - bash: ./build.sh --only-backend
         displayName: Build Lidarr Backend
       - publish: $(outputFolder)
