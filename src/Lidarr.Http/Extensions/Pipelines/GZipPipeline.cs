@@ -81,7 +81,7 @@ namespace Lidarr.Http.Extensions.Pipelines
 
         private static bool ContentLengthIsTooSmall(Response response)
         {
-            var contentLength = response.Headers.GetValueOrDefault("Content-Length");
+            var contentLength = response.Headers.ValueOrDefault("Content-Length");
 
             if (contentLength != null && long.Parse(contentLength) < 1024)
             {
@@ -93,7 +93,7 @@ namespace Lidarr.Http.Extensions.Pipelines
 
         private static bool AlreadyGzipEncoded(Response response)
         {
-            var contentEncoding = response.Headers.GetValueOrDefault("Content-Encoding");
+            var contentEncoding = response.Headers.ValueOrDefault("Content-Encoding");
 
             if (contentEncoding == "gzip")
             {

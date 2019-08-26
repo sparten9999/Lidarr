@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NLog;
@@ -86,16 +87,21 @@ namespace NzbDrone.Host.WebHost
                 })
                 .ConfigureServices(services =>
                 {
-                    services.AddSignalR()
-                            .AddJsonProtocol(options =>
-                            {
-                                options.PayloadSerializerSettings = Json.GetSerializerSettings();
-                            });
+                    services
+                    .Configure<KestrelServerOptions>(options =>
+                        {
+                            options.AllowSynchronousIO = true;
+                        })
+                    .AddSignalR()
+                    .AddNewtonsoftJsonProtocol(options =>
+                        {
+                            options.PayloadSerializerSettings = Json.GetSerializerSettings();
+                        });
                 })
                 .Configure(app =>
                 {
                     app.UsePathBase(_configFileProvider.UrlBase);
-                    app.Properties["host.AppName"] = "Sonarr";
+                    app.Properties["host.AppName"] = "Lidarr";
 
                     foreach (var middleWare in _middlewares.OrderBy(c => c.Order))
                     {

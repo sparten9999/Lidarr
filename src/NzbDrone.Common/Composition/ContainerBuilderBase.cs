@@ -1,12 +1,12 @@
 using System;
-using System.Runtime.Loader;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using NzbDrone.Common.EnvironmentInfo;
 using NzbDrone.Common.Messaging;
 using TinyIoC;
-using System.IO;
 
 namespace NzbDrone.Common.Composition
 {
@@ -23,20 +23,32 @@ namespace NzbDrone.Common.Composition
             assemblies.Add(OsInfo.IsWindows ? "Lidarr.Windows" : "Lidarr.Mono");
             assemblies.Add("Lidarr.Common");
 
-            var path = AppDomain.CurrentDomain.BaseDirectory;
+            var _startupPath = AppDomain.CurrentDomain.BaseDirectory;
 
-            foreach (var assembly in assemblies)
+            foreach (var assemblyName in assemblies)
             {
-//                var path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-//                Console.WriteLine(path);
-                _loadedTypes.AddRange(AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(path, $"{assembly}.dll")).GetTypes());
-//                Assembly.Load(assembly);
+                _loadedTypes.AddRange(AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(_startupPath, $"{assemblyName}.dll")).GetTypes());
             }
 
             Container = new Container(new TinyIoCContainer(), _loadedTypes);
             AutoRegisterInterfaces();
             Container.Register(args);
-       }
+
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(ContainerResolveEventHandler);
+        }
+
+        private static Assembly ContainerResolveEventHandler(object sender, ResolveEventArgs args)
+        {
+            var _resolver = new AssemblyDependencyResolver(args.RequestingAssembly.Location);
+            var assemblyPath = _resolver.ResolveAssemblyToPath(new AssemblyName(args.Name));
+
+            if (assemblyPath == null)
+            {
+                return null;
+            }
+
+            return AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
+        }
 
         private void AutoRegisterInterfaces()
         {
