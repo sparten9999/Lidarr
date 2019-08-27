@@ -154,7 +154,7 @@ stages:
       pool:
         vmImage: 'ubuntu-16.04'
       steps:
-      - bash: sudo apt install dos2unix
+      - bash: sudo apt-get install dos2unix
       - checkout: self
         fetchDepth: 1
       - task: DownloadPipelineArtifact@2
@@ -260,7 +260,8 @@ stages:
       - bash: |
           wget https://github.com/acoustid/chromaprint/releases/download/v1.4.3/chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz
           sudo tar xf chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz --strip-components=1 --directory /usr/bin
-        displayName: Install fpcalc
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libsqlite3.so.0 /usr/lib/x86_64-linux-gnu/libsqlite3.so
+        displayName: Install fpcalc and fix sqlite
         condition: and(succeeded(), eq(variables['osName'], 'Linux'))
       - powershell: Set-Service SCardSvr -StartupType Manual
         displayName: Enable Windows Test Service
@@ -270,13 +271,6 @@ stages:
           export DYLD_FALLBACK_LIBRARY_PATH=${BUILD_SOURCESDIRECTORY}/_tests
         displayName: Make fpcalc Executable
         condition: and(succeeded(), eq(variables['osName'], 'Mac'))
-      - bash: |
-          sudo ln -s /usr/lib/x86_64-linux-gnu/libsqlite3.so.0 /usr/lib/x86_64-linux-gnu/libsqlite3.so
-          cd ${TESTSFOLDER}
-          ldconfig -p | grep libsqlite
-          echo $LD_LIBRARY_PATH
-          LD_DEBUG=all dotnet vstest Lidarr.Core.Test.dll --Tests:should_get_stats_for_artist
-        condition: and(succeeded(), eq(variables['osName'], 'Linux'))
       - task: Bash@3
         displayName: Run Tests
         env:
@@ -323,10 +317,11 @@ stages:
         vmImage: $(imageName)
         
       steps:
-      - script: |
+      - bash: |
           wget https://github.com/acoustid/chromaprint/releases/download/v1.4.3/chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz
           sudo tar xf chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz --strip-components=1 --directory /usr/bin
-        displayName: Install fpcalc
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libsqlite3.so.0 /usr/lib/x86_64-linux-gnu/libsqlite3.so
+        displayName: Install fpcalc and fix sqlite
         condition: and(succeeded(), eq(variables['osName'], 'Linux'))
       - task: DotNetCoreInstaller@0
         displayName: 'Install .net core 3.0 (preview)'
@@ -392,6 +387,12 @@ stages:
         vmImage: $(imageName)
         
       steps:
+      - bash: |
+          wget https://github.com/acoustid/chromaprint/releases/download/v1.4.3/chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz
+          sudo tar xf chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz --strip-components=1 --directory /usr/bin
+          sudo ln -s /usr/lib/x86_64-linux-gnu/libsqlite3.so.0 /usr/lib/x86_64-linux-gnu/libsqlite3.so
+        displayName: Install fpcalc and fix sqlite
+        condition: and(succeeded(), eq(variables['osName'], 'Linux'))
       - task: DotNetCoreInstaller@0
         displayName: 'Install .net core 3.0 (preview)'
         inputs:
