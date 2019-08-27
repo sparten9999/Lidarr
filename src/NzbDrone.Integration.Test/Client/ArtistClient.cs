@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Net;
 using Lidarr.Api.V1.Artist;
+using NUnit.Framework;
 using RestSharp;
 
 namespace NzbDrone.Integration.Test.Client
@@ -14,15 +15,15 @@ namespace NzbDrone.Integration.Test.Client
 
         public List<ArtistResource> Lookup(string term)
         {
-            var request = BuildRequest("lookup?term={term}");
-            request.AddUrlSegment("term", term);
+            var request = BuildRequest("lookup");
+            request.AddQueryParameter("term", term);
             return Get<List<ArtistResource>>(request);
         }
 
         public List<ArtistResource> Editor(ArtistEditorResource artist)
         {
             var request = BuildRequest("editor");
-            request.AddBody(artist);
+            request.AddJsonBody(artist);
             return Put<List<ArtistResource>>(request);
         }
 

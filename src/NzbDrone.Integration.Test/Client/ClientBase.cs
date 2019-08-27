@@ -8,6 +8,7 @@ using NzbDrone.Common.Serializer;
 using RestSharp;
 using System.Linq;
 using Lidarr.Http;
+using NUnit.Framework;
 
 namespace NzbDrone.Integration.Test.Client
 {
@@ -43,6 +44,7 @@ namespace NzbDrone.Integration.Test.Client
         public string Execute(IRestRequest request, HttpStatusCode statusCode)
         {
             _logger.Info("{0}: {1}", request.Method, _restClient.BuildUri(request));
+            TestContext.Progress.WriteLine("{0}: {1}", request.Method, _restClient.BuildUri(request));
 
             var response = _restClient.Execute(request);
             _logger.Info("Response: {0}", response.Content);
@@ -111,14 +113,14 @@ namespace NzbDrone.Integration.Test.Client
         public TResource Post(TResource body, HttpStatusCode statusCode = HttpStatusCode.Created)
         {
             var request = BuildRequest();
-            request.AddBody(body);
+            request.AddJsonBody(body);
             return Post<TResource>(request, statusCode);
         }
 
         public TResource Put(TResource body, HttpStatusCode statusCode = HttpStatusCode.Accepted)
         {
             var request = BuildRequest();
-            request.AddBody(body);
+            request.AddJsonBody(body);
             return Put<TResource>(request, statusCode);
         }
 
@@ -149,14 +151,14 @@ namespace NzbDrone.Integration.Test.Client
         public object InvalidPost(TResource body, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var request = BuildRequest();
-            request.AddBody(body);
+            request.AddJsonBody(body);
             return Post<object>(request, statusCode);
         }
 
         public object InvalidPut(TResource body, HttpStatusCode statusCode = HttpStatusCode.BadRequest)
         {
             var request = BuildRequest();
-            request.AddBody(body);
+            request.AddJsonBody(body);
             return Put<object>(request, statusCode);
         }
 
