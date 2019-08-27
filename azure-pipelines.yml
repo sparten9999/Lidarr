@@ -460,6 +460,10 @@ stages:
       steps:
       - checkout: self # Need history for Sonar analysis
         submodules: true
+      - task: DotNetCoreInstaller@0
+        displayName: 'Install .net core 3.0 (preview)'
+        inputs:
+          version: '3.0.100-preview8-013656'
       - task: SonarCloudPrepare@1
         inputs:
           SonarCloud: 'SonarCloud'
