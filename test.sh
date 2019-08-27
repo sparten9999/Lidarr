@@ -74,8 +74,8 @@ if [ "$COVERAGE" = "Coverage" ]; then
     exit 3
   fi
 elif [ "$COVERAGE" = "Test" ] ; then
-  echo "$NUNIT_COMMAND $ASSEMBLIES --TestCaseFilter:\"$WHERE\" $NUNIT_PARAMS"
-  $NUNIT_COMMAND $ASSEMBLIES --TestCaseFilter:"\"$WHERE\"" $NUNIT_PARAMS
+  echo "$NUNIT_COMMAND $ASSEMBLIES --TestCaseFilter:$WHERE $NUNIT_PARAMS"
+  $NUNIT_COMMAND $ASSEMBLIES --TestCaseFilter:"$WHERE" $NUNIT_PARAMS
   EXIT_CODE=$?
 else
   echo "Run Type must be provided as third argument: Coverage or Test"
