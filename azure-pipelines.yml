@@ -120,7 +120,7 @@ stages:
     - Build_Frontend
     jobs:
     - job: Windows_Installer
-      enabled: false
+      condition: false
       displayName: Create Installer
       pool:
         vmImage: 'vs2017-win2016'
