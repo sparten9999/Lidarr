@@ -2,7 +2,7 @@
 PLATFORM=$1
 TYPE=$2
 COVERAGE=$3
-WHERE="cat != ManualTest"
+WHERE="Category!=ManualTest"
 TEST_PATTERN="*Test.dll"
 ASSEMBLIES=""
 TEST_LOG_FILE="TestLog.txt"
@@ -25,7 +25,7 @@ export LIDARR_TESTS_LOG_OUTPUT="File"
 
 NUNIT="dotnet vstest"
 NUNIT_COMMAND="$NUNIT"
-NUNIT_PARAMS="--TestAdapterPath:$TEST_DIR --logger:nunit;LogFilePath=TestResults.xml --InIsolation"
+NUNIT_PARAMS="--TestAdapterPath:$TEST_DIR --logger:nunit;LogFilePath=TestResult.xml --InIsolation"
 
 if [ "$PLATFORM" = "Mac" ]; then
 
@@ -38,21 +38,21 @@ fi
 
 if [ "$PLATFORM" = "Windows" ]; then
   mkdir -p "$ProgramData/Lidarr"
-  WHERE="$WHERE & cat != LINUX"
+  WHERE="$WHERE&Category!=LINUX"
 elif [ "$PLATFORM" = "Linux" ] || [ "$PLATFORM" = "Mac" ] ; then
   mkdir -p ~/.config/Lidarr
-  WHERE="$WHERE & cat != WINDOWS"
+  WHERE="$WHERE&Category!=WINDOWS"
 else
   echo "Platform must be provided as first arguement: Windows, Linux or Mac"
   exit 1
 fi
 
 if [ "$TYPE" = "Unit" ]; then
-  WHERE="$WHERE & cat != IntegrationTest & cat != AutomationTest"
+  WHERE="$WHERE&Category!=IntegrationTest&Category!=AutomationTest"
 elif [ "$TYPE" = "Integration" ] || [ "$TYPE" = "int" ] ; then
-  WHERE="$WHERE & cat = IntegrationTest"
+  WHERE="$WHERE&Category=IntegrationTest"
 elif [ "$TYPE" = "Automation" ] ; then
-  WHERE="$WHERE & cat = AutomationTest"
+  WHERE="$WHERE&Category=AutomationTest"
 else
   echo "Type must be provided as second argument: Unit, Integration or Automation"
   exit 2
