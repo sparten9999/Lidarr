@@ -201,7 +201,12 @@ PackageTests()
     cp ./test.sh $testPackageFolder/osx-x64/publish
     
     rm -f $testPackageFolder/*.log.config
+
+    # Mac fpcalc being in the linux tests breaks fpcalc detection
     rm $testPackageFolder/linux-x64/publish/fpcalc
+
+    # geckodriver.exe isn't copied by dotnet publish
+    cp $testPackageFolder/geckodriver.exe $testPackageFolder/win-x64/publish
 
     CleanFolder $testPackageFolder
 
