@@ -65,8 +65,16 @@ stages:
         artifact: '$(osName)Backend'
         displayName: Publish Backend
         condition: and(succeeded(), eq(variables['osName'], 'Windows'))
-      - publish: $(testsFolder)
-        artifact: '$(osName)Tests'
+      - publish: '$(testsFolder)/win-x64/publish'
+        artifact: WindowsTests
+        displayName: Publish Test Package
+        condition: and(succeeded(), eq(variables['osName'], 'Windows'))
+      - publish: '$(testsFolder)/linux-x64/publish'
+        artifact: LinuxTests
+        displayName: Publish Test Package
+        condition: and(succeeded(), eq(variables['osName'], 'Windows'))
+      - publish: '$(testsFolder)/osx-x64/publish'
+        artifact: MacTests
         displayName: Publish Test Package
         condition: and(succeeded(), eq(variables['osName'], 'Windows'))
 
@@ -112,6 +120,7 @@ stages:
     - Build_Frontend
     jobs:
     - job: Windows_Installer
+      enabled: false
       displayName: Create Installer
       pool:
         vmImage: 'vs2017-win2016'
@@ -242,7 +251,7 @@ stages:
         displayName: Download Test Artifact
         inputs:
           buildType: 'current'
-          artifactName: WindowsTests
+          artifactName: '$(osName)Tests'
           targetPath: $(testsFolder)
       - bash: |
           wget https://github.com/acoustid/chromaprint/releases/download/v1.4.3/chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz
@@ -321,7 +330,7 @@ stages:
         displayName: Download Test Artifact
         inputs:
           buildType: 'current'
-          artifactName: WindowsTests
+          artifactName: '$(osName)Tests'
           targetPath: $(testsFolder)
       - task: DownloadPipelineArtifact@2
         displayName: Download Build Artifact
@@ -381,7 +390,7 @@ stages:
         displayName: Download Test Artifact
         inputs:
           buildType: 'current'
-          artifactName: WindowsTests
+          artifactName: '$(osName)Tests'
           targetPath: $(testsFolder)
       - task: DownloadPipelineArtifact@2
         displayName: Download Build Artifact

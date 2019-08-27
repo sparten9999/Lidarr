@@ -326,14 +326,11 @@ namespace NzbDrone.Common.Processes
         {
             //TODO: move this to an OS specific class
 
-            var monoProcesses = Process.GetProcessesByName("mono")
-                                       .Union(Process.GetProcessesByName("mono-sgen"))
-                                       .Union(Process.GetProcessesByName("mono-sgen32"))
-                                       .Union(Process.GetProcessesByName("mono-sgen64"))
+            var monoProcesses = Process.GetProcessesByName("dotnet")
                                        .Where(process =>
                                               process.Modules.Cast<ProcessModule>()
                                                      .Any(module =>
-                                                          module.ModuleName.ToLower() == name.ToLower() + ".exe"));
+                                                          module.ModuleName.ToLower() == name.ToLower() + ".dll"));
 
             var processes = Process.GetProcessesByName(name)
                                    .Union(monoProcesses).ToList();

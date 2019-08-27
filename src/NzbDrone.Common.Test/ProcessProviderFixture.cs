@@ -116,7 +116,7 @@ namespace NzbDrone.Common.Test
         {
             var processStarted = new ManualResetEventSlim();
 
-            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, DummyApp.DUMMY_PROCCESS_NAME + ".exe");
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, DummyApp.DUMMY_PROCCESS_NAME + ".dll");
             var process = Subject.Start(path, onOutputDataReceived: (string data) => {
                     if (data.StartsWith("Dummy process. ID:"))
                     {

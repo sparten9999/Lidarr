@@ -4,6 +4,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <LidarrRootDir>$(MSBuildThisFileDirectory)..\</LidarrRootDir>
     <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <RuntimeIdentifiers>win-x64;win-x86;osx-x64;linux-x64</RuntimeIdentifiers>
 
     <!-- Specifies the type of output -->
     <LidarrOutputType>Library</LidarrOutputType>
