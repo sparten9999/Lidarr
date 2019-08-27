@@ -273,6 +273,8 @@ stages:
         condition: and(succeeded(), eq(variables['osName'], 'Mac'))
       - bash: |
           cd ${TESTSFOLDER}
+          ldconfig -p | grep libsqlite
+          echo $LD_LIBRARY_PATH
           LD_DEBUG=all dotnet vstest Lidarr.Core.Test.dll --Tests:should_get_stats_for_artist
       - task: Bash@3
         displayName: Run Tests
