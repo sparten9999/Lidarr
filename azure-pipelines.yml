@@ -17,6 +17,7 @@ variables:
   macOsTar: 'Lidarr.$(buildName).osx.tar.gz'
   linuxTar: 'Lidarr.$(buildName).linux.tar.gz'
   sentryOrg: 'lidarr'
+  dotnetVersion: '3.0.100-preview8-013656'
 
 trigger:
   branches:
@@ -58,7 +59,7 @@ stages:
       - task: DotNetCoreInstaller@0
         displayName: 'Install .net core 3.0 (preview)'
         inputs:
-          version: '3.0.100-preview8-013656'
+          version: $(dotnetVersion)
       - bash: ./build.sh --only-backend
         displayName: Build Lidarr Backend
       - publish: $(outputFolder)
@@ -247,6 +248,10 @@ stages:
 
       steps:
       - checkout: none
+      - task: DotNetCoreInstaller@0
+        displayName: 'Install .net core 3.0 (preview)'
+        inputs:
+          version: $(dotnetVersion)
       - task: DownloadPipelineArtifact@2
         displayName: Download Test Artifact
         inputs:
@@ -317,14 +322,10 @@ stages:
           sudo tar xf chromaprint-fpcalc-1.4.3-linux-x86_64.tar.gz --strip-components=1 --directory /usr/bin
         displayName: Install fpcalc
         condition: and(succeeded(), eq(variables['osName'], 'Linux'))
-      - bash: |
-          SYMLINK=5_18_1
-          MONOPREFIX=/Library/Frameworks/Mono.framework/Versions/$SYMLINK
-          echo "##vso[task.setvariable variable=DYLD_FALLBACK_LIBRARY_PATH;].:$MONOPREFIX/lib:/lib:/usr/lib:$DYLD_LIBRARY_FALLBACK_PATH"
-          echo "##vso[task.setvariable variable=PKG_CONFIG_PATH;]$MONOPREFIX/lib/pkgconfig:$MONOPREFIX/share/pkgconfig:$PKG_CONFIG_PATH"
-          echo "##vso[task.setvariable variable=PATH;]$MONOPREFIX/bin:$PATH"
-        displayName: Set Mono Version
-        condition: and(succeeded(), eq(variables['osName'], 'Mac'))
+      - task: DotNetCoreInstaller@0
+        displayName: 'Install .net core 3.0 (preview)'
+        inputs:
+          version: $(dotnetVersion)
       - checkout: none
       - task: DownloadPipelineArtifact@2
         displayName: Download Test Artifact
@@ -385,6 +386,10 @@ stages:
         vmImage: $(imageName)
         
       steps:
+      - task: DotNetCoreInstaller@0
+        displayName: 'Install .net core 3.0 (preview)'
+        inputs:
+          version: $(dotnetVersion)
       - checkout: none
       - task: DownloadPipelineArtifact@2
         displayName: Download Test Artifact
@@ -472,7 +477,7 @@ stages:
       - task: DotNetCoreInstaller@0
         displayName: 'Install .net core 3.0 (preview)'
         inputs:
-          version: '3.0.100-preview8-013656'
+          version: $(dotnetVersion)
       - task: SonarCloudPrepare@1
         inputs:
           SonarCloud: 'SonarCloud'
