@@ -12,11 +12,41 @@ namespace NzbDrone.Host
 {
     public interface INzbDroneServiceFactory
     {
-        // ServiceBase Build();
-        void Start();
+        ServiceBase Build();
     }
 
-    public class NzbDroneServiceFactory : INzbDroneServiceFactory, IHandle<ApplicationShutdownRequested>
+    public interface INzbDroneConsoleFactory
+    {
+        void Start();
+        void Shutdown();
+    }
+
+    public class NzbDroneServiceFactory : ServiceBase, INzbDroneServiceFactory
+    {
+        private readonly INzbDroneConsoleFactory _consoleFactory;
+
+        public NzbDroneServiceFactory(INzbDroneConsoleFactory consoleFactory)
+        {
+            _consoleFactory = consoleFactory;
+        }
+
+        protected override void OnStart(string[] args)
+        {
+            _consoleFactory.Start();
+        }
+
+        protected override void OnStop()
+        {
+            _consoleFactory.Shutdown();
+        }
+
+        public ServiceBase Build()
+        {
+            return this;
+        }
+    }
+
+    public class NzbDroneConsoleFactory : INzbDroneConsoleFactory, IHandle<ApplicationShutdownRequested>
     {
         private readonly IConfigFileProvider _configFileProvider;
         private readonly IRuntimeInfo _runtimeInfo;
@@ -26,7 +56,7 @@ namespace NzbDrone.Host
         private readonly IContainer _container;
         private readonly Logger _logger;
 
-        public NzbDroneServiceFactory(IConfigFileProvider configFileProvider,
+        public NzbDroneConsoleFactory(IConfigFileProvider configFileProvider,
                                       IHostController hostController,
                                       IRuntimeInfo runtimeInfo,
                                       IStartupContext startupContext,
@@ -42,11 +72,6 @@ namespace NzbDrone.Host
             _container = container;
             _logger = logger;
         }
-
-        // protected override void OnStart(string[] args)
-        // {
-        //     Start();
-        // }
 
         public void Start()
         {
@@ -68,17 +93,7 @@ namespace NzbDrone.Host
             _container.Resolve<IEventAggregator>().PublishEvent(new ApplicationStartedEvent());
         }
 
-        // protected override void OnStop()
-        // {
-        //     Shutdown();
-        // }
-
-        // public ServiceBase Build()
-        // {
-        //     return this;
-        // }
-
-        private void Shutdown()
+        public void Shutdown()
         {
             _logger.Info("Attempting to stop application.");
             _hostController.StopServer();

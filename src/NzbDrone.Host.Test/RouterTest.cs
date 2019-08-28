@@ -18,7 +18,7 @@ namespace NzbDrone.App.Test
             WindowsOnly();
         }
 
-        [Platform(Exclude="NetCore")]
+        [Platform("Win")]
         [Test]
         public void Route_should_call_install_service_when_application_mode_is_install()
         {
@@ -36,7 +36,7 @@ namespace NzbDrone.App.Test
             serviceProviderMock.Verify(c => c.Install(ServiceProvider.SERVICE_NAME), Times.Once());
         }
 
-        [Platform(Exclude="NetCore")]
+        [Platform("Win")]
         [Test]
         public void Route_should_call_uninstall_service_when_application_mode_is_uninstall()
         {
@@ -57,10 +57,10 @@ namespace NzbDrone.App.Test
 
             Subject.Route(ApplicationModes.Interactive);
 
-            Mocker.GetMock<INzbDroneServiceFactory>().Verify(c => c.Start(), Times.Once());
+            Mocker.GetMock<INzbDroneConsoleFactory>().Verify(c => c.Start(), Times.Once());
         }
 
-        [Platform(Exclude="NetCore")]
+        [Platform("Win")]
         [Test]
         public void Route_should_call_service_start_when_run_in_service_mode()
         {
@@ -78,7 +78,7 @@ namespace NzbDrone.App.Test
             serviceProvider.Verify(c => c.Run(It.IsAny<ServiceBase>()), Times.Once());
         }
 
-        [Platform(Exclude="NetCore")]
+        [Platform("Win")]
         [Test]
         public void show_error_on_install_if_service_already_exist()
         {
@@ -93,7 +93,7 @@ namespace NzbDrone.App.Test
 
         }
 
-        [Platform(Exclude="NetCore")]
+        [Platform("Win")]
         [Test]
         public void show_error_on_uninstall_if_service_doesnt_exist()
         {
