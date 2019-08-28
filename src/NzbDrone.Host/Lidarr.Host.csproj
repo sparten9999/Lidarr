@@ -9,7 +9,7 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="3.0.0-preview8.19405.4" />
     <PackageReference Include="Microsoft.AspNetCore.Owin" Version="3.0.0-preview7.19365.7" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="3.0.0-preview8.19405.7" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="1.5.2" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.5.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lidarr.Api.V1\Lidarr.Api.V1.csproj" />
