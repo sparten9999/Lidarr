@@ -14,12 +14,4 @@
     <ProjectReference Include="..\NzbDrone.Test.Common\Lidarr.Test.Common.csproj" />
     <ProjectReference Include="..\NzbDrone.Test.Dummy\Lidarr.Test.Dummy.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.ServiceProcess" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\ExternalModules\CurlSharp\libs\i386\*.*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
 </Project>

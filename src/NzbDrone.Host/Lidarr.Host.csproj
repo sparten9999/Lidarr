@@ -19,7 +19,6 @@
     <ProjectReference Include="..\Lidarr.Http\Lidarr.Http.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="Interop.NetFwTypeLib">
       <HintPath>..\Libraries\Interop.NetFwTypeLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>

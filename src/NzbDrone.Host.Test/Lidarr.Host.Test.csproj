@@ -13,7 +13,4 @@
     <ProjectReference Include="..\NzbDrone.Host\Lidarr.Host.csproj" />
     <ProjectReference Include="..\NzbDrone.Test.Common\Lidarr.Test.Common.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.ServiceProcess" />
-  </ItemGroup>
 </Project>
