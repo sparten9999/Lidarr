@@ -46,6 +46,14 @@ namespace NzbDrone.Host
         }
     }
 
+    public class DummyNzbDroneServiceFactory : INzbDroneServiceFactory
+    {
+        public ServiceBase Build()
+        {
+            return null;
+        }
+    }
+
     public class NzbDroneConsoleFactory : INzbDroneConsoleFactory, IHandle<ApplicationShutdownRequested>
     {
         private readonly IConfigFileProvider _configFileProvider;
