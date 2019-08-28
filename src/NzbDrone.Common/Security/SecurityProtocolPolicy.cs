@@ -23,8 +23,7 @@ namespace NzbDrone.Common.Security
 
             try
             {
-                // TODO: In v3 we should drop support for SSL3 because its very insecure. Only leaving it enabled because some people might rely on it.
-                var protocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls;
+                var protocol = SecurityProtocolType.Tls;
 
                 if (Enum.IsDefined(typeof(SecurityProtocolType), Tls11))
                 {
