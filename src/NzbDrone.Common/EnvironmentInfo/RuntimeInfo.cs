@@ -140,6 +140,7 @@ namespace NzbDrone.Common.EnvironmentInfo
             {
                 var currentAssemblyLocation = typeof(RuntimeInfo).Assembly.Location;
                 if (currentAssemblyLocation.ToLower().Contains("_output")) return false;
+                if (currentAssemblyLocation.ToLower().Contains("_tests")) return false;
             }
             catch
             {
@@ -150,6 +151,7 @@ namespace NzbDrone.Common.EnvironmentInfo
             if (lowerCurrentDir.Contains("vsts")) return false;
             if (lowerCurrentDir.Contains("buildagent")) return false;
             if (lowerCurrentDir.Contains("_output")) return false;
+            if (lowerCurrentDir.Contains("_tests")) return false;
 
             return true;
         }
