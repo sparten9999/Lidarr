@@ -149,7 +149,10 @@ namespace NzbDrone.Common.Http.Dispatchers
                 }
             }
 
-            return new HttpResponse(request, new HttpHeader(httpWebResponse.Headers), data, httpWebResponse.StatusCode);
+            // on net core we don't get a content length header back by default
+            var responseHeaders = new HttpHeader(httpWebResponse.Headers);
+            responseHeaders.ContentLength = httpWebResponse.ContentLength;
+            return new HttpResponse(request, responseHeaders, data, httpWebResponse.StatusCode);
         }
 
         protected virtual void AddProxy(HttpWebRequest webRequest, HttpRequest request)
