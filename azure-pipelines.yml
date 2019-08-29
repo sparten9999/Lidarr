@@ -24,7 +24,7 @@ trigger:
     include:
     - develop
     - dotnet-rebase
-    - dotnet-testing-fun
+    - dotnet-tray
 
 pr:
 - develop
