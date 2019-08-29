@@ -31,7 +31,7 @@ namespace NzbDrone.Host
             var url = string.Format("http://localhost:{0}", _configFileProvider.Port);
             try
             {
-                if (_runtimeInfo.IsUserInteractive)
+                if (_runtimeInfo.IsUserInteractive && false)
                 {
                     _logger.Info("Starting default browser. {0}", url);
                     _processProvider.OpenDefaultBrowser(url);

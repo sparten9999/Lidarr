@@ -17,9 +17,11 @@ namespace NzbDrone.Common.EnvironmentInfo
         public RuntimeInfo(IServiceProvider serviceProvider, Logger logger)
         {
             _logger = logger;
-            
 
-            IsWindowsService = !IsUserInteractive &&
+            _logger.Info($"interactive: {IsUserInteractive} iswindows: {OsInfo.IsWindows} exists:{serviceProvider.ServiceExist(ServiceProvider.SERVICE_NAME)} status:{serviceProvider.GetStatus(ServiceProvider.SERVICE_NAME)}");
+             
+
+            IsWindowsService = //!IsUserInteractive &&
                                OsInfo.IsWindows &&
                                serviceProvider.ServiceExist(ServiceProvider.SERVICE_NAME) &&
                                serviceProvider.GetStatus(ServiceProvider.SERVICE_NAME) == ServiceControllerStatus.StartPending;
