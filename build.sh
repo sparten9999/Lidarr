@@ -4,6 +4,7 @@ outputFolder='./_output'
 testPackageFolder='./_tests/'
 sourceFolder='./src'
 slnFile=$sourceFolder/Lidarr.sln
+winAppProj=$sourceFolder/NzbDrone/Lidarr.csproj
 
 #Artifact variables
 artifactsFolder="./_artifacts";
@@ -88,6 +89,7 @@ Build()
     CheckExitCode dotnet clean $slnFile -c Release
     CheckExitCode dotnet build $slnFile -c Release
     CheckExitCode dotnet publish $slnFile -c Release --no-self-contained -r win-x64
+	CheckExitCode dotnet publish $winAppProj -c Release --no-self-contained -r win-x64
     CheckExitCode dotnet publish $slnFile -c Release --no-self-contained -r linux-x64
     CheckExitCode dotnet publish $slnFile -c Release --no-self-contained -r osx-x64
 

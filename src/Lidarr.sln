@@ -57,8 +57,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceInstall", "ServiceHe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceUninstall", "ServiceHelpers\ServiceUninstall\ServiceUninstall.csproj", "{A9FF007F-370B-4E17-8F36-F822ECC8870A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr", "NzbDrone\Lidarr.csproj", "{30BA7F72-E42C-4B50-8C3C-38D118195F7B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -381,16 +379,6 @@ Global
 		{A9FF007F-370B-4E17-8F36-F822ECC8870A}.Release|x64.Build.0 = Release|x64
 		{A9FF007F-370B-4E17-8F36-F822ECC8870A}.Release|x86.ActiveCfg = Release|x86
 		{A9FF007F-370B-4E17-8F36-F822ECC8870A}.Release|x86.Build.0 = Release|x86
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|x64.ActiveCfg = Debug|x64
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|x64.Build.0 = Debug|x64
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|x86.ActiveCfg = Debug|x86
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|x86.Build.0 = Debug|x86
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|Any CPU.ActiveCfg = Release|x86
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|x64.ActiveCfg = Release|x64
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|x64.Build.0 = Release|x64
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|x86.ActiveCfg = Release|x86
-		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
