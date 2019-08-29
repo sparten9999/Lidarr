@@ -1,61 +1,63 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.152
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Api.V1", "Lidarr.Api.V1\Lidarr.Api.V1.csproj", "{C329855E-EDE1-4FE9-B631-A558459B2E81}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Api.V1", "Lidarr.Api.V1\Lidarr.Api.V1.csproj", "{C329855E-EDE1-4FE9-B631-A558459B2E81}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Http", "Lidarr.Http\Lidarr.Http.csproj", "{CFC3E8DD-5715-4745-A1D1-2A23127E3AE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Http", "Lidarr.Http\Lidarr.Http.csproj", "{CFC3E8DD-5715-4745-A1D1-2A23127E3AE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.SignalR", "Lidarr.SignalR\Lidarr.SignalR.csproj", "{E8878BB2-34FF-4A8E-87CF-2263FBF0261E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.SignalR", "Lidarr.SignalR\Lidarr.SignalR.csproj", "{E8878BB2-34FF-4A8E-87CF-2263FBF0261E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Marr.Data", "Marr.Data\Marr.Data.csproj", "{F5EB172A-DC5A-4A0F-9C43-F28DBF3389EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Marr.Data", "Marr.Data\Marr.Data.csproj", "{F5EB172A-DC5A-4A0F-9C43-F28DBF3389EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoTorrent", "MonoTorrent\MonoTorrent.csproj", "{08BF8EFD-6410-475D-9EC1-3C6CC73506DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoTorrent", "MonoTorrent\MonoTorrent.csproj", "{08BF8EFD-6410-475D-9EC1-3C6CC73506DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Api.Test", "NzbDrone.Api.Test\Lidarr.Api.Test.csproj", "{A98AFBF9-5BF3-4BD5-8970-F630B4246156}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Api.Test", "NzbDrone.Api.Test\Lidarr.Api.Test.csproj", "{A98AFBF9-5BF3-4BD5-8970-F630B4246156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Automation.Test", "NzbDrone.Automation.Test\Lidarr.Automation.Test.csproj", "{7CC12083-B0A6-4C88-B8F6-437293B08F0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Automation.Test", "NzbDrone.Automation.Test\Lidarr.Automation.Test.csproj", "{7CC12083-B0A6-4C88-B8F6-437293B08F0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Common", "NzbDrone.Common\Lidarr.Common.csproj", "{23A549B6-681D-44BD-B128-1CF04CCBEF50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Common", "NzbDrone.Common\Lidarr.Common.csproj", "{23A549B6-681D-44BD-B128-1CF04CCBEF50}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Common.Test", "NzbDrone.Common.Test\Lidarr.Common.Test.csproj", "{EA12D3FE-9D45-462E-9CF2-76285CF6CF95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Common.Test", "NzbDrone.Common.Test\Lidarr.Common.Test.csproj", "{EA12D3FE-9D45-462E-9CF2-76285CF6CF95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Console", "NzbDrone.Console\Lidarr.Console.csproj", "{D5092572-ADD5-4438-AFA7-A25BD27B60BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Console", "NzbDrone.Console\Lidarr.Console.csproj", "{D5092572-ADD5-4438-AFA7-A25BD27B60BF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Core", "NzbDrone.Core\Lidarr.Core.csproj", "{A93E23BB-A7C8-467E-92E8-0935E066EC01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Core", "NzbDrone.Core\Lidarr.Core.csproj", "{A93E23BB-A7C8-467E-92E8-0935E066EC01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Core.Test", "NzbDrone.Core.Test\Lidarr.Core.Test.csproj", "{4EFD7FA0-6D74-4C28-AECE-0A301C190635}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Core.Test", "NzbDrone.Core.Test\Lidarr.Core.Test.csproj", "{4EFD7FA0-6D74-4C28-AECE-0A301C190635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Host", "NzbDrone.Host\Lidarr.Host.csproj", "{4DE4F631-C215-47F2-863A-B51DB1D91DA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Host", "NzbDrone.Host\Lidarr.Host.csproj", "{4DE4F631-C215-47F2-863A-B51DB1D91DA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Host.Test", "NzbDrone.Host.Test\Lidarr.Host.Test.csproj", "{DE918133-0920-49E9-A277-90579DC5C1C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Host.Test", "NzbDrone.Host.Test\Lidarr.Host.Test.csproj", "{DE918133-0920-49E9-A277-90579DC5C1C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Libraries.Test", "NzbDrone.Libraries.Test\Lidarr.Libraries.Test.csproj", "{6F519F70-5545-4953-809B-98C31BC79B13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Libraries.Test", "NzbDrone.Libraries.Test\Lidarr.Libraries.Test.csproj", "{6F519F70-5545-4953-809B-98C31BC79B13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Mono", "NzbDrone.Mono\Lidarr.Mono.csproj", "{A69504B4-437D-461D-9588-9698E9E4AA09}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Mono", "NzbDrone.Mono\Lidarr.Mono.csproj", "{A69504B4-437D-461D-9588-9698E9E4AA09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Mono.Test", "NzbDrone.Mono.Test\Lidarr.Mono.Test.csproj", "{C9EB13DB-1351-4461-8DD7-3C069734DA62}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Mono.Test", "NzbDrone.Mono.Test\Lidarr.Mono.Test.csproj", "{C9EB13DB-1351-4461-8DD7-3C069734DA62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Test.Common", "NzbDrone.Test.Common\Lidarr.Test.Common.csproj", "{325511EA-FF65-43DB-B211-F22DFE58236F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Test.Common", "NzbDrone.Test.Common\Lidarr.Test.Common.csproj", "{325511EA-FF65-43DB-B211-F22DFE58236F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Test.Dummy", "NzbDrone.Test.Dummy\Lidarr.Test.Dummy.csproj", "{DEDF2D85-B0DB-48DA-973B-9B1A90AE45E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Test.Dummy", "NzbDrone.Test.Dummy\Lidarr.Test.Dummy.csproj", "{DEDF2D85-B0DB-48DA-973B-9B1A90AE45E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Update", "NzbDrone.Update\Lidarr.Update.csproj", "{ECD8C5D0-CE15-4209-99C6-DBF645DA1209}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Update", "NzbDrone.Update\Lidarr.Update.csproj", "{ECD8C5D0-CE15-4209-99C6-DBF645DA1209}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Update.Test", "NzbDrone.Update.Test\Lidarr.Update.Test.csproj", "{EC7394F5-A533-4159-B78D-62E745E09A3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Update.Test", "NzbDrone.Update.Test\Lidarr.Update.Test.csproj", "{EC7394F5-A533-4159-B78D-62E745E09A3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Windows", "NzbDrone.Windows\Lidarr.Windows.csproj", "{94499DB6-FD88-4B99-B32B-53C8177D2F74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Windows", "NzbDrone.Windows\Lidarr.Windows.csproj", "{94499DB6-FD88-4B99-B32B-53C8177D2F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Windows.Test", "NzbDrone.Windows.Test\Lidarr.Windows.Test.csproj", "{E1A45A7D-8797-4741-A6DB-D4E0960CF787}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Windows.Test", "NzbDrone.Windows.Test\Lidarr.Windows.Test.csproj", "{E1A45A7D-8797-4741-A6DB-D4E0960CF787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidarr.Integration.Test", "NzbDrone.Integration.Test\Lidarr.Integration.Test.csproj", "{4535B023-381C-43F2-8131-90013BB5D7BF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr.Integration.Test", "NzbDrone.Integration.Test\Lidarr.Integration.Test.csproj", "{4535B023-381C-43F2-8131-90013BB5D7BF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceHelpers", "ServiceHelpers", "{97DF1E33-0DC8-4AE5-8B43-F4BA3A6F1CD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceInstall", "ServiceHelpers\ServiceInstall\ServiceInstall.csproj", "{A6C012B7-DA5A-49E7-BCF9-113DBC8967B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceInstall", "ServiceHelpers\ServiceInstall\ServiceInstall.csproj", "{A6C012B7-DA5A-49E7-BCF9-113DBC8967B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceUninstall", "ServiceHelpers\ServiceUninstall\ServiceUninstall.csproj", "{A9FF007F-370B-4E17-8F36-F822ECC8870A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceUninstall", "ServiceHelpers\ServiceUninstall\ServiceUninstall.csproj", "{A9FF007F-370B-4E17-8F36-F822ECC8870A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidarr", "NzbDrone\Lidarr.csproj", "{30BA7F72-E42C-4B50-8C3C-38D118195F7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,9 +67,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{C329855E-EDE1-4FE9-B631-A558459B2E81}.Debug|Any CPU.ActiveCfg = Debug|x86
@@ -382,9 +381,25 @@ Global
 		{A9FF007F-370B-4E17-8F36-F822ECC8870A}.Release|x64.Build.0 = Release|x64
 		{A9FF007F-370B-4E17-8F36-F822ECC8870A}.Release|x86.ActiveCfg = Release|x86
 		{A9FF007F-370B-4E17-8F36-F822ECC8870A}.Release|x86.Build.0 = Release|x86
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|x64.ActiveCfg = Debug|x64
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|x64.Build.0 = Debug|x64
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|x86.ActiveCfg = Debug|x86
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Debug|x86.Build.0 = Debug|x86
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|Any CPU.ActiveCfg = Release|x86
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|x64.ActiveCfg = Release|x64
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|x64.Build.0 = Release|x64
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|x86.ActiveCfg = Release|x86
+		{30BA7F72-E42C-4B50-8C3C-38D118195F7B}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A6C012B7-DA5A-49E7-BCF9-113DBC8967B1} = {97DF1E33-0DC8-4AE5-8B43-F4BA3A6F1CD7}
 		{A9FF007F-370B-4E17-8F36-F822ECC8870A} = {97DF1E33-0DC8-4AE5-8B43-F4BA3A6F1CD7}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {88331199-FAB4-40A9-8474-F8F0121FFF2E}
 	EndGlobalSection
 EndGlobal

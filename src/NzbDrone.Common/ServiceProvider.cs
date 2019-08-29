@@ -61,48 +61,48 @@ namespace NzbDrone.Common
 
         public virtual void Install(string serviceName)
         {
-            // _logger.Info("Installing service '{0}'", serviceName);
+            _logger.Info("Installing service '{0}'", serviceName);
 
+            var args = $"create {serviceName} " +
+                $"DisplayName= \"{serviceName}\" " +
+                $"binpath= \"{Process.GetCurrentProcess().MainModule.FileName}\" " +
+                "start= auto " +
+                "depend= EventLog/Tcpip/http " +
+                "obj= \"NT AUTHORITY\\LocalService\"";
+            
+            _logger.Info(args);
 
-            // var installer = new ServiceProcessInstaller
-            //                     {
-            //                         Account = ServiceAccount.LocalService
-            //                     };
+            var installOutput = _processProvider.StartAndCapture("sc.exe", args);
 
-            // var serviceInstaller = new ServiceInstaller();
+            if (installOutput.ExitCode != 0)
+            {
+                _logger.Error($"Failed to install service: {installOutput.Lines.Select(x => x.Content).ConcatToString("\n")}");
+                throw new ApplicationException("Failed to install service");
+            }
 
+            _logger.Info(installOutput.Lines.Select(x => x.Content).ConcatToString("\n"));
 
-            // string[] cmdline = { @"/assemblypath=" + Process.GetCurrentProcess().MainModule.FileName };
+            var descOutput = _processProvider.StartAndCapture("sc.exe", $"description {serviceName} \"Lidarr Application Server\"");
+            if (descOutput.ExitCode != 0)
+            {
+                _logger.Error($"Failed to install service: {descOutput.Lines.Select(x => x.Content).ConcatToString("\n")}");
+                throw new ApplicationException("Failed to install service");
+            }
 
-            // var context = new InstallContext("service_install.log", cmdline);
-            // serviceInstaller.Context = context;
-            // serviceInstaller.DisplayName = serviceName;
-            // serviceInstaller.ServiceName = serviceName;
-            // serviceInstaller.Description = "Lidarr Application Server";
-            // serviceInstaller.StartType = ServiceStartMode.Automatic;
-            // serviceInstaller.ServicesDependedOn = new[] { "EventLog", "Tcpip", "http" };
-
-            // serviceInstaller.Parent = installer;
-
-            // serviceInstaller.Install(new ListDictionary());
-
-            // _logger.Info("Service Has installed successfully.");
+            _logger.Info(descOutput.Lines.Select(x => x.Content).ConcatToString("\n"));
+            _logger.Info("Service Has installed successfully.");
         }
 
         public virtual void Uninstall(string serviceName)
         {
-            // _logger.Info("Uninstalling {0} service", serviceName);
+            _logger.Info("Uninstalling {0} service", serviceName);
 
-            // Stop(serviceName);
+            Stop(serviceName);
 
-            // var serviceInstaller = new ServiceInstaller();
-
-            // var context = new InstallContext("service_uninstall.log", null);
-            // serviceInstaller.Context = context;
-            // serviceInstaller.ServiceName = serviceName;
-            // serviceInstaller.Uninstall(null);
-
-            // _logger.Info("{0} successfully uninstalled", serviceName);
+            var output = _processProvider.StartAndCapture("sc.exe", $"delete {serviceName}");
+            _logger.Info(output.Lines.Select(x => x.Content).ConcatToString("\n"));
+            
+            _logger.Info("{0} successfully uninstalled", serviceName);
         }
 
         public virtual void Run(ServiceBase service)
