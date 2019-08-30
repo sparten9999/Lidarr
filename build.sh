@@ -70,7 +70,7 @@ LintUI()
     ProgressEnd 'ESLint'
 
     ProgressStart 'Stylelint'
-    if [ $runtime = "dotnet" ] ; then
+    if [ $os = "windows" ] ; then
         CheckExitCode yarn stylelint-windows
     else
         CheckExitCode yarn stylelint-linux
@@ -89,9 +89,13 @@ Build()
     CheckExitCode dotnet clean $slnFile -c Release
     CheckExitCode dotnet build $slnFile -c Release
     CheckExitCode dotnet publish $slnFile -c Release --no-self-contained -r win-x64
-	CheckExitCode dotnet publish $winAppProj -c Release --no-self-contained -r win-x64
     CheckExitCode dotnet publish $slnFile -c Release --no-self-contained -r linux-x64
     CheckExitCode dotnet publish $slnFile -c Release --no-self-contained -r osx-x64
+
+    # The tray app is a WindowsDesktop project and wont build on posix
+    if [ $os = "windows" ] ; then
+        CheckExitCode dotnet publish $winAppProj -c Release --no-self-contained -r win-x64
+    fi
 
     ProgressEnd 'Build'
 }
@@ -246,11 +250,11 @@ PackageWindows()
 case "$(uname -s)" in
     CYGWIN*|MINGW32*|MINGW64*|MSYS*)
         # on windows, use dotnet
-        runtime="dotnet"
+        os="windows"
         ;;
     *)
         # otherwise use mono
-        runtime="mono"
+        os="posix"
         ;;
 esac
 
