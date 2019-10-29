@@ -4,7 +4,6 @@ using FluentAssertions;
 using Moq;
 using NUnit.Framework;
 using NzbDrone.Common.Disk;
-using NzbDrone.Core.Configuration;
 using NzbDrone.Core.DecisionEngine;
 using NzbDrone.Core.Download;
 using NzbDrone.Core.Download.TrackedDownloads;
@@ -283,6 +282,19 @@ namespace NzbDrone.Core.Test.Download
             Subject.Process(_trackedDownload);
 
             AssertImportIncomplete();
+        }
+
+        [Test]
+        public void should_not_mark_as_failed_if_nothing_found_to_import()
+        {
+            Mocker.GetMock<IDownloadedTracksImportService>()
+                  .Setup(v => v.ProcessPath(It.IsAny<string>(), It.IsAny<ImportMode>(), It.IsAny<Artist>(), It.IsAny<DownloadClientItem>()))
+                  .Returns(new List<ImportResult>());
+
+            Subject.Process(_trackedDownload);
+
+            AssertNoCompletedDownload();
+            _trackedDownload.State.Should().NotBe(TrackedDownloadStage.ImportFailed);
         }
 
         [Test]
