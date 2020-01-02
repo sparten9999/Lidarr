@@ -11,6 +11,7 @@ using NzbDrone.Core.MetadataSource;
 using NzbDrone.Core.Music;
 using NzbDrone.Core.Music.Commands;
 using NzbDrone.Core.Music.Events;
+using NzbDrone.Core.RootFolders;
 using NzbDrone.Core.Test.Framework;
 using NzbDrone.Test.Common;
 
@@ -69,6 +70,10 @@ namespace NzbDrone.Core.Test.MusicTests
             Mocker.GetMock<IImportListExclusionService>()
                 .Setup(x => x.FindByForeignId(It.IsAny<List<string>>()))
                 .Returns(new List<ImportListExclusion>());
+
+            Mocker.GetMock<IRootFolderService>()
+                .Setup(x => x.All())
+                .Returns(new List<RootFolder>());
         }
 
         private void GivenNewArtistInfo(Artist artist)
