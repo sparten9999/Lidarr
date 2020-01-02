@@ -99,6 +99,7 @@ namespace NzbDrone.Core.Music
             {
                 tc((a, t) => a.CleanName.FuzzyMatch(t), cleanTitle),
                 tc((a, t) => a.Name.FuzzyMatch(t), title),
+                tc((a, t) => a.Metadata.Value.Aliases.Concat(new List<string> { a.Name }).Max(x => x.CleanArtistName().FuzzyMatch(t)), cleanTitle),
             };
 
             if (title.StartsWith("The ", StringComparison.CurrentCultureIgnoreCase))
