@@ -21,7 +21,9 @@ using NzbDrone.Core.RootFolders;
 
 namespace NzbDrone.Core.Music
 {
-    public class RefreshArtistService : RefreshEntityServiceBase<Artist, Album>, IExecute<RefreshArtistCommand>
+    public class RefreshArtistService : RefreshEntityServiceBase<Artist, Album>,
+        IExecute<RefreshArtistCommand>,
+        IExecute<BulkRefreshArtistCommand>
     {
         private readonly IProvideArtistInfo _artistInfo;
         private readonly IArtistService _artistService;
@@ -309,22 +311,16 @@ namespace NzbDrone.Core.Music
             }
         }
 
-        public void Execute(RefreshArtistCommand message)
+        private void RefreshSelectedArtists(List<int> artistIds, bool isNew, CommandTrigger trigger)
         {
-            var trigger = message.Trigger;
-            var isNew = message.IsNewArtist;
-            var updated = false;
-            var artistIds = new List<int>();
+            bool updated = false;
+            var artists = _artistService.GetArtists(artistIds);
 
-            if (message.ArtistId.HasValue)
+            foreach (var artist in artists)
             {
-                artistIds.Add(message.ArtistId.Value);
-
-                var artist = _artistService.GetArtist(message.ArtistId.Value);
-
                 try
                 {
-                    updated = RefreshEntityInfo(artist, null, true, false);
+                    updated |= RefreshEntityInfo(artist, null, true, false);
                 }
                 catch (Exception e)
                 {
@@ -332,10 +328,29 @@ namespace NzbDrone.Core.Music
                     throw;
                 }
             }
+
+            Rescan(artistIds, isNew, trigger, updated);
+        }
+
+        public void Execute(BulkRefreshArtistCommand message)
+        {
+            RefreshSelectedArtists(message.ArtistIds, message.AreNewArtists, message.Trigger);
+        }
+
+        public void Execute(RefreshArtistCommand message)
+        {
+            var trigger = message.Trigger;
+            var isNew = message.IsNewArtist;
+
+            if (message.ArtistId.HasValue)
+            {
+                RefreshSelectedArtists(new List<int> { message.ArtistId.Value }, isNew, trigger);
+            }
             else
             {
+                var updated = false;
                 var artists = _artistService.GetAllArtists().OrderBy(c => c.Name).ToList();
-                artistIds = artists.Select(x => x.Id).ToList();
+                var artistIds = artists.Select(x => x.Id).ToList();
 
                 foreach (var artist in artists)
                 {
@@ -357,9 +372,9 @@ namespace NzbDrone.Core.Music
                         _logger.Info("Skipping refresh of artist: {0}", artist.Name);
                     }
                 }
-            }
 
-            Rescan(artistIds, isNew, trigger, updated);
+                Rescan(artistIds, isNew, trigger, updated);
+            }
         }
     }
 }

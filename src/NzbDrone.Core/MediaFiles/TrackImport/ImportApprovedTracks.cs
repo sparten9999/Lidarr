@@ -370,7 +370,7 @@ namespace NzbDrone.Core.MediaFiles.TrackImport
                                             .Select(d => new ImportResult(d, d.Rejections.Select(r => r.Reason).ToArray())));
 
             // Refresh any artists we added
-            _commandQueueManager.PushMany(addedArtists.Select(s => new RefreshArtistCommand(s.Id, true)).ToList());
+            _commandQueueManager.Push(new BulkRefreshArtistCommand(addedArtists.Select(x => x.Id).ToList(), true));
 
             return importResults;
         }
