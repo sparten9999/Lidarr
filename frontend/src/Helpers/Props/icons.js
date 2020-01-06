@@ -82,6 +82,7 @@ import {
   faRocket as fasRocket,
   faSave as fasSave,
   faSearch as fasSearch,
+  faSearchPlus as fasSearchPlus,
   faSignOutAlt as fasSignOutAlt,
   faSitemap as fasSitemap,
   faSpinner as fasSpinner,
@@ -110,6 +111,7 @@ import {
 export const ACTIONS = fasBolt;
 export const ACTIVITY = farClock;
 export const ADD = fasPlus;
+export const ADD_MISSING_ARTISTS = fasSearchPlus;
 export const ALTERNATE_TITLES = farClone;
 export const ADVANCED_SETTINGS = fasCog;
 export const ARROW_LEFT = fasArrowCircleLeft;
